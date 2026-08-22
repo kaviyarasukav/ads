@@ -1,0 +1,16 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Temporary & cache directories
+.system_generated/
+scratch/
+.agents/
+
+# SQLite databases & temp databases
+*.sqlite
+*.db
+
+# Large raw archive files (>100MB exceeds GitHub hard limit)
+results/pyramid_series/all_series_adds.csv
