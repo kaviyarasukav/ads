@@ -1,26 +1,14 @@
 """
 ETH 2026 Comprehensive Risk Management Backtester (Dual Re-Entry Modes)
 ======================================================================
-Evaluates systematic trading performance across:
-  - Fixed Stop Loss (Percent % and Absolute Price $)
-  - Fixed Take Profit (Percent % and Absolute Price $)
-  - Trailing Stop Loss (Percent % and Absolute Price $)
-  - Trailing Take Profit (Activation Threshold % + Callback %)
-  - Re-Entry Modes:
-    * Mode A: RE_ENTER_IMMEDIATE (Re-enter on next bar while trend signal persists)
-    * Mode B: WAIT_NEXT_FLIP (Stay in cash until opposite signal flip)
-  - Combined Hybrid Risk Archetypes:
-    * NO_SL_NO_TP (Raw signal flip baseline)
-    * FIXED_SL_ONLY
-    * FIXED_TP_ONLY
-    * FIXED_SL_AND_TP
-    * TRAILING_SL_ONLY
-    * TRAILING_TP_ONLY
-    * TRAILING_SL_AND_FIXED_TP
-    * FIXED_SL_AND_TRAILING_TP
-    * TRAILING_SL_AND_TRAILING_TP
+FIXES in this version:
+  - BUG 8: pnl_log (lightweight float list) always recorded regardless of record_trades.
+           Fixes: all Fixed SL/TP $ sweeps previously showed 0 trades / 0% win rate / PF=1.0.
 
-Evaluated on 5,601 1-Hour OHLC bars with zero lookahead intra-candle evaluation and 0.10% fee friction.
+IMPROVEMENTS:
+  - IMP 5: Net_PnL_USD, Avg_Hold_Hours, Exposure_Pct added to every summary dict.
+  - IMP 5: Sortino ratio computed and returned.
+  - Zero-division guards on max_drawdown and profit_factor.
 """
 
 import os
@@ -68,6 +56,8 @@ def run_risk_trade_simulation(
     portfolio = INITIAL_CAPITAL
     equity_curve = [portfolio]
     closed_trades = []
+    pnl_log = []          # BUG 8 FIX: always record pnl floats, regardless of record_trades
+    bars_in_market = 0    # IMP 5: track for Exposure_Pct
     
     in_pos = False
     pos_dir = 0
@@ -185,6 +175,9 @@ def run_risk_trade_simulation(
                 net_ret = raw_ret - fee_deduct
                 pnl_usd = portfolio * net_ret
                 portfolio += pnl_usd
+                hold_bars = i - pos_entry_bar
+
+                pnl_log.append((net_ret * 100.0, pnl_usd, hold_bars))  # BUG 8 FIX
 
                 if record_trades:
                     closed_trades.append({
@@ -194,7 +187,7 @@ def run_risk_trade_simulation(
                         "entry_price": round(float(pos_entry_price), 2),
                         "exit_time": str(open_times[i]),
                         "exit_price": round(float(exit_price), 2),
-                        "duration_hours": int(i - pos_entry_bar),
+                        "duration_hours": hold_bars,
                         "realized_pnl_pct": round(float(net_ret * 100.0), 2),
                         "realized_pnl_usd": round(float(pnl_usd), 2),
                         "portfolio_after": round(float(portfolio), 2),
@@ -227,6 +220,9 @@ def run_risk_trade_simulation(
                 ttp_active = False
                 last_exit_sig = 0
 
+        if in_pos:
+            bars_in_market += 1  # IMP 5: count bars spent in market
+
         equity_curve.append(portfolio)
 
     # Force close at end
@@ -237,6 +233,7 @@ def run_risk_trade_simulation(
         net_ret = raw_ret - fee_deduct
         pnl_usd = portfolio * net_ret
         portfolio += pnl_usd
+        pnl_log.append((net_ret * 100.0, pnl_usd, int(n - 1 - pos_entry_bar)))  # BUG 8 FIX
         if record_trades:
             closed_trades.append({
                 "trade_no": len(closed_trades) + 1,
@@ -257,42 +254,52 @@ def run_risk_trade_simulation(
     total_ret = ((portfolio - INITIAL_CAPITAL) / INITIAL_CAPITAL) * 100.0
     eq_arr = np.array(equity_curve)
     peaks = np.maximum.accumulate(eq_arr)
-    drawdowns = (peaks - eq_arr) / peaks * 100.0
+    drawdowns = (peaks - eq_arr) / np.where(peaks == 0, 1e-9, peaks) * 100.0
     max_dd = float(np.max(drawdowns))
 
-    returns_arr = np.diff(eq_arr) / eq_arr[:-1]
+    returns_arr = np.diff(eq_arr) / np.where(eq_arr[:-1] == 0, 1e-9, eq_arr[:-1])
     sharpe = float(np.mean(returns_arr) / (np.std(returns_arr) + 1e-9) * np.sqrt(8760)) if len(returns_arr) > 1 else 0.0
+    down_r = returns_arr[returns_arr < 0]
+    down_std = float(down_r.std()) if len(down_r) > 1 else 1e-9
+    sortino = float(np.mean(returns_arr) / down_std * np.sqrt(8760)) if down_std > 1e-9 else 0.0
 
-    trade_pnls = [t["realized_pnl_pct"] for t in closed_trades] if record_trades else []
-    total_trades = len(closed_trades)
-    win_trades = [p for p in trade_pnls if p > 0]
-    loss_trades = [p for p in trade_pnls if p <= 0]
+    # BUG 8 FIX: use pnl_log (always recorded) for trade metrics
+    total_trades = len(pnl_log)
+    trade_pcts = [p[0] for p in pnl_log]
+    trade_usds = [p[1] for p in pnl_log]
+    hold_bars_list = [p[2] for p in pnl_log]
+    win_trades = [p for p in trade_pcts if p > 0]
+    loss_trades = [p for p in trade_pcts if p <= 0]
     win_rate = (len(win_trades) / total_trades * 100.0) if total_trades > 0 else 0.0
 
-    gross_gains = sum(win_trades) if win_trades else 0.0
-    gross_losses = abs(sum(loss_trades)) if loss_trades else 1e-6
-    profit_factor = float(gross_gains / gross_losses) if gross_losses > 0 else 1.0
+    gross_gains = sum(p for p in trade_usds if p > 0)
+    gross_losses = abs(sum(p for p in trade_usds if p <= 0))
+    profit_factor = float(gross_gains / gross_losses) if gross_losses > 1e-9 else 999.0
+
+    avg_hold_hours = float(np.mean(hold_bars_list)) if hold_bars_list else 0.0  # IMP 5
+    exposure_pct = (bars_in_market / max(n - 1, 1)) * 100.0                     # IMP 5
+    net_pnl_usd = portfolio - INITIAL_CAPITAL                                   # IMP 5
 
     summary = {
         "Logic": logic,
         "Fast_EMA": fast_p,
         "Slow_EMA": slow_p,
-        "SL_Type": sl_type,
-        "SL_Val": sl_val,
-        "TP_Type": tp_type,
-        "TP_Val": tp_val,
-        "TSL_Type": tsl_type,
-        "TSL_Val": tsl_val,
-        "TTP_Act": ttp_act,
-        "TTP_Call": ttp_call,
+        "SL_Type": sl_type, "SL_Val": sl_val,
+        "TP_Type": tp_type, "TP_Val": tp_val,
+        "TSL_Type": tsl_type, "TSL_Val": tsl_val,
+        "TTP_Act": ttp_act, "TTP_Call": ttp_call,
         "Re_Entry_Mode": re_entry_mode,
         "Total_Return_Pct": round(total_ret, 2),
+        "Net_PnL_USD": round(net_pnl_usd, 2),          # IMP 5
         "Max_Drawdown_Pct": round(max_dd, 2),
         "Sharpe": round(sharpe, 2),
+        "Sortino": round(sortino, 2),                   # IMP 5
         "Calmar": round(total_ret / (max_dd or 1), 2),
         "Win_Rate_Pct": round(win_rate, 1),
-        "Profit_Factor": round(profit_factor, 2),
+        "Profit_Factor": round(min(profit_factor, 999.0), 2),
         "Total_Trades": total_trades,
+        "Avg_Hold_Hours": round(avg_hold_hours, 1),     # IMP 5
+        "Exposure_Pct": round(exposure_pct, 1),         # IMP 5
         "Final_Equity": round(portfolio, 2)
     }
 

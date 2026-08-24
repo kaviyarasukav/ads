@@ -1,5 +1,22 @@
 """
-ETH 2026 — Pyramid / Reinvestment Brute-Force (CORRECTED)
+ETH 2026 — Pyramid / Reinvestment Brute-Force (CORRECTED v2.1)
+==============================================================
+FIXES from v1:
+  - X% is now taken from INITIAL CAPITAL (fixed dollar per add)
+    e.g. X=10% on $10k -> each add = $1,000 regardless of remaining cash
+    Max adds per series = floor(100/X) before cash runs out
+  - Tests top 20 EMA pairs from master_fee_adjusted.csv (not just 5)
+  - Relative data stored: return vs BH, return vs base EMA strategy
+  - Per-trade and per-series logs labelled with all params
+  - Fee: 0.10% per order (each add = 1 order, 1 exit = 1 order)
+
+FIXES in v2.1 (this file):
+  - BUG 3: SHORT PnL formula corrected: proceeds = cost_basis + pnl_usd.
+  - BUG 4: PROFIT_FROM_LAST_PCT now uses price_vs_last (same as PRICE_FROM_LAST_PCT)
+           instead of stale last_add_unr_pct which tracked portfolio-level unrealized.
+  - BUG 5: Monthly returns chained via prev_equity (not s[0] = first bar of month).
+  - IMP 4: Calmar, Sortino, Expectancy added to row output.
+  - IMP 7: Mark-to-market equity uses close[i] (current bar) not close[i+1] (lookahead).
 ==========================================================
 FIXES from v1:
   - X% is now taken from INITIAL CAPITAL (fixed dollar per add)
@@ -133,12 +150,12 @@ def pyramid_sim(close, open_times, pos_signal, x_pct, y_factor, y_value,
             if position_side == 1:
                 proceeds = position_units * exit_px
                 pnl_usd = proceeds - total_cost_basis
-            else:
-                pnl_usd = total_cost_basis - (position_units * exit_px)
+            else:  # SHORT — BUG 3 FIX: correct formula
+                pnl_usd = (avg_entry_price - exit_px) * position_units
                 proceeds = total_cost_basis + pnl_usd
 
             pnl_pct = (pnl_usd / total_cost_basis) * 100 if total_cost_basis > 0 else 0.0
-            cash += total_cost_basis + pnl_usd
+            cash += proceeds
 
             trade_log.append({
                 "Strategy": f"{logic}|EMA({fast_p},{slow_p})",
@@ -186,8 +203,6 @@ def pyramid_sim(close, open_times, pos_signal, x_pct, y_factor, y_value,
                     price_vs_start = (series_entry_price - price) / series_entry_price * 100
                     price_vs_last = (last_add_price - price) / last_add_price * 100
 
-                unr_growth = curr_unr - last_add_unr_pct
-
                 if y_factor == "BARS_ELAPSED" and bars_since >= y_value:
                     do_add = True
                 elif y_factor == "HOURS_ELAPSED" and bars_since >= y_value:
@@ -198,7 +213,8 @@ def pyramid_sim(close, open_times, pos_signal, x_pct, y_factor, y_value,
                     do_add = True
                 elif y_factor == "PROFIT_FROM_START_PCT" and curr_unr >= y_value:
                     do_add = True
-                elif y_factor == "PROFIT_FROM_LAST_PCT" and unr_growth >= y_value:
+                # BUG 4 FIX: use price_vs_last (movement from last add price) not stale unr snapshot
+                elif y_factor == "PROFIT_FROM_LAST_PCT" and price_vs_last >= y_value:
                     do_add = True
 
             if do_add and cash >= add_budget:
@@ -217,7 +233,6 @@ def pyramid_sim(close, open_times, pos_signal, x_pct, y_factor, y_value,
                     curr_unr = (price - avg_entry_price) / avg_entry_price * 100 if avg_entry_price > 0 else 0.0
                 else:
                     curr_unr = (avg_entry_price - price) / avg_entry_price * 100 if avg_entry_price > 0 else 0.0
-                last_add_unr_pct = curr_unr
 
                 series_log.append({
                     "Strategy": f"{logic}|EMA({fast_p},{slow_p})",
@@ -236,11 +251,12 @@ def pyramid_sim(close, open_times, pos_signal, x_pct, y_factor, y_value,
                 })
 
         # ── Mark-to-market equity ────────────────────────────────────
+        # IMP 7 FIX: use close[i] (current bar) not close[i+1] (1-bar lookahead)
         if in_trade and position_units > 0:
             if position_side == 1:
-                unr = position_units * next_bar_price - total_cost_basis
+                unr = position_units * price - total_cost_basis
             else:
-                unr = total_cost_basis - position_units * next_bar_price
+                unr = total_cost_basis - position_units * price
             eq = cash + total_cost_basis + unr
         else:
             eq = cash
@@ -279,11 +295,21 @@ def pyramid_sim(close, open_times, pos_signal, x_pct, y_factor, y_value,
     final_eq = eq[-1]
     total_ret = (final_eq / INITIAL_CAPITAL - 1) * 100
     running_max = np.maximum.accumulate(eq)
-    dd = (eq - running_max) / running_max
+    dd = (eq - running_max) / np.where(running_max == 0, 1e-9, running_max)
     max_dd = abs(dd.min()) * 100
-    r = np.diff(eq) / eq[:-1]
+    r = np.diff(eq) / np.where(eq[:-1] == 0, 1e-9, eq[:-1])
     std = r.std()
     sharpe = (r.mean() / std) * np.sqrt(8760) if std > 1e-9 else 0.0
+
+    # IMP 4: Sortino (downside-only std)
+    down = r[r < 0]
+    down_std = down.std() if len(down) > 1 else 1e-9
+    sortino = (r.mean() / down_std) * np.sqrt(8760) if down_std > 1e-9 else 0.0
+
+    # IMP 4: Calmar (annualised return / max drawdown)
+    dataset_years = len(eq) / 8760.0
+    ann_ret = ((final_eq / INITIAL_CAPITAL) ** (1.0 / max(dataset_years, 0.001)) - 1.0) * 100.0
+    calmar = ann_ret / max_dd if max_dd > 1e-9 else 0.0
 
     n_closed = len(trade_log)
     pnls = [t["Realized_PnL_Pct"] for t in trade_log]
@@ -291,17 +317,30 @@ def pyramid_sim(close, open_times, pos_signal, x_pct, y_factor, y_value,
     losses = [p for p in pnls if p <= 0]
     wr = (len(wins) / n_closed * 100) if n_closed > 0 else 0.0
     gp = sum(wins); gl = abs(sum(losses)) if losses else 1e-9
-    pf = gp / gl if gl > 0 else 999.0
+    pf = gp / gl if gl > 1e-9 else 999.0
     total_adds = sum(t["Total_Adds_In_Series"] for t in trade_log)
     avg_adds = round(total_adds / n_closed, 1) if n_closed > 0 else 0.0
 
-    # Monthly PnL
+    # IMP 4: Expectancy per trade
+    avg_win_p = float(np.mean(wins)) if wins else 0.0
+    avg_loss_p = abs(float(np.mean(losses))) if losses else 0.0
+    wr_f = wr / 100.0
+    expectancy_pct = wr_f * avg_win_p - (1.0 - wr_f) * avg_loss_p
+
+    # BUG 5 FIX: chain monthly returns via prev_equity, not s[0] = first bar of month
     monthly = {}
+    prev_eq_m = INITIAL_CAPITAL
     df_eq = pd.DataFrame({"eq": eq, "t": open_times})
+    dt_series = pd.to_datetime(df_eq["t"])
     for mi, mn in enumerate(MONTHS, 1):
-        mask = (pd.to_datetime(df_eq["t"]).dt.month == mi).values
+        mask = (dt_series.dt.month == mi).values
         s = eq[mask]
-        monthly[mn] = round((s[-1]/s[0]-1)*100, 2) if len(s) >= 2 else 0.0
+        if len(s) >= 1:
+            m_ret = (s[-1] / prev_eq_m - 1) * 100
+            monthly[mn] = round(float(m_ret), 2)
+            prev_eq_m = float(s[-1])
+        else:
+            monthly[mn] = 0.0
 
     row = {
         # --- Strategy identity ---
@@ -314,10 +353,14 @@ def pyramid_sim(close, open_times, pos_signal, x_pct, y_factor, y_value,
         "Initial_Capital": INITIAL_CAPITAL,
         "Final_Equity": round(final_eq, 2),
         "Total_Return_Pct": round(total_ret, 2),
+        "Net_PnL_USD": round(final_eq - INITIAL_CAPITAL, 2),
         "Max_Drawdown_Pct": round(max_dd, 2),
         "Sharpe": round(sharpe, 2),
+        "Sortino": round(sortino, 2),          # IMP 4
+        "Calmar": round(calmar, 2),            # IMP 4
         "Win_Rate_Pct": round(wr, 2),
-        "Profit_Factor": round(pf, 2),
+        "Profit_Factor": round(min(pf, 999.0), 2),
+        "Expectancy_Pct": round(expectancy_pct, 2),  # IMP 4
         # --- Trade stats ---
         "Total_Closed_Trades": n_closed,
         "Total_Series_Adds": total_adds,

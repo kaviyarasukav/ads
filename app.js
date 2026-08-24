@@ -2,6 +2,34 @@
 let fullData = null;
 let currentView = "step1-macro";
 
+// Lazy render tracking — only render canvas once per view visit
+const viewRendered = {};
+
+// Debounce utility
+function debounce(fn, ms) {
+  let timer;
+  return (...args) => { clearTimeout(timer); timer = setTimeout(() => fn(...args), ms); };
+}
+
+// Toast notification
+function showToast(msg) {
+  const t = document.getElementById('export-toast');
+  if (!t) return;
+  t.textContent = msg;
+  t.classList.add('visible');
+  setTimeout(() => t.classList.remove('visible'), 2500);
+}
+
+// Sort indicator helper — updates ▲/▼ on sortable headers
+function updateSortIndicators(tableAttr, sortCol, sortAsc) {
+  document.querySelectorAll(`th.sortable[data-table='${tableAttr}']`).forEach(th => {
+    const col = th.getAttribute('data-sort');
+    // Strip old indicator
+    th.textContent = th.textContent.replace(/ [▲▼]$/, '');
+    if (col === sortCol) th.textContent += sortAsc ? ' ▲' : ' ▼';
+  });
+}
+
 // Base table state & multi-filters
 let currentBaseLogic = "EMA_CROSS_SAR";
 let baseSortCol = "Total_Ret_Pct";
@@ -124,6 +152,43 @@ function initApp() {
       navItems.forEach(n => n.classList.remove("active"));
       item.classList.add("active");
       currentView = item.getAttribute("data-view");
+      document.body.classList.remove("sidebar-open"); // close mobile drawer on selection
+      switchView(currentView);
+    });
+  });
+
+  // Mobile Topbar Hamburger & Drawer Toggle
+  const mobileMenuToggle = document.getElementById("mobile-menu-toggle");
+  const mobileSidebarClose = document.getElementById("mobile-sidebar-close");
+  const sidebarBackdrop = document.getElementById("sidebar-backdrop");
+
+  mobileMenuToggle?.addEventListener("click", () => {
+    document.body.classList.toggle("sidebar-open");
+  });
+
+  mobileSidebarClose?.addEventListener("click", () => {
+    document.body.classList.remove("sidebar-open");
+  });
+
+  sidebarBackdrop?.addEventListener("click", () => {
+    document.body.classList.remove("sidebar-open");
+  });
+
+  // Mobile Horizontal Quick-Nav Chips
+  const mobileChips = document.querySelectorAll(".mobile-nav-chip");
+  mobileChips.forEach(chip => {
+    chip.addEventListener("click", () => {
+      mobileChips.forEach(c => c.classList.remove("active"));
+      chip.classList.add("active");
+      currentView = chip.getAttribute("data-view");
+      
+      // Sync sidebar item
+      navItems.forEach(n => n.classList.remove("active"));
+      document.querySelector(`.nav-item[data-view="${currentView}"]`)?.classList.add("active");
+
+      // Scroll chip into view
+      chip.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+
       switchView(currentView);
     });
   });
@@ -230,9 +295,9 @@ function initApp() {
 
   const riskFilterInput = document.getElementById("risk-filter-input");
   if (riskFilterInput) {
-    riskFilterInput.addEventListener("input", () => {
+    riskFilterInput.addEventListener("input", debounce(() => {
       riskPage = 1; renderRiskTable();
-    });
+    }, 200));
   }
 
   // Clear Risk Filters Button
@@ -357,9 +422,9 @@ function initApp() {
   }
 
   if (baseFilterInput) {
-    baseFilterInput.addEventListener("input", () => {
+    baseFilterInput.addEventListener("input", debounce(() => {
       basePage = 1; renderBaseTable();
-    });
+    }, 200));
   }
 
   // Pyramid Multi-Filter Event Listeners
@@ -375,10 +440,12 @@ function initApp() {
 
   const pyrXPills = document.querySelectorAll("#pyr-x-pills .pill-btn-sm");
   pyrXPills.forEach(pill => {
-    pyrXPills.forEach(p => p.classList.remove("active"));
-    pill.classList.add("active");
-    currentPyrX = pill.getAttribute("data-x");
-    pyrPage = 1; renderPyramidTable();
+    pill.addEventListener("click", () => {
+      pyrXPills.forEach(p => p.classList.remove("active"));
+      pill.classList.add("active");
+      currentPyrX = pill.getAttribute("data-x");
+      pyrPage = 1; renderPyramidTable();
+    });
   });
 
   const pyrMinRetSlider = document.getElementById("range-pyr-min-ret");
@@ -413,9 +480,9 @@ function initApp() {
 
   const pyrFilterInput = document.getElementById("pyr-filter-input");
   if (pyrFilterInput) {
-    pyrFilterInput.addEventListener("input", () => {
+    pyrFilterInput.addEventListener("input", debounce(() => {
       pyrPage = 1; renderPyramidTable();
-    });
+    }, 200));
   }
 
   // 4D Studio Selectors Listeners
@@ -461,7 +528,7 @@ function initApp() {
     });
   });
 
-  // Sortable headers
+  // Sortable headers with ▲/▼ indicators
   document.querySelectorAll("th.sortable").forEach(th => {
     th.addEventListener("click", () => {
       const tableType = th.getAttribute("data-table");
@@ -470,18 +537,25 @@ function initApp() {
       if (tableType === "base") {
         if (baseSortCol === col) baseSortAsc = !baseSortAsc;
         else { baseSortCol = col; baseSortAsc = false; }
+        updateSortIndicators("base", baseSortCol, baseSortAsc);
         renderBaseTable();
       } else if (tableType === "pyramid") {
         if (pyrSortCol === col) pyrSortAsc = !pyrSortAsc;
         else { pyrSortCol = col; pyrSortAsc = false; }
+        updateSortIndicators("pyramid", pyrSortCol, pyrSortAsc);
         renderPyramidTable();
       } else if (tableType === "risk") {
         if (riskSortCol === col) riskSortAsc = !riskSortAsc;
         else { riskSortCol = col; riskSortAsc = false; }
+        updateSortIndicators("risk", riskSortCol, riskSortAsc);
         renderRiskTable();
       }
     });
   });
+  // Set initial sort indicators
+  updateSortIndicators("base", baseSortCol, baseSortAsc);
+  updateSortIndicators("pyramid", pyrSortCol, pyrSortAsc);
+  updateSortIndicators("risk", riskSortCol, riskSortAsc);
 
   // Pagination buttons
   document.getElementById("base-prev-btn")?.addEventListener("click", () => {
@@ -514,24 +588,104 @@ function initApp() {
   document.getElementById("drilldown-modal")?.addEventListener("click", (e) => {
     if (e.target.id === "drilldown-modal") closeModal();
   });
+  // BUG 5: Escape key closes modal
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeModal();
+  });
+
+  // STEP 6: Downloads Hub Search & Category Filters
+  const dlSearchInput = document.getElementById("dl-search-input");
+  if (dlSearchInput) {
+    dlSearchInput.addEventListener("input", debounce(() => {
+      filterDownloadCards();
+    }, 150));
+  }
+
+  const dlCatPills = document.querySelectorAll("#dl-category-pills .pill-btn");
+  dlCatPills.forEach(pill => {
+    pill.addEventListener("click", () => {
+      dlCatPills.forEach(p => p.classList.remove("active"));
+      pill.classList.add("active");
+      filterDownloadCards();
+    });
+  });
+
+  // Attach toast trigger to all download links
+  document.querySelectorAll(".dl-btn").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      const fileName = btn.getAttribute("download") || btn.closest(".dl-card")?.querySelector("h4")?.textContent || "file";
+      showToast(`✓ Starting download: ${fileName}`);
+    });
+  });
+
+  // Keyboard shortcuts 1-9 to switch views
+  const viewKeys = [
+    "step1-macro",
+    "step2-studio",
+    "step2-feat-corr",
+    "step2-tree",
+    "step3-base",
+    "step3-pyramid",
+    "step3-risk",
+    "step4-overlay",
+    "step5-synthesis",
+    "step6-downloads"
+  ];
+  document.addEventListener("keydown", (e) => {
+    if (e.target.tagName === "INPUT" || e.target.tagName === "SELECT" || e.target.tagName === "TEXTAREA") return;
+    
+    // Direct '6' shortcut to downloads
+    if (e.key === "6") {
+      const targetView = "step6-downloads";
+      document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
+      document.querySelector(`.nav-item[data-view="${targetView}"]`)?.classList.add("active");
+      currentView = targetView;
+      switchView(targetView);
+      return;
+    }
+
+    const idx = parseInt(e.key) - 1;
+    if (idx >= 0 && idx < viewKeys.length) {
+      const targetView = viewKeys[idx];
+      document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
+      document.querySelector(`.nav-item[data-view="${targetView}"]`)?.classList.add("active");
+      currentView = targetView;
+      switchView(targetView);
+    }
+  });
 
   // Setup interactive canvas events
   setupInteractiveCanvas();
 
-  // Initial renders
+  // Auto-redraw active view canvases on resize / device orientation change
+  window.addEventListener("resize", debounce(() => {
+    if (currentView === "step1-macro") {
+      renderHeatmap(); renderScatter(); renderFactorBar();
+    } else if (currentView === "step2-studio") {
+      renderStudioCanvas();
+    } else if (currentView === "step2-feat-corr") {
+      renderFeatureCorrelationCanvas(); renderFeatureDistributionCanvas();
+    } else if (currentView === "step4-overlay") {
+      renderMarketMovementCanvas();
+    } else if (currentView === "step5-synthesis") {
+      renderWaterfallCanvas(); renderRollingAlphaCanvas();
+    }
+  }, 150));
+
+  // Initial renders — only active view on startup; others rendered lazily on first visit
   renderHeatmap();
   renderScatter();
   renderFactorBar();
-  renderStudioCanvas();
-  renderFeatureCorrelationCanvas();
-  renderFeatureDistributionCanvas();
-  renderHierarchyTree();
-  renderBaseTable();
+  viewRendered["step1-macro"] = true;
+  renderBaseTable(); // needed for data setup
   renderPyramidTable();
   renderRiskTable();
-  renderMarketMovementCanvas();
-  renderWaterfallCanvas();
-  renderRollingAlphaCanvas();
+  renderHierarchyTree();
+  viewRendered["step2-tree"] = true;
+  viewRendered["step3-base"] = true;
+  viewRendered["step3-pyramid"] = true;
+  viewRendered["step3-risk"] = true;
+  // Defer non-initial panels to first visit
 }
 
 function switchView(viewKey) {
@@ -539,13 +693,23 @@ function switchView(viewKey) {
   const targetSec = document.getElementById(`view-${viewKey}`);
   if (targetSec) targetSec.classList.add("active");
 
+  // Sync mobile quick-nav chips
+  document.querySelectorAll(".mobile-nav-chip").forEach(chip => {
+    if (chip.getAttribute("data-view") === viewKey) {
+      chip.classList.add("active");
+      chip.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+    } else {
+      chip.classList.remove("active");
+    }
+  });
+
   if (viewKey === "step1-macro") {
     renderHeatmap(); renderScatter(); renderFactorBar();
   } else if (viewKey === "step2-studio") {
     renderStudioCanvas();
   } else if (viewKey === "step2-feat-corr") {
-    renderFeatureCorrelationCanvas();
-    renderFeatureDistributionCanvas();
+    if (!viewRendered[viewKey]) { renderFeatureCorrelationCanvas(); renderFeatureDistributionCanvas(); viewRendered[viewKey] = true; }
+    else { renderFeatureCorrelationCanvas(); renderFeatureDistributionCanvas(); }
   } else if (viewKey === "step2-tree") {
     renderHierarchyTree();
   } else if (viewKey === "step3-base") {
@@ -555,11 +719,116 @@ function switchView(viewKey) {
   } else if (viewKey === "step3-risk") {
     renderRiskTable();
   } else if (viewKey === "step4-overlay") {
-    renderMarketMovementCanvas();
+    if (!viewRendered[viewKey]) { renderMarketMovementCanvas(); viewRendered[viewKey] = true; }
+    else renderMarketMovementCanvas();
   } else if (viewKey === "step5-synthesis") {
-    renderWaterfallCanvas();
-    renderRollingAlphaCanvas();
+    if (!viewRendered[viewKey]) { renderWaterfallCanvas(); renderRollingAlphaCanvas(); viewRendered[viewKey] = true; }
+    else { renderWaterfallCanvas(); renderRollingAlphaCanvas(); }
+  } else if (viewKey === "step6-downloads") {
+    filterDownloadCards();
   }
+}
+
+// Downloads Hub live filter logic
+function filterDownloadCards() {
+  const search = (document.getElementById("dl-search-input")?.value || "").trim().toLowerCase();
+  const activePill = document.querySelector("#dl-category-pills .pill-btn.active");
+  const selectedCat = activePill ? activePill.getAttribute("data-cat") : "ALL";
+
+  document.querySelectorAll(".download-section").forEach(sec => {
+    const secCat = sec.getAttribute("data-section");
+    let secHasVisible = false;
+
+    sec.querySelectorAll(".dl-card").forEach(card => {
+      const cardCat = card.getAttribute("data-cat");
+      const cardKeywords = (card.getAttribute("data-keywords") || "").toLowerCase();
+      const cardText = card.textContent.toLowerCase();
+
+      const catMatches = (selectedCat === "ALL" || cardCat === selectedCat);
+      const searchMatches = !search || cardKeywords.includes(search) || cardText.includes(search);
+
+      if (catMatches && searchMatches) {
+        card.style.display = "flex";
+        secHasVisible = true;
+      } else {
+        card.style.display = "none";
+      }
+    });
+
+    if (selectedCat !== "ALL" && secCat !== selectedCat) {
+      sec.style.display = "none";
+    } else {
+      sec.style.display = secHasVisible ? "block" : "none";
+    }
+  });
+}
+
+// Download Master Summary Bundle
+function downloadAllSummaryData() {
+  if (!fullData) {
+    showToast("Terminal data not loaded yet.");
+    return;
+  }
+
+  const bundle = {
+    metadata: {
+      generated_at: new Date().toISOString(),
+      benchmark: fullData.benchmark,
+      stats: fullData.stats
+    },
+    top_base_sar: (fullData.base_logics?.EMA_CROSS_SAR || []).slice(0, 50),
+    top_pyramiding: (fullData.pyramid_top || []).slice(0, 50),
+    top_risk: (fullData.risk_studio?.results || []).slice(0, 50)
+  };
+
+  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(bundle, null, 2));
+  const link = document.createElement("a");
+  link.setAttribute("href", dataStr);
+  link.setAttribute("download", "eth_2026_quant_master_summary_bundle.json");
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  showToast("✓ Exported Master Summary Bundle JSON");
+}
+
+// Download Current Session Config Snapshot
+function downloadTerminalStateJSON() {
+  const state = {
+    timestamp: new Date().toISOString(),
+    current_view: currentView,
+    base_filter: {
+      logic: currentBaseLogic,
+      sort_col: baseSortCol,
+      sort_asc: baseSortAsc,
+      fast_range: [filterFastMin, filterFastMax],
+      min_sharpe: filterMinSharpe,
+      max_dd: filterMaxDD,
+      min_win_rate: filterMinWinRate,
+      preset: currentBasePreset
+    },
+    pyramid_filter: {
+      factor: currentPyrFactor,
+      x_tranche: currentPyrX,
+      min_ret: filterPyrMinRet,
+      max_dd: filterPyrMaxDD,
+      min_adds: filterPyrMinAdds
+    },
+    risk_filter: {
+      re_entry_mode: currentReEntryMode,
+      archetype: currentRiskArchetype,
+      min_ret: filterRiskMinRet,
+      max_dd: filterRiskMaxDD
+    }
+  };
+
+  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state, null, 2));
+  const link = document.createElement("a");
+  link.setAttribute("href", dataStr);
+  link.setAttribute("download", "terminal_session_state.json");
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  showToast("✓ Exported Terminal Session State JSON");
 }
 
 // -------------------------------------------------------------
@@ -1020,7 +1289,7 @@ function renderRiskTable() {
       <td><span class="strat-pill" style="border-color: rgba(0,240,255,0.3); color:#fff;">${strat.Risk_Note.split(" [")[0]}</span></td>
       <td style="color: #ffb800; font-weight:600; font-size:11px;">${strat.Risk_Archetype}</td>
       <td class="${retVal >= 0 ? 'pos' : 'neg'}" style="font-weight: 700;">${retVal >= 0 ? '+' : ''}${retVal.toFixed(2)}%</td>
-      <td class="${pnlUsd >= 0 ? 'pos' : 'neg'}" style="font-weight:600;">$${pnlUsd >= 0 ? '+' : ''}${pnlUsd.toLocaleString(undefined, {minimumFractionDigits:2})}</td>
+      <td class="${pnlUsd >= 0 ? 'pos' : 'neg'}" style="font-weight:600;">${pnlUsd >= 0 ? '+' : '-'}$${Math.abs(pnlUsd).toLocaleString(undefined, {minimumFractionDigits:2})}</td>
       <td style="color:#00f0ff; font-weight:600;">$${finEq.toLocaleString(undefined, {minimumFractionDigits:2})}</td>
       <td class="neg">${(strat.Max_Drawdown_Pct ?? 0).toFixed(1)}%</td>
       <td style="color: #00f0ff; font-weight:600;">${(strat.Sharpe ?? 0).toFixed(2)}</td>
@@ -1811,7 +2080,7 @@ function renderBaseTable() {
       <td style="color: #888;">#${startIdx + index + 1}</td>
       <td><span class="strat-pill">${paramLabel}</span></td>
       <td class="${retVal >= 0 ? 'pos' : 'neg'}" style="font-weight: 700;">${retVal >= 0 ? '+' : ''}${retVal.toFixed(2)}%</td>
-      <td class="${pnlUsd >= 0 ? 'pos' : 'neg'}" style="font-weight: 600;">$${pnlUsd >= 0 ? '+' : ''}${pnlUsd.toLocaleString(undefined, {minimumFractionDigits:2})}</td>
+      <td class="${pnlUsd >= 0 ? 'pos' : 'neg'}" style="font-weight: 600;">${pnlUsd >= 0 ? '+' : '-'}$${Math.abs(pnlUsd).toLocaleString(undefined, {minimumFractionDigits:2})}</td>
       <td style="color: #00f0ff; font-weight:600;">$${finEq.toLocaleString(undefined, {minimumFractionDigits:2})}</td>
       <td class="${alphaVal >= 0 ? 'pos' : 'neg'}">${alphaVal >= 0 ? '+' : ''}${alphaVal.toFixed(2)}%</td>
       <td class="neg">${(strat.Max_DD_Pct ?? 0).toFixed(1)}%</td>
@@ -1981,7 +2250,7 @@ function renderPyramidTable() {
       <td style="color: #ffb800; font-weight:700;">${strat.X_Pct}%</td>
       <td style="color: #aaa;">$${(strat.Fixed_Add_USD || (strat.Initial_Capital || 10000) * (strat.X_Pct / 100)).toLocaleString()}</td>
       <td class="${retVal >= 0 ? 'pos' : 'neg'}" style="font-weight: 700;">${retVal >= 0 ? '+' : ''}${retVal.toFixed(2)}%</td>
-      <td class="${pnlUsd >= 0 ? 'pos' : 'neg'}" style="font-weight: 600;">$${pnlUsd >= 0 ? '+' : ''}${pnlUsd.toLocaleString(undefined, {minimumFractionDigits:2})}</td>
+      <td class="${pnlUsd >= 0 ? 'pos' : 'neg'}" style="font-weight: 600;">${pnlUsd >= 0 ? '+' : '-'}$${Math.abs(pnlUsd).toLocaleString(undefined, {minimumFractionDigits:2})}</td>
       <td style="color: #00f0ff; font-weight:600;">$${finEq.toLocaleString(undefined, {minimumFractionDigits:2})}</td>
       <td class="${alphaBase >= 0 ? 'pos' : 'neg'}">${alphaBase >= 0 ? '+' : ''}${alphaBase.toFixed(2)}%</td>
       <td class="${alphaBH >= 0 ? 'pos' : 'neg'}">${alphaBH >= 0 ? '+' : ''}${alphaBH.toFixed(2)}%</td>
@@ -2422,7 +2691,7 @@ function openBaseDrillDown(strat, paramLabel) {
   document.getElementById("modal-ret").className = `kpi-val ${ret >= 0 ? 'pos' : 'neg'}`;
   document.getElementById("modal-cagr").textContent = `CAGR: +${(strat.CAGR_Pct ?? (ret * 1.6)).toFixed(1)}%`;
 
-  document.getElementById("modal-pnl-usd").textContent = `$${pnlUsd >= 0 ? '+' : ''}${pnlUsd.toLocaleString(undefined, {minimumFractionDigits:2})}`;
+  document.getElementById("modal-pnl-usd").textContent = `${pnlUsd >= 0 ? '+' : '-'}$${Math.abs(pnlUsd).toLocaleString(undefined, {minimumFractionDigits:2})}`;
   document.getElementById("modal-pnl-usd").className = `kpi-val ${pnlUsd >= 0 ? 'pos' : 'neg'}`;
   document.getElementById("modal-final-eq").textContent = `Final: $${finEq.toLocaleString(undefined, {minimumFractionDigits:2})}`;
 
@@ -2484,7 +2753,7 @@ function openPyramidDrillDown(strat) {
   document.getElementById("modal-ret").className = `kpi-val ${ret >= 0 ? 'pos' : 'neg'}`;
   document.getElementById("modal-cagr").textContent = `Alpha vs Base: ${strat.Alpha_vs_Base_Pct >= 0 ? '+' : ''}${(strat.Alpha_vs_Base_Pct ?? 0).toFixed(1)}%`;
 
-  document.getElementById("modal-pnl-usd").textContent = `$${pnlUsd >= 0 ? '+' : ''}${pnlUsd.toLocaleString(undefined, {minimumFractionDigits:2})}`;
+  document.getElementById("modal-pnl-usd").textContent = `${pnlUsd >= 0 ? '+' : '-'}$${Math.abs(pnlUsd).toLocaleString(undefined, {minimumFractionDigits:2})}`;
   document.getElementById("modal-pnl-usd").className = `kpi-val ${pnlUsd >= 0 ? 'pos' : 'neg'}`;
   document.getElementById("modal-final-eq").textContent = `Final: $${finEq.toLocaleString(undefined, {minimumFractionDigits:2})}`;
 
@@ -2681,18 +2950,23 @@ function renderPyramidTradesTable(trades) {
 }
 
 function synthesizeEquityCurve(finalVal, trades) {
-  const points = [{ t: "2026-01-01", v: 10000.0, dd: 0.0 }];
+  // BUG 6: guard against undefined finalVal producing NaN
+  const startVal = 10000.0;
+  const endVal = (typeof finalVal === 'number' && !isNaN(finalVal)) ? finalVal : startVal;
+  const points = [{ t: "2026-01-01", v: startVal, dd: 0.0 }];
   if (!trades || trades.length === 0) {
-    points.push({ t: "2026-08-22", v: finalVal || 10000.0, dd: 0.0 });
+    points.push({ t: "2026-08-22", v: endVal, dd: 0.0 });
     return points;
   }
 
-  let peak = 10000.0;
+  let peak = startVal;
   trades.forEach(t => {
-    const v = t.Portfolio_After_USD ?? t.Portfolio_After ?? t.portfolio_after ?? 10000.0;
+    const raw = t.Portfolio_After_USD ?? t.Portfolio_After ?? t.portfolio_after;
+    const v = (typeof raw === 'number' && !isNaN(raw)) ? raw : endVal;
     if (v > peak) peak = v;
     const dd = ((v - peak) / peak) * 100.0;
-    points.push({ t: t.Exit_Time || t.exit_time, v: v, dd: dd });
+    const ts = t.Exit_Time || t.exit_time || "2026-08-22";
+    points.push({ t: ts, v: v, dd: dd });
   });
 
   return points;
@@ -2816,24 +3090,50 @@ function drawRadarProfile(strat) {
 }
 
 function exportActiveTableCSV() {
+  // BUG 3: Replicate active filter logic so export matches what the user sees
   let list = [];
   let filename = "strategies_export.csv";
 
   if (currentView === "step3-base" && fullData?.base_logics?.[currentBaseLogic]) {
-    list = fullData.base_logics[currentBaseLogic];
-    filename = `${currentBaseLogic}_strategies.csv`;
+    list = [...fullData.base_logics[currentBaseLogic]];
+    const searchVal = (document.getElementById("base-filter-input")?.value || "").trim().toLowerCase();
+    list = list.filter(item => {
+      const fast = item.Fast_EMA;
+      const fastOk = fast >= filterFastMin && fast <= filterFastMax;
+      const sharpeOk = (item.Sharpe ?? 0) >= filterMinSharpe;
+      const ddOk = (item.Max_DD_Pct ?? 0) <= filterMaxDD;
+      const wrOk = (item.Win_Rate_Pct ?? 0) >= filterMinWinRate;
+      return fastOk && sharpeOk && ddOk && wrOk;
+    });
+    if (currentBasePreset === "inst") list = list.filter(i => i.Fast_EMA >= 180);
+    else if (currentBasePreset === "scalp") list = list.filter(i => i.Fast_EMA <= 30);
+    else if (currentBasePreset === "lowdd") list = list.filter(i => (i.Max_DD_Pct || 0) <= 20);
+    else if (currentBasePreset === "highsharpe") list = list.filter(i => (i.Sharpe || 0) >= 1.8);
+    if (searchVal) list = list.filter(i => String(i.Fast_EMA).includes(searchVal) || String(i.Slow_EMA || "").includes(searchVal));
+    filename = `${currentBaseLogic}_filtered_${list.length}.csv`;
+
   } else if (currentView === "step3-pyramid" && fullData?.pyramid_top) {
-    list = fullData.pyramid_top;
-    filename = "pyramiding_top_strategies.csv";
+    list = currentPyrFactor === "ALL" ? [...fullData.pyramid_top] : [...(fullData.pyramid_by_factor?.[currentPyrFactor] || [])];
+    if (currentPyrX !== "ALL") list = list.filter(i => Number(i.X_Pct) === Number(currentPyrX));
+    list = list.filter(i => (i.Total_Return_Pct ?? 0) >= filterPyrMinRet && (i.Max_Drawdown_Pct ?? 0) <= filterPyrMaxDD && (i.Total_Series_Adds ?? 0) >= filterPyrMinAdds);
+    const pyrSearch = (document.getElementById("pyr-filter-input")?.value || "").trim().toLowerCase();
+    if (pyrSearch) list = list.filter(i => (i.Strategy_Note || "").toLowerCase().includes(pyrSearch) || (i.Y_Factor || "").toLowerCase().includes(pyrSearch));
+    filename = `pyramid_filtered_${list.length}.csv`;
+
   } else if (currentView === "step3-risk" && fullData?.risk_studio?.results) {
     list = fullData.risk_studio.results.filter(r => r.Re_Entry_Mode === currentReEntryMode);
-    filename = `risk_management_${currentReEntryMode.toLowerCase()}_strategies.csv`;
+    if (currentRiskArchetype !== "ALL") list = list.filter(r => r.Risk_Archetype === currentRiskArchetype);
+    list = list.filter(r => (r.Total_Return_Pct ?? 0) >= filterRiskMinRet && (r.Max_Drawdown_Pct ?? 0) <= filterRiskMaxDD);
+    const riskSearch = (document.getElementById("risk-filter-input")?.value || "").trim().toLowerCase();
+    if (riskSearch) list = list.filter(r => (r.Risk_Note || "").toLowerCase().includes(riskSearch) || (r.Strategy_Label || "").toLowerCase().includes(riskSearch));
+    filename = `risk_${currentReEntryMode.toLowerCase()}_filtered_${list.length}.csv`;
+
   } else if (fullData?.base_logics?.EMA_CROSS_SAR) {
     list = fullData.base_logics.EMA_CROSS_SAR;
     filename = "ema_cross_sar_strategies.csv";
   }
 
-  if (list.length === 0) return;
+  if (list.length === 0) { showToast("No data to export!"); return; }
   const headers = Object.keys(list[0]);
   const rows = list.map(obj => headers.map(h => JSON.stringify(obj[h] ?? "")).join(","));
   const csvContent = "data:text/csv;charset=utf-8," + [headers.join(","), ...rows].join("\n");
@@ -2845,15 +3145,27 @@ function exportActiveTableCSV() {
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
+  showToast(`✓ Exported ${list.length} rows → ${filename}`);
 }
 
 function exportModalTradesCSV() {
   if (!activeModalStrategy) return;
   let trades = activeModalTrades || [];
-  let filename = "trades_export.csv";
+
+  // BUG 2: Build a meaningful filename from the strategy being viewed
+  let stratName = "strategy";
+  if (activeModalType === "base") {
+    const slow = activeModalStrategy.Slow_EMA;
+    stratName = `${activeModalStrategy.Logic}_${activeModalStrategy.Fast_EMA}${slow ? '_' + slow : ''}`;
+  } else if (activeModalType === "pyramid") {
+    stratName = (activeModalStrategy.Strategy_Note || "pyramid").replace(/[^a-z0-9_]/gi, "_");
+  } else if (activeModalType === "risk") {
+    stratName = (activeModalStrategy.Risk_Note || "risk").replace(/[^a-z0-9_]/gi, "_").slice(0, 40);
+  }
+  const filename = `trades_${stratName}.csv`;
 
   if (trades.length === 0) {
-    alert("No individual trade logs to export for this strategy.");
+    showToast("No trade logs to export for this strategy.");
     return;
   }
 
@@ -2868,6 +3180,7 @@ function exportModalTradesCSV() {
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
+  showToast(`✓ Exported ${trades.length} trades → ${filename}`);
 }
 
 function closeModal() {

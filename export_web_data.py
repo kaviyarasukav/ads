@@ -119,14 +119,24 @@ def build_strategy_hierarchy(name, category, summary, trades, series_adds):
             "final_equity": fin_eq,
             "max_drawdown_pct": mdd,
             "sharpe": round(float(summary.get("Sharpe", 1.5)), 2),
-            "sortino": round(float(summary.get("Sortino", summary.get("Sharpe", 1.5) * 1.15)), 2),
+            # IMP 6 FIX: use real Sortino from engine; fall back to Sharpe*1.15 only for legacy data
+            "sortino": round(float(
+                summary.get("Sortino") or summary.get("sortino") or
+                (summary.get("Sharpe", 1.5) * 1.15)
+            ), 2),
             "calmar": round(float(summary.get("Calmar", tot_ret / (mdd or 1))), 2),
             "profit_factor": round(float(summary.get("Profit_Factor", 2.0)), 2),
             "win_rate_pct": round(float(summary.get("Win_Rate_Pct", 45.0)), 1),
-            "expectancy_pct": round(float(summary.get("Expectancy_Pct", 2.5)), 2),
+            "expectancy_pct": round(float(
+                summary.get("Expectancy_Pct") or summary.get("expectancy_pct") or 2.5
+            ), 2),
             "total_trades": len(enriched_trades),
-            "avg_hold_hours": round(float(summary.get("Avg_Hold_Hours", 180)), 1),
-            "exposure_pct": round(float(summary.get("Exposure_Pct", 98.0)), 1),
+            "avg_hold_hours": round(float(
+                summary.get("Avg_Hold_Hours") or summary.get("avg_hold_hours") or 180
+            ), 1),
+            "exposure_pct": round(float(
+                summary.get("Exposure_Pct") or summary.get("exposure_pct") or 98.0
+            ), 1),
             "fees_applied_pct": round(float(summary.get("Fees_Applied_Pct", len(enriched_trades) * 0.1)), 1),
             "composite_score": round(float(summary.get("Composite_Score", 85.0)), 1)
         },

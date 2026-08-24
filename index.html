@@ -11,14 +11,32 @@
 </head>
 <body>
   <div class="quant-layout">
+    <!-- MOBILE TOPBAR & DRAWER TOGGLE (Visible on screens <= 900px) -->
+    <header class="mobile-topbar" id="mobile-topbar">
+      <div class="mobile-brand">
+        <span class="mobile-brand-icon">⚡</span>
+        <div>
+          <span class="mobile-brand-title">ETH QUANT 2026</span>
+          <span class="mobile-brand-sub">68,202 Backtests &bull; 0.10% RT</span>
+        </div>
+      </div>
+      <div class="mobile-topbar-actions">
+        <button class="mobile-menu-btn" id="mobile-menu-toggle" aria-label="Toggle navigation">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </header>
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
     <!-- LEFT SIDEBAR NAVIGATION -->
-    <aside class="sidebar">
+    <aside class="sidebar" id="app-sidebar">
       <div class="sidebar-brand">
         <div class="brand-icon">⚡</div>
         <div class="brand-info">
           <span class="brand-title">ETH QUANT 2026</span>
           <span class="brand-sub">5,601 1H Bars &bull; Zero Bias</span>
         </div>
+        <button class="mobile-sidebar-close" id="mobile-sidebar-close" aria-label="Close menu">&times;</button>
       </div>
 
       <!-- WORKFLOW FUNNEL STEPS -->
@@ -95,6 +113,14 @@
             <span class="nav-desc">Crown Champion &amp; Waterfall</span>
           </div>
         </button>
+
+        <button class="nav-item highlight" data-view="step6-downloads" id="nav-btn-downloads">
+          <span class="nav-num">6</span>
+          <div class="nav-text">
+            <span class="nav-title">Download &amp; Export Hub</span>
+            <span class="nav-desc">CSV Reports, Backtest Datasets &amp; Logs</span>
+          </div>
+        </button>
       </nav>
 
       <!-- SIDEBAR LIVE BENCHMARK CARD -->
@@ -108,6 +134,22 @@
 
     <!-- MAIN APP CONTENT AREA -->
     <main class="main-content">
+      <!-- MOBILE QUICK NAVIGATION TABS (Visible on mobile/tablets) -->
+      <nav class="mobile-quick-nav" aria-label="Mobile quick view switcher">
+        <div class="mobile-nav-scroll" id="mobile-nav-scroll">
+          <button class="mobile-nav-chip active" data-view="step1-macro">1. Macro</button>
+          <button class="mobile-nav-chip" data-view="step2-studio">2A. 4D Studio</button>
+          <button class="mobile-nav-chip" data-view="step2-feat-corr">2B. Corr</button>
+          <button class="mobile-nav-chip" data-view="step2-tree">2C. Tree</button>
+          <button class="mobile-nav-chip" data-view="step3-base">3A. Base</button>
+          <button class="mobile-nav-chip" data-view="step3-pyramid">3B. Pyramid</button>
+          <button class="mobile-nav-chip" data-view="step3-risk">3C. Risk</button>
+          <button class="mobile-nav-chip" data-view="step4-overlay">4. Capture</button>
+          <button class="mobile-nav-chip" data-view="step5-synthesis">5. Synthesis</button>
+          <button class="mobile-nav-chip highlight" data-view="step6-downloads">6. Downloads 📥</button>
+        </div>
+      </nav>
+
       <!-- TOP STATUS BAR -->
       <header class="topbar">
         <div class="topbar-stats">
@@ -1070,6 +1112,1488 @@
           </div>
         </div>
       </div>
+
+      <!-- ======================================================== -->
+      <!-- STEP 6: CENTRAL DOWNLOAD & QUANTITATIVE EXPORT HUB -->
+      <!-- ======================================================== -->
+      <div id="view-step6-downloads" class="view-panel">
+        <div class="panel-header">
+          <div>
+            <h2>Step 6: Central Download &amp; Quantitative Export Hub</h2>
+            <p>Directly download all 88+ quantitative backtest result matrices, strategy ranking CSVs, granular trade logs, SQLite market databases, visual charts, simulation engines, and test suites.</p>
+          </div>
+          <div class="header-actions">
+            <button class="action-btn highlight" id="btn-download-all-zip" onclick="downloadAllSummaryData()">⚡ Download Master JSON Bundle</button>
+          </div>
+        </div>
+
+        <!-- Download Hub KPI Summary Cards -->
+        <div class="kpi-row" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 20px;">
+          <div class="kpi-card">
+            <div class="kpi-title">Total Available Files</div>
+            <div class="kpi-val" style="color:#00f0ff;">88+ Files</div>
+            <div class="kpi-sub">CSV, JSON, PNG, SQLite, Python</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-title">Universe Permutations</div>
+            <div class="kpi-val" style="color:#00ff88;">68,202</div>
+            <div class="kpi-sub">Fee-Adjusted Systematic Models</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-title">OHLCV Candle Depth</div>
+            <div class="kpi-val" style="color:#ffb800;">67k (5M) / 5.6k (1H)</div>
+            <div class="kpi-sub">Jan 01 &rarr; Aug 22, 2026</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-title">Fee Friction Model</div>
+            <div class="kpi-val" style="color:#ff007a;">0.10% RT</div>
+            <div class="kpi-sub">Zero Lookahead Bias</div>
+          </div>
+        </div>
+
+        <!-- Filter & Search Bar for Downloads -->
+        <div class="filter-card" style="margin-bottom: 20px;">
+          <div class="filter-row">
+            <div class="filter-group" style="flex: 2;">
+              <label class="filter-label">Search Reports &amp; Files:</label>
+              <input type="text" id="dl-search-input" class="filter-input" placeholder="Search by name, metric, logic, format, or pair (e.g. '208', 'sar', 'pyramid', 'sqlite', 'trade', 'top50', 'tests')...">
+            </div>
+            <div class="filter-group" style="flex: 3;">
+              <label class="filter-label">Filter Category:</label>
+              <div class="pill-group" id="dl-category-pills">
+                <button class="pill-btn active" data-cat="ALL">All Files (88+)</button>
+                <button class="pill-btn" data-cat="MASTER">Master Sweeps</button>
+                <button class="pill-btn" data-cat="TOP">Top Strategy CSVs</button>
+                <button class="pill-btn" data-cat="PYRAMID">Pyramiding</button>
+                <button class="pill-btn" data-cat="TRADES">Individual Trade Logs</button>
+                <button class="pill-btn" data-cat="DATA">Market Data &amp; DB</button>
+                <button class="pill-btn" data-cat="CHARTS">Visual Charts</button>
+                <button class="pill-btn" data-cat="SCRIPTS">Python Scripts</button>
+                <button class="pill-btn" data-cat="TESTS">Tests &amp; Docs</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DOWNLOAD CATEGORY 1: MASTER MATRICES & COMPLETE DATASETS -->
+        <div class="download-section" data-section="MASTER">
+          <div class="section-title-bar">
+            <span class="section-badge">CORE MATRICES</span>
+            <h3>1. Master Backtest Matrices &amp; Datasets</h3>
+            <span class="section-count">8 Core Files</span>
+          </div>
+          <div class="download-grid">
+            <div class="dl-card" data-cat="MASTER" data-keywords="master fee adjusted 68202 csv all combinations">
+              <div class="dl-card-header">
+                <div class="dl-icon">📊</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">8.47 MB</span></div>
+                  <h4>results/master_fee_adjusted.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">The complete 68,202 parameter permutation dataset with 0.10% round-trip fees deducted. Contains all CAGR, Sharpe, Sortino, Calmar, MaxDD, monthly breakdowns, and win rates.</p>
+              <div class="dl-card-footer">
+                <a href="results/master_fee_adjusted.csv" download="master_fee_adjusted.csv" class="dl-btn primary"><span>Download Master Fee-Adjusted CSV</span> ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="MASTER" data-keywords="master all logics summary 10mb csv cross comparison">
+              <div class="dl-card-header">
+                <div class="dl-icon">🌐</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">9.58 MB</span></div>
+                  <h4>results/master_all_logics_summary.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Cross-logic consolidated master backtest file containing all 4 systematic architectures: EMA Cross SAR, EMA Cross Long-Only, Price EMA SAR, and Price EMA Long-Only.</p>
+              <div class="dl-card-footer">
+                <a href="results/master_all_logics_summary.csv" download="master_all_logics_summary.csv" class="dl-btn primary"><span>Download All Logics CSV</span> ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="MASTER" data-keywords="all ema comprehensive results csv raw grid matrix">
+              <div class="dl-card-header">
+                <div class="dl-icon">🗄️</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">6.78 MB</span></div>
+                  <h4>all_ema_comprehensive_results.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Comprehensive brute-force results matrix across all 60,000+ Fast EMA (5–250) vs Slow EMA (5–250) permutations.</p>
+              <div class="dl-card-footer">
+                <a href="all_ema_comprehensive_results.csv" download="all_ema_comprehensive_results.csv" class="dl-btn primary"><span>Download Comprehensive CSV</span> ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="MASTER" data-keywords="all ema combinations results csv fast slow grid">
+              <div class="dl-card-header">
+                <div class="dl-icon">🔢</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">2.24 MB</span></div>
+                  <h4>all_ema_combinations_results.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Standard parameter grid table of all evaluated Fast/Slow EMA combinations with core backtest returns.</p>
+              <div class="dl-card-footer">
+                <a href="all_ema_combinations_results.csv" download="all_ema_combinations_results.csv" class="dl-btn primary"><span>Download Combinations CSV</span> ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="MASTER" data-keywords="pyramid v2 master csv series reinvestment compounding">
+              <div class="dl-card-header">
+                <div class="dl-icon">🔺</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">1.67 MB</span></div>
+                  <h4>results/pyramid_v2_master.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Master pyramiding dataset across all 6 Y-Factors (Hours, Bars, Price %, Profit %) and 7 X% tranche allocations (5% to 50%) for top 20 candidate pairs.</p>
+              <div class="dl-card-footer">
+                <a href="results/pyramid_v2_master.csv" download="pyramid_v2_master.csv" class="dl-btn primary"><span>Download Pyramid Master CSV</span> ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="MASTER" data-keywords="pyramid master summary csv v1 overview">
+              <div class="dl-card-header">
+                <div class="dl-icon">📑</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">283 KB</span></div>
+                  <h4>results/pyramid_master_summary.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Summary table of initial pyramiding factor sweeps and baseline comparison performance.</p>
+              <div class="dl-card-footer">
+                <a href="results/pyramid_master_summary.csv" download="pyramid_master_summary.csv" class="dl-btn secondary"><span>Download Pyramid Summary CSV</span> ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="MASTER" data-keywords="risk management sweep results csv stop loss take profit tsl">
+              <div class="dl-card-header">
+                <div class="dl-icon">🛡️</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">90.1 KB</span></div>
+                  <h4>results/risk_management_sweep_results.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Complete risk parameter sweep evaluating Fixed SL, Fixed TP, Trailing SL, and Trailing TP under both Dual Re-Entry Modes.</p>
+              <div class="dl-card-footer">
+                <a href="results/risk_management_sweep_results.csv" download="risk_management_sweep_results.csv" class="dl-btn primary"><span>Download Risk Matrix CSV</span> ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="MASTER" data-keywords="risk management trades json sample simulated trades">
+              <div class="dl-card-header">
+                <div class="dl-icon">📦</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge json">JSON</span><span class="size-badge">2.71 MB</span></div>
+                  <h4>results/risk_management_trades.json</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Simulated trade histories for all evaluated risk management archetype parameter configurations.</p>
+              <div class="dl-card-footer">
+                <a href="results/risk_management_trades.json" download="risk_management_trades.json" class="dl-btn secondary"><span>Download Risk Trades JSON</span> ⬇</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DOWNLOAD CATEGORY 2: TOP STRATEGY RANKINGS & CURATED CSVs -->
+        <div class="download-section" data-section="TOP" style="margin-top: 28px;">
+          <div class="section-title-bar">
+            <span class="section-badge">LEADERBOARDS</span>
+            <h3>2. Top Strategy Rankings &amp; Monthly Performance CSVs</h3>
+            <span class="section-count">14 Curated Reports</span>
+          </div>
+          <div class="download-grid">
+            <div class="dl-card" data-cat="TOP" data-keywords="top 50 comprehensive return csv net gain alpha">
+              <div class="dl-card-header">
+                <div class="dl-icon">🥇</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">11.5 KB</span></div>
+                  <h4>top_50_comprehensive_by_return.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Top 50 single-entry strategies ranked by absolute Net Return % with full risk metrics, profit factors, win rates, and fee impacts.</p>
+              <div class="dl-card-footer">
+                <a href="top_50_comprehensive_by_return.csv" download="top_50_comprehensive_by_return.csv" class="dl-btn primary">Download Top 50 Return CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TOP" data-keywords="top 50 comprehensive sharpe ratio csv risk adjusted">
+              <div class="dl-card-header">
+                <div class="dl-icon">⚖️</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">11.5 KB</span></div>
+                  <h4>top_50_comprehensive_by_sharpe.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Top 50 strategies ranked by Risk-Adjusted Sharpe Ratio, emphasizing smooth equity curves and high Calmar ratios.</p>
+              <div class="dl-card-footer">
+                <a href="top_50_comprehensive_by_sharpe.csv" download="top_50_comprehensive_by_sharpe.csv" class="dl-btn primary">Download Top 50 Sharpe CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TOP" data-keywords="top 50 by return csv basic">
+              <div class="dl-card-header">
+                <div class="dl-icon">📈</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">4.0 KB</span></div>
+                  <h4>top_50_by_return.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Core Top 50 strategy parameter list ranked by return performance.</p>
+              <div class="dl-card-footer">
+                <a href="top_50_by_return.csv" download="top_50_by_return.csv" class="dl-btn primary">Download Top 50 Return List ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TOP" data-keywords="top 50 by sharpe csv basic">
+              <div class="dl-card-header">
+                <div class="dl-icon">🎯</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">4.0 KB</span></div>
+                  <h4>top_50_by_sharpe.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Core Top 50 strategy parameter list ranked by Sharpe ratio performance.</p>
+              <div class="dl-card-footer">
+                <a href="top_50_by_sharpe.csv" download="top_50_by_sharpe.csv" class="dl-btn primary">Download Top 50 Sharpe List ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TOP" data-keywords="top strategies monthly matrix csv jan aug 2026 consistency">
+              <div class="dl-card-header">
+                <div class="dl-icon">📅</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">3.5 KB</span></div>
+                  <h4>top_strategies_monthly_matrix.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Month-by-month return matrix (Jan–Aug 2026) for elite candidate models, enabling institutional consistency audits.</p>
+              <div class="dl-card-footer">
+                <a href="top_strategies_monthly_matrix.csv" download="top_strategies_monthly_matrix.csv" class="dl-btn primary">Download Monthly Matrix CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TOP" data-keywords="pyramid v2 top20 csv champions alpha vs base">
+              <div class="dl-card-header">
+                <div class="dl-icon">👑</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">5.1 KB</span></div>
+                  <h4>results/pyramid_v2_top20.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">The official top 20 pyramiding configurations ranked by compounding net return and Alpha generated over baseline.</p>
+              <div class="dl-card-footer">
+                <a href="results/pyramid_v2_top20.csv" download="pyramid_v2_top20.csv" class="dl-btn primary">Download Pyramid Top 20 CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TOP" data-keywords="pyramid top20 overall v1 csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">🏅</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">3.1 KB</span></div>
+                  <h4>results/pyramid_top20_overall.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Top 20 overall pyramiding configurations from initial optimization sweeps.</p>
+              <div class="dl-card-footer">
+                <a href="results/pyramid_top20_overall.csv" download="pyramid_top20_overall.csv" class="dl-btn secondary">Download Pyramid v1 Top 20 CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TOP" data-keywords="pyramid v2 best per pair csv optimal factor selection">
+              <div class="dl-card-header">
+                <div class="dl-icon">🎯</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">5.1 KB</span></div>
+                  <h4>results/pyramid_v2_best_per_pair.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">The optimal pyramiding reinvestment parameter setting for each of the top 20 candidate EMA pairs.</p>
+              <div class="dl-card-footer">
+                <a href="results/pyramid_v2_best_per_pair.csv" download="pyramid_v2_best_per_pair.csv" class="dl-btn primary">Download Best Per Pair CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TOP" data-keywords="top50 ema cross sar csv logic breakdown">
+              <div class="dl-card-header">
+                <div class="dl-icon">⚡</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">7.4 KB</span></div>
+                  <h4>results/top50_EMA_CROSS_SAR.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Top 50 strategies specifically for EMA Dual-Crossover Stop-and-Reverse (SAR) logic.</p>
+              <div class="dl-card-footer">
+                <a href="results/top50_EMA_CROSS_SAR.csv" download="top50_EMA_CROSS_SAR.csv" class="dl-btn primary">Download Top 50 SAR CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TOP" data-keywords="top50 ema cross long only csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">🟢</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">7.1 KB</span></div>
+                  <h4>results/top50_EMA_CROSS_LONG_ONLY.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Top 50 strategies specifically for EMA Dual-Crossover Long-Only logic.</p>
+              <div class="dl-card-footer">
+                <a href="results/top50_EMA_CROSS_LONG_ONLY.csv" download="top50_EMA_CROSS_LONG_ONLY.csv" class="dl-btn primary">Download Top 50 Long-Only CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TOP" data-keywords="top50 price ema sar csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">🎯</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">7.3 KB</span></div>
+                  <h4>results/top50_PRICE_EMA_SAR.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Top 50 strategies specifically for Single-EMA Price Cross Stop-and-Reverse logic.</p>
+              <div class="dl-card-footer">
+                <a href="results/top50_PRICE_EMA_SAR.csv" download="top50_PRICE_EMA_SAR.csv" class="dl-btn primary">Download Top 50 Price SAR CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TOP" data-keywords="top50 price ema long only csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">🔵</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">7.5 KB</span></div>
+                  <h4>results/top50_PRICE_EMA_LONG_ONLY.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Top 50 strategies specifically for Single-EMA Price Cross Long-Only logic.</p>
+              <div class="dl-card-footer">
+                <a href="results/top50_PRICE_EMA_LONG_ONLY.csv" download="top50_PRICE_EMA_LONG_ONLY.csv" class="dl-btn primary">Download Top 50 Price Long CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TOP" data-keywords="top 50 ema crossover sar long short csv alternative">
+              <div class="dl-card-header">
+                <div class="dl-icon">📊</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">8.7 KB</span></div>
+                  <h4>results/top_50_ema_crossover_sar_long_short.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Extended feature dataset for top 50 EMA Crossover SAR Long/Short strategies.</p>
+              <div class="dl-card-footer">
+                <a href="results/top_50_ema_crossover_sar_long_short.csv" download="top_50_ema_crossover_sar_long_short.csv" class="dl-btn secondary">Download Extended SAR CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TOP" data-keywords="top 50 ema crossover long only csv alternative">
+              <div class="dl-card-header">
+                <div class="dl-icon">🟢</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">8.0 KB</span></div>
+                  <h4>results/top_50_ema_crossover_long_only.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Extended feature dataset for top 50 EMA Crossover Long-Only strategies.</p>
+              <div class="dl-card-footer">
+                <a href="results/top_50_ema_crossover_long_only.csv" download="top_50_ema_crossover_long_only.csv" class="dl-btn secondary">Download Extended Long-Only CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TOP" data-keywords="top 50 price vs ema long only csv alternative">
+              <div class="dl-card-header">
+                <div class="dl-icon">🔵</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">8.3 KB</span></div>
+                  <h4>results/top_50_price_vs_ema_long_only.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Extended feature dataset for top 50 Price vs EMA Long-Only strategies.</p>
+              <div class="dl-card-footer">
+                <a href="results/top_50_price_vs_ema_long_only.csv" download="top_50_price_vs_ema_long_only.csv" class="dl-btn secondary">Download Extended Price Long CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TOP" data-keywords="top 50 price vs ema sar long short csv alternative">
+              <div class="dl-card-header">
+                <div class="dl-icon">🎯</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">8.7 KB</span></div>
+                  <h4>results/top_50_price_vs_ema_sar_long_short.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Extended feature dataset for top 50 Price vs EMA SAR Long/Short strategies.</p>
+              <div class="dl-card-footer">
+                <a href="results/top_50_price_vs_ema_sar_long_short.csv" download="top_50_price_vs_ema_sar_long_short.csv" class="dl-btn secondary">Download Extended Price SAR CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TOP" data-keywords="worst 20 combinations drawdown losses negative alpha csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">⚠️</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">1.8 KB</span></div>
+                  <h4>worst_20_combinations.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Negative alpha &amp; high whipsaw parameter regimes for anti-pattern risk avoidance.</p>
+              <div class="dl-card-footer">
+                <a href="worst_20_combinations.csv" download="worst_20_combinations.csv" class="dl-btn secondary">Download Worst 20 CSV ⬇</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DOWNLOAD CATEGORY 3: PYRAMIDING FACTOR SPECIFIC REPORTS -->
+        <div class="download-section" data-section="PYRAMID" style="margin-top: 28px;">
+          <div class="section-title-bar">
+            <span class="section-badge">REINVESTMENT</span>
+            <h3>3. Pyramiding Factor Leaderboards &amp; All-Series Logs</h3>
+            <span class="section-count">16 Pyramiding Files</span>
+          </div>
+          <div class="download-grid">
+            <div class="dl-card" data-cat="PYRAMID" data-keywords="pyramid v2 all series adds csv 88mb full history">
+              <div class="dl-card-header">
+                <div class="dl-icon">💾</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">88.11 MB</span></div>
+                  <h4>results/pyramid_series/pyramid_v2_all_series.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Massive 88 MB granular log recording every single tranche addition across all evaluated pyramiding series backtests.</p>
+              <div class="dl-card-footer">
+                <a href="results/pyramid_series/pyramid_v2_all_series.csv" download="pyramid_v2_all_series.csv" class="dl-btn primary">Download All Series Adds CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="PYRAMID" data-keywords="pyramid v1 all series adds csv 106mb massive log">
+              <div class="dl-card-header">
+                <div class="dl-icon">🗄️</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">106.5 MB</span></div>
+                  <h4>results/pyramid_series/all_series_adds.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Complete 106 MB log recording all tranche additions from the comprehensive initial pyramiding parameter sweep.</p>
+              <div class="dl-card-footer">
+                <a href="results/pyramid_series/all_series_adds.csv" download="all_series_adds.csv" class="dl-btn secondary">Download v1 All Adds CSV (106 MB) ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="PYRAMID" data-keywords="pyramid v2 all trades csv 27mb full closed series">
+              <div class="dl-card-header">
+                <div class="dl-icon">📚</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">27.20 MB</span></div>
+                  <h4>results/pyramid_trades/pyramid_v2_all_trades.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Complete 27 MB dataset of all closed multi-tranche series trades with series PnL, duration, and equity after close.</p>
+              <div class="dl-card-footer">
+                <a href="results/pyramid_trades/pyramid_v2_all_trades.csv" download="pyramid_v2_all_trades.csv" class="dl-btn primary">Download All Series Trades CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="PYRAMID" data-keywords="pyramid v1 all trades csv 33mb full closed series log">
+              <div class="dl-card-header">
+                <div class="dl-icon">🗃️</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">33.12 MB</span></div>
+                  <h4>results/pyramid_trades/all_pyramid_trades.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Complete 33 MB dataset recording all closed pyramiding series trades from initial sweep iterations.</p>
+              <div class="dl-card-footer">
+                <a href="results/pyramid_trades/all_pyramid_trades.csv" download="all_pyramid_trades.csv" class="dl-btn secondary">Download v1 All Trades CSV (33 MB) ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="PYRAMID" data-keywords="pyramid hours elapsed top10 v2 csv time based add">
+              <div class="dl-card-header">
+                <div class="dl-icon">⏱️</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">2.7 KB</span></div>
+                  <h4>results/pyramid_v2_top10_HOURS_ELAPSED.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Top 10 configurations using time-based hourly tranche deployment intervals (Crown Champion Factor: Y=1h, X=10%).</p>
+              <div class="dl-card-footer">
+                <a href="results/pyramid_v2_top10_HOURS_ELAPSED.csv" download="pyramid_v2_top10_HOURS_ELAPSED.csv" class="dl-btn primary">Download Hours Factor CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="PYRAMID" data-keywords="pyramid bars elapsed top10 v2 csv candle frequency">
+              <div class="dl-card-header">
+                <div class="dl-icon">📊</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">2.7 KB</span></div>
+                  <h4>results/pyramid_v2_top10_BARS_ELAPSED.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Top 10 configurations using bar-cadence tranche additions across active trend runs.</p>
+              <div class="dl-card-footer">
+                <a href="results/pyramid_v2_top10_BARS_ELAPSED.csv" download="pyramid_v2_top10_BARS_ELAPSED.csv" class="dl-btn primary">Download Bars Factor CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="PYRAMID" data-keywords="pyramid price from start pct top10 v2 csv entry distance">
+              <div class="dl-card-header">
+                <div class="dl-icon">🚀</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">2.9 KB</span></div>
+                  <h4>results/pyramid_v2_top10_PRICE_FROM_START_PCT.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Top 10 configurations triggering adds based on cumulative price extension % from series entry.</p>
+              <div class="dl-card-footer">
+                <a href="results/pyramid_v2_top10_PRICE_FROM_START_PCT.csv" download="pyramid_v2_top10_PRICE_FROM_START_PCT.csv" class="dl-btn primary">Download Price Start CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="PYRAMID" data-keywords="pyramid price from last pct top10 v2 csv incremental step">
+              <div class="dl-card-header">
+                <div class="dl-icon">🪜</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">2.9 KB</span></div>
+                  <h4>results/pyramid_v2_top10_PRICE_FROM_LAST_PCT.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Top 10 configurations adding tranches at fixed step-wise price percentage increments from prior add.</p>
+              <div class="dl-card-footer">
+                <a href="results/pyramid_v2_top10_PRICE_FROM_LAST_PCT.csv" download="pyramid_v2_top10_PRICE_FROM_LAST_PCT.csv" class="dl-btn primary">Download Price Last CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="PYRAMID" data-keywords="pyramid profit from start pct top10 v2 csv unrealized pnl threshold">
+              <div class="dl-card-header">
+                <div class="dl-icon">💰</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">2.9 KB</span></div>
+                  <h4>results/pyramid_v2_top10_PROFIT_FROM_START_PCT.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Top 10 configurations adding risk capital only when open position shows predefined cumulative unrealized profit.</p>
+              <div class="dl-card-footer">
+                <a href="results/pyramid_v2_top10_PROFIT_FROM_START_PCT.csv" download="pyramid_v2_top10_PROFIT_FROM_START_PCT.csv" class="dl-btn primary">Download Profit Start CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="PYRAMID" data-keywords="pyramid profit from last pct top10 v2 csv incremental gain">
+              <div class="dl-card-header">
+                <div class="dl-icon">📈</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">2.9 KB</span></div>
+                  <h4>results/pyramid_v2_top10_PROFIT_FROM_LAST_PCT.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Top 10 configurations deploying incremental tranches as open position profit expands by delta thresholds.</p>
+              <div class="dl-card-footer">
+                <a href="results/pyramid_v2_top10_PROFIT_FROM_LAST_PCT.csv" download="pyramid_v2_top10_PROFIT_FROM_LAST_PCT.csv" class="dl-btn primary">Download Profit Last CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="PYRAMID" data-keywords="pyramid top10 hours elapsed v1 csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">⏳</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">1.6 KB</span></div>
+                  <h4>results/pyramid_top10_HOURS_ELAPSED.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">V1 sweep results for Hours Elapsed pyramiding factor.</p>
+              <div class="dl-card-footer">
+                <a href="results/pyramid_top10_HOURS_ELAPSED.csv" download="pyramid_top10_HOURS_ELAPSED.csv" class="dl-btn secondary">Download v1 Hours CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="PYRAMID" data-keywords="pyramid top10 bars elapsed v1 csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">📊</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">1.6 KB</span></div>
+                  <h4>results/pyramid_top10_BARS_ELAPSED.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">V1 sweep results for Bars Elapsed pyramiding factor.</p>
+              <div class="dl-card-footer">
+                <a href="results/pyramid_top10_BARS_ELAPSED.csv" download="pyramid_top10_BARS_ELAPSED.csv" class="dl-btn secondary">Download v1 Bars CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="PYRAMID" data-keywords="pyramid top10 price start v1 csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">🚀</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">1.7 KB</span></div>
+                  <h4>results/pyramid_top10_PRICE_FROM_START_PCT.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">V1 sweep results for Price From Start % factor.</p>
+              <div class="dl-card-footer">
+                <a href="results/pyramid_top10_PRICE_FROM_START_PCT.csv" download="pyramid_top10_PRICE_FROM_START_PCT.csv" class="dl-btn secondary">Download v1 Price Start CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="PYRAMID" data-keywords="pyramid top10 price last v1 csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">🪜</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">1.7 KB</span></div>
+                  <h4>results/pyramid_top10_PRICE_FROM_LAST_PCT.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">V1 sweep results for Price From Last % factor.</p>
+              <div class="dl-card-footer">
+                <a href="results/pyramid_top10_PRICE_FROM_LAST_PCT.csv" download="pyramid_top10_PRICE_FROM_LAST_PCT.csv" class="dl-btn secondary">Download v1 Price Last CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="PYRAMID" data-keywords="pyramid top10 profit start v1 csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">💰</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">1.7 KB</span></div>
+                  <h4>results/pyramid_top10_PROFIT_FROM_START_PCT.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">V1 sweep results for Profit From Start % factor.</p>
+              <div class="dl-card-footer">
+                <a href="results/pyramid_top10_PROFIT_FROM_START_PCT.csv" download="pyramid_top10_PROFIT_FROM_START_PCT.csv" class="dl-btn secondary">Download v1 Profit Start CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="PYRAMID" data-keywords="pyramid top10 profit last v1 csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">📈</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">1.7 KB</span></div>
+                  <h4>results/pyramid_top10_PROFIT_FROM_LAST_PCT.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">V1 sweep results for Profit From Last % factor.</p>
+              <div class="dl-card-footer">
+                <a href="results/pyramid_top10_PROFIT_FROM_LAST_PCT.csv" download="pyramid_top10_PROFIT_FROM_LAST_PCT.csv" class="dl-btn secondary">Download v1 Profit Last CSV ⬇</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DOWNLOAD CATEGORY 4: INDIVIDUAL STRATEGY TRADE LOGS -->
+        <div class="download-section" data-section="TRADES" style="margin-top: 28px;">
+          <div class="section-title-bar">
+            <span class="section-badge">EXECUTION LOGS</span>
+            <h3>4. Strategy Trade-by-Trade Execution Logs</h3>
+            <span class="section-count">23 Trade Log CSVs</span>
+          </div>
+          <div class="download-grid">
+            <div class="dl-card" data-cat="TRADES" data-keywords="representative strategies trades detailed logs csv audit multi">
+              <div class="dl-card-header">
+                <div class="dl-icon">📜</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">704.4 KB</span></div>
+                  <h4>results/trades_detailed_logs/representative_strategies_trades.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Granular trade logs covering fast, medium, and slow EMA strategies across all 4 logic architectures.</p>
+              <div class="dl-card-footer">
+                <a href="results/trades_detailed_logs/representative_strategies_trades.csv" download="representative_strategies_trades.csv" class="dl-btn primary">Download Multi-Strategy Trades CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TRADES" data-keywords="ema cross sar 208 224 champion trade log csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">⚡</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">1.3 KB</span></div>
+                  <h4>results/trades/EMA_CROSS_SAR_208_224.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Trade execution logs for Champion Base SAR model (EMA 208, 224: +102.39% return).</p>
+              <div class="dl-card-footer">
+                <a href="results/trades/EMA_CROSS_SAR_208_224.csv" download="EMA_CROSS_SAR_208_224.csv" class="dl-btn primary">Download SAR 208/224 Trades CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TRADES" data-keywords="ema cross long only 208 224 trades log csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">🟢</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">690 B</span></div>
+                  <h4>results/trades/EMA_CROSS_LONG_ONLY_208_224.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Trade execution logs for Champion Long-Only Strategy (+54.12% return).</p>
+              <div class="dl-card-footer">
+                <a href="results/trades/EMA_CROSS_LONG_ONLY_208_224.csv" download="EMA_CROSS_LONG_ONLY_208_224.csv" class="dl-btn primary">Download Long-Only 208/224 CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TRADES" data-keywords="ema cross sar 12 26 classic macd trades log csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">📊</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">15.0 KB</span></div>
+                  <h4>results/trades/EMA_CROSS_SAR_12_26.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Trade logs for standard 12/26 MACD EMA parameter pair under SAR execution.</p>
+              <div class="dl-card-footer">
+                <a href="results/trades/EMA_CROSS_SAR_12_26.csv" download="EMA_CROSS_SAR_12_26.csv" class="dl-btn secondary">Download SAR 12/26 Trades CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TRADES" data-keywords="ema cross long only 12 26 trades log csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">🟢</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">7.5 KB</span></div>
+                  <h4>results/trades/EMA_CROSS_LONG_ONLY_12_26.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Trade logs for standard 12/26 MACD EMA parameter pair under Long-Only execution.</p>
+              <div class="dl-card-footer">
+                <a href="results/trades/EMA_CROSS_LONG_ONLY_12_26.csv" download="EMA_CROSS_LONG_ONLY_12_26.csv" class="dl-btn secondary">Download Long 12/26 Trades CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TRADES" data-keywords="ema cross sar 50 200 classic golden cross trades csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">🏆</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">3.4 KB</span></div>
+                  <h4>results/trades/EMA_CROSS_SAR_50_200.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Trade logs for the institutional 50/200 Golden Cross baseline model under SAR execution.</p>
+              <div class="dl-card-footer">
+                <a href="results/trades/EMA_CROSS_SAR_50_200.csv" download="EMA_CROSS_SAR_50_200.csv" class="dl-btn secondary">Download SAR 50/200 Trades CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TRADES" data-keywords="ema cross long only 50 200 trades csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">🟢</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">1.7 KB</span></div>
+                  <h4>results/trades/EMA_CROSS_LONG_ONLY_50_200.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Trade logs for the institutional 50/200 Golden Cross baseline model under Long-Only execution.</p>
+              <div class="dl-card-footer">
+                <a href="results/trades/EMA_CROSS_LONG_ONLY_50_200.csv" download="EMA_CROSS_LONG_ONLY_50_200.csv" class="dl-btn secondary">Download Long 50/200 Trades CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TRADES" data-keywords="ema cross sar 5 15 scalping fast trades csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">⚡</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">29.4 KB</span></div>
+                  <h4>results/trades/EMA_CROSS_SAR_5_15.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Trade logs for fast high-frequency 5/15 EMA crossover scalping model.</p>
+              <div class="dl-card-footer">
+                <a href="results/trades/EMA_CROSS_SAR_5_15.csv" download="EMA_CROSS_SAR_5_15.csv" class="dl-btn secondary">Download SAR 5/15 Trades CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TRADES" data-keywords="ema cross long only 5 15 trades csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">🟢</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">14.6 KB</span></div>
+                  <h4>results/trades/EMA_CROSS_LONG_ONLY_5_15.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Trade logs for 5/15 EMA crossover under Long-Only execution.</p>
+              <div class="dl-card-footer">
+                <a href="results/trades/EMA_CROSS_LONG_ONLY_5_15.csv" download="EMA_CROSS_LONG_ONLY_5_15.csv" class="dl-btn secondary">Download Long 5/15 Trades CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TRADES" data-keywords="ema cross sar 9 21 classic swing trades csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">⚡</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">19.2 KB</span></div>
+                  <h4>results/trades/EMA_CROSS_SAR_9_21.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Trade execution logs for classic 9/21 EMA crossover under SAR rules.</p>
+              <div class="dl-card-footer">
+                <a href="results/trades/EMA_CROSS_SAR_9_21.csv" download="EMA_CROSS_SAR_9_21.csv" class="dl-btn secondary">Download SAR 9/21 Trades CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TRADES" data-keywords="ema cross long only 9 21 trades csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">🟢</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">9.6 KB</span></div>
+                  <h4>results/trades/EMA_CROSS_LONG_ONLY_9_21.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Trade execution logs for classic 9/21 EMA crossover under Long-Only execution.</p>
+              <div class="dl-card-footer">
+                <a href="results/trades/EMA_CROSS_LONG_ONLY_9_21.csv" download="EMA_CROSS_LONG_ONLY_9_21.csv" class="dl-btn secondary">Download Long 9/21 Trades CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TRADES" data-keywords="price ema sar 10 none fast scalping trades csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">🎯</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">82.5 KB</span></div>
+                  <h4>results/trades/PRICE_EMA_SAR_10_None.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Trade execution logs for 10-period Single-EMA price cross under SAR rules.</p>
+              <div class="dl-card-footer">
+                <a href="results/trades/PRICE_EMA_SAR_10_None.csv" download="PRICE_EMA_SAR_10_None.csv" class="dl-btn secondary">Download Price SAR 10 CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TRADES" data-keywords="price ema long only 10 none trades csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">🔵</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">41.0 KB</span></div>
+                  <h4>results/trades/PRICE_EMA_LONG_ONLY_10_None.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Trade execution logs for 10-period Single-EMA price cross under Long-Only execution.</p>
+              <div class="dl-card-footer">
+                <a href="results/trades/PRICE_EMA_LONG_ONLY_10_None.csv" download="PRICE_EMA_LONG_ONLY_10_None.csv" class="dl-btn secondary">Download Price Long 10 CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TRADES" data-keywords="price ema long only 20 none trades csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">🔵</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">29.1 KB</span></div>
+                  <h4>results/trades/PRICE_EMA_LONG_ONLY_20_None.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Trade execution logs for 20-period Single-EMA price cross under Long-Only execution.</p>
+              <div class="dl-card-footer">
+                <a href="results/trades/PRICE_EMA_LONG_ONLY_20_None.csv" download="PRICE_EMA_LONG_ONLY_20_None.csv" class="dl-btn secondary">Download Price Long 20 CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TRADES" data-keywords="price ema long only 50 none trades csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">🔵</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">17.3 KB</span></div>
+                  <h4>results/trades/PRICE_EMA_LONG_ONLY_50_None.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Trade execution logs for 50-period Single-EMA price cross under Long-Only execution.</p>
+              <div class="dl-card-footer">
+                <a href="results/trades/PRICE_EMA_LONG_ONLY_50_None.csv" download="PRICE_EMA_LONG_ONLY_50_None.csv" class="dl-btn secondary">Download Price Long 50 CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TRADES" data-keywords="price ema long only 100 none trades csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">🔵</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">10.7 KB</span></div>
+                  <h4>results/trades/PRICE_EMA_LONG_ONLY_100_None.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Trade execution logs for 100-period Single-EMA price cross under Long-Only execution.</p>
+              <div class="dl-card-footer">
+                <a href="results/trades/PRICE_EMA_LONG_ONLY_100_None.csv" download="PRICE_EMA_LONG_ONLY_100_None.csv" class="dl-btn secondary">Download Price Long 100 CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TRADES" data-keywords="price ema long only 200 none trades csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">🔵</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">7.9 KB</span></div>
+                  <h4>results/trades/PRICE_EMA_LONG_ONLY_200_None.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Trade execution logs for 200-period Single-EMA price cross under Long-Only execution.</p>
+              <div class="dl-card-footer">
+                <a href="results/trades/PRICE_EMA_LONG_ONLY_200_None.csv" download="PRICE_EMA_LONG_ONLY_200_None.csv" class="dl-btn secondary">Download Price Long 200 CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TRADES" data-keywords="price ema sar 82 none trades log single ema">
+              <div class="dl-card-header">
+                <div class="dl-icon">🎯</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">23.2 KB</span></div>
+                  <h4>results/trades/PRICE_EMA_SAR_82_None.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Trade execution logs for Top Single-EMA Price SAR model (EMA 82: +95.6% return).</p>
+              <div class="dl-card-footer">
+                <a href="results/trades/PRICE_EMA_SAR_82_None.csv" download="PRICE_EMA_SAR_82_None.csv" class="dl-btn primary">Download Price SAR 82 Trades CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TRADES" data-keywords="price ema long only 82 none trades log single ema">
+              <div class="dl-card-header">
+                <div class="dl-icon">🔵</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">11.5 KB</span></div>
+                  <h4>results/trades/PRICE_EMA_LONG_ONLY_82_None.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Trade execution logs for Single-EMA Price Long-Only model (EMA 82).</p>
+              <div class="dl-card-footer">
+                <a href="results/trades/PRICE_EMA_LONG_ONLY_82_None.csv" download="PRICE_EMA_LONG_ONLY_82_None.csv" class="dl-btn primary">Download Price Long 82 Trades CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TRADES" data-keywords="price ema sar 10 20 50 100 200 none trades csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">📊</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">57.3 KB</span></div>
+                  <h4>results/trades/PRICE_EMA_SAR_20_None.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Trade execution logs for 20-period EMA price crossover under SAR rules.</p>
+              <div class="dl-card-footer">
+                <a href="results/trades/PRICE_EMA_SAR_20_None.csv" download="PRICE_EMA_SAR_20_None.csv" class="dl-btn secondary">Download Price SAR 20 CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TRADES" data-keywords="price ema sar 50 none trades csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">📊</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">33.9 KB</span></div>
+                  <h4>results/trades/PRICE_EMA_SAR_50_None.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Trade execution logs for 50-period EMA price crossover under SAR rules.</p>
+              <div class="dl-card-footer">
+                <a href="results/trades/PRICE_EMA_SAR_50_None.csv" download="PRICE_EMA_SAR_50_None.csv" class="dl-btn secondary">Download Price SAR 50 CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TRADES" data-keywords="price ema sar 100 none trades csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">📊</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">20.9 KB</span></div>
+                  <h4>results/trades/PRICE_EMA_SAR_100_None.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Trade execution logs for 100-period EMA price crossover under SAR rules.</p>
+              <div class="dl-card-footer">
+                <a href="results/trades/PRICE_EMA_SAR_100_None.csv" download="PRICE_EMA_SAR_100_None.csv" class="dl-btn secondary">Download Price SAR 100 CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TRADES" data-keywords="price ema sar 200 none trades csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">📊</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">15.5 KB</span></div>
+                  <h4>results/trades/PRICE_EMA_SAR_200_None.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Trade execution logs for 200-period EMA price crossover under SAR rules.</p>
+              <div class="dl-card-footer">
+                <a href="results/trades/PRICE_EMA_SAR_200_None.csv" download="PRICE_EMA_SAR_200_None.csv" class="dl-btn secondary">Download Price SAR 200 CSV ⬇</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DOWNLOAD CATEGORY 5: RAW MARKET DATA & SQLITE DATABASE -->
+        <div class="download-section" data-section="DATA" style="margin-top: 28px;">
+          <div class="section-title-bar">
+            <span class="section-badge">MARKET DATA</span>
+            <h3>5. Historical Candle Data &amp; SQLite Databases</h3>
+            <span class="section-count">5 Market Data Files</span>
+          </div>
+          <div class="download-grid">
+            <div class="dl-card" data-cat="DATA" data-keywords="eth market data sqlite database raw 5m 1h candles 22mb master original">
+              <div class="dl-card-header">
+                <div class="dl-icon">🛢️</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge" style="background:rgba(150,0,255,0.15); color:#b84dff; border:1px solid rgba(150,0,255,0.3);">SQLITE</span><span class="size-badge">22.13 MB</span></div>
+                  <h4>eth_market_data.sqlite</h4>
+                </div>
+              </div>
+              <p class="dl-desc">The master original SQLite database containing raw 5-minute candle history (`candles_5m`: 67,212 bars), strategy metrics (`strategy_summary_metrics`: 60,762 rows), and trade logs.</p>
+              <div class="dl-card-footer">
+                <a href="eth_market_data.sqlite" download="eth_market_data.sqlite" class="dl-btn primary">Download SQLite Database (22 MB) ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="DATA" data-keywords="eth 2026 5m csv 5 minute raw candles ticks 67212 rows original source dataset">
+              <div class="dl-card-header">
+                <div class="dl-icon">⏱️</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">4.79 MB</span></div>
+                  <h4>eth_2026_5m.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">The complete original high-resolution dataset of 67,212 5-minute raw OHLCV crypto candles with UTC timestamps spanning Jan 01 &rarr; Aug 22, 2026.</p>
+              <div class="dl-card-footer">
+                <a href="eth_2026_5m.csv" download="eth_2026_5m.csv" class="dl-btn primary">Download Raw 5M OHLCV CSV (4.8 MB) ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="DATA" data-keywords="eth 2026 1h csv hourly candles ohlcv market dataset 5601 bars">
+              <div class="dl-card-header">
+                <div class="dl-icon">🕯️</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">862.8 KB</span></div>
+                  <h4>eth_2026_1h.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Complete 5,601 1-Hour OHLCV historical candle dataset with volume resampled directly from the 5-minute seed data for simulation engines.</p>
+              <div class="dl-card-footer">
+                <a href="eth_2026_1h.csv" download="eth_2026_1h.csv" class="dl-btn primary">Download 1H OHLCV CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="DATA" data-keywords="web data json package terminal full memory database">
+              <div class="dl-card-header">
+                <div class="dl-icon">📦</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge json">JSON</span><span class="size-badge">11.87 MB</span></div>
+                  <h4>web_data.json</h4>
+                </div>
+              </div>
+              <p class="dl-desc">The complete terminal JSON dataset with full multi-dimensional strategy mappings, monthly grids, and equity curves.</p>
+              <div class="dl-card-footer">
+                <a href="web_data.json" download="web_data.json" class="dl-btn secondary">Download web_data.json (12 MB) ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="DATA" data-keywords="data js bundled javascript database">
+              <div class="dl-card-header">
+                <div class="dl-icon">📜</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge" style="background:rgba(255,200,0,0.15); color:#ffd000; border:1px solid rgba(255,200,0,0.3);">JS</span><span class="size-badge">11.87 MB</span></div>
+                  <h4>data.js</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Pre-compiled standalone JavaScript data bundle for zero-server offline file:/// opening support.</p>
+              <div class="dl-card-footer">
+                <a href="data.js" download="data.js" class="dl-btn secondary">Download data.js (12 MB) ⬇</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DOWNLOAD CATEGORY 6: HIGH-RESOLUTION VISUAL CHARTS & PLOTS -->
+        <div class="download-section" data-section="CHARTS" style="margin-top: 28px;">
+          <div class="section-title-bar">
+            <span class="section-badge">ANALYTICAL GRAPHICS</span>
+            <h3>6. High-Resolution Visual Analytics &amp; Charts</h3>
+            <span class="section-count">4 Image Assets</span>
+          </div>
+          <div class="download-grid">
+            <div class="dl-card" data-cat="CHARTS" data-keywords="top equity curves png high res multi strategy">
+              <div class="dl-card-header">
+                <div class="dl-icon">📈</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge png">PNG</span><span class="size-badge">488.1 KB</span></div>
+                  <h4>charts/top_equity_curves.png</h4>
+                </div>
+              </div>
+              <p class="dl-desc">High-resolution equity curve chart comparing top strategy trajectories vs ETH Buy &amp; Hold benchmark.</p>
+              <div class="dl-card-footer">
+                <a href="charts/top_equity_curves.png" download="top_equity_curves.png" class="dl-btn primary">Download Equity Chart PNG ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="CHARTS" data-keywords="monthly returns heatmap png visual seasonality">
+              <div class="dl-card-header">
+                <div class="dl-icon">🗺️</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge png">PNG</span><span class="size-badge">492.2 KB</span></div>
+                  <h4>charts/monthly_returns_heatmap.png</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Visual month-by-month return heatmap showing profitability distribution across 2026 market cycles.</p>
+              <div class="dl-card-footer">
+                <a href="charts/monthly_returns_heatmap.png" download="monthly_returns_heatmap.png" class="dl-btn primary">Download Heatmap PNG ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="CHARTS" data-keywords="ema heatmap returns png parameter topology 2d">
+              <div class="dl-card-header">
+                <div class="dl-icon">🎨</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge png">PNG</span><span class="size-badge">254.9 KB</span></div>
+                  <h4>charts/ema_heatmap_returns.png</h4>
+                </div>
+              </div>
+              <p class="dl-desc">2D Parameter topology heatmap mapping Fast EMA (5–250) vs Slow EMA (5–250) total net return distribution.</p>
+              <div class="dl-card-footer">
+                <a href="charts/ema_heatmap_returns.png" download="ema_heatmap_returns.png" class="dl-btn primary">Download Returns Topology PNG ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="CHARTS" data-keywords="ema heatmap sharpe png parameter sharpe topology">
+              <div class="dl-card-header">
+                <div class="dl-icon">✨</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge png">PNG</span><span class="size-badge">269.6 KB</span></div>
+                  <h4>charts/ema_heatmap_sharpe.png</h4>
+                </div>
+              </div>
+              <p class="dl-desc">2D Parameter topology heatmap mapping Sharpe ratio resilience across the entire brute-force grid.</p>
+              <div class="dl-card-footer">
+                <a href="charts/ema_heatmap_sharpe.png" download="ema_heatmap_sharpe.png" class="dl-btn primary">Download Sharpe Topology PNG ⬇</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DOWNLOAD CATEGORY 7: PYTHON QUANT BACKTEST ENGINES -->
+        <div class="download-section" data-section="SCRIPTS" style="margin-top: 28px;">
+          <div class="section-title-bar">
+            <span class="section-badge">QUANT CODE</span>
+            <h3>7. Python Backtest Engines &amp; Simulation Scripts</h3>
+            <span class="section-count">7 Source Scripts</span>
+          </div>
+          <div class="download-grid">
+            <div class="dl-card" data-cat="SCRIPTS" data-keywords="unified trade engine python script core simulator">
+              <div class="dl-card-header">
+                <div class="dl-icon">⚙️</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge" style="background:rgba(0,180,255,0.15); color:#00b4ff; border:1px solid rgba(0,180,255,0.3);">PYTHON</span><span class="size-badge">21.9 KB</span></div>
+                  <h4>unified_trade_engine.py</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Production-grade core execution engine supporting baseline single-entry, series reinvestment, Sortino, Calmar, and scipy vectorization.</p>
+              <div class="dl-card-footer">
+                <a href="unified_trade_engine.py" download="unified_trade_engine.py" class="dl-btn primary">Download Trade Engine Script ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="SCRIPTS" data-keywords="pyramid backtest v2 python script reinvestment">
+              <div class="dl-card-header">
+                <div class="dl-icon">📐</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge" style="background:rgba(0,180,255,0.15); color:#00b4ff; border:1px solid rgba(0,180,255,0.3);">PYTHON</span><span class="size-badge">22.1 KB</span></div>
+                  <h4>pyramid_backtest_v2.py</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Comprehensive brute-force script for testing 6 pyramiding factors across all X% allocations on top EMA candidate models.</p>
+              <div class="dl-card-footer">
+                <a href="pyramid_backtest_v2.py" download="pyramid_backtest_v2.py" class="dl-btn primary">Download Pyramid Script ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="SCRIPTS" data-keywords="risk management backtester python script sl tp tsl">
+              <div class="dl-card-header">
+                <div class="dl-icon">🛡️</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge" style="background:rgba(0,180,255,0.15); color:#00b4ff; border:1px solid rgba(0,180,255,0.3);">PYTHON</span><span class="size-badge">20.9 KB</span></div>
+                  <h4>risk_management_backtester.py</h4>
+                </div>
+              </div>
+              <p class="dl-desc">High-throughput risk simulator evaluating dual re-entry modes, trailing stop losses, take profits, and callback triggers.</p>
+              <div class="dl-card-footer">
+                <a href="risk_management_backtester.py" download="risk_management_backtester.py" class="dl-btn primary">Download Risk Backtester Script ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="SCRIPTS" data-keywords="export web data python exporter feature builder">
+              <div class="dl-card-header">
+                <div class="dl-icon">📦</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge" style="background:rgba(0,180,255,0.15); color:#00b4ff; border:1px solid rgba(0,180,255,0.3);">PYTHON</span><span class="size-badge">31.7 KB</span></div>
+                  <h4>export_web_data.py</h4>
+                </div>
+              </div>
+              <p class="dl-desc">The master 24-feature data compilation pipeline generating `web_data.json` and `data.js`.</p>
+              <div class="dl-card-footer">
+                <a href="export_web_data.py" download="export_web_data.py" class="dl-btn secondary">Download Exporter Script ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="SCRIPTS" data-keywords="unified multilogic backtester python script">
+              <div class="dl-card-header">
+                <div class="dl-icon">🔄</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge" style="background:rgba(0,180,255,0.15); color:#00b4ff; border:1px solid rgba(0,180,255,0.3);">PYTHON</span><span class="size-badge">13.0 KB</span></div>
+                  <h4>unified_multilogic_backtester.py</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Multi-architecture batch backtester evaluating SAR and Long-Only execution in parallel.</p>
+              <div class="dl-card-footer">
+                <a href="unified_multilogic_backtester.py" download="unified_multilogic_backtester.py" class="dl-btn secondary">Download Multi-Logic Script ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="SCRIPTS" data-keywords="advanced backtest ema python script">
+              <div class="dl-card-header">
+                <div class="dl-icon">⚡</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge" style="background:rgba(0,180,255,0.15); color:#00b4ff; border:1px solid rgba(0,180,255,0.3);">PYTHON</span><span class="size-badge">15.1 KB</span></div>
+                  <h4>advanced_backtest_ema.py</h4>
+                </div>
+              </div>
+              <p class="dl-desc">High-performance EMA brute-force calculation script with multiprocessing grid evaluation.</p>
+              <div class="dl-card-footer">
+                <a href="advanced_backtest_ema.py" download="advanced_backtest_ema.py" class="dl-btn secondary">Download Advanced Backtest Script ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="SCRIPTS" data-keywords="eth database manager python sqlite builder">
+              <div class="dl-card-header">
+                <div class="dl-icon">🗃️</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge" style="background:rgba(0,180,255,0.15); color:#00b4ff; border:1px solid rgba(0,180,255,0.3);">PYTHON</span><span class="size-badge">4.8 KB</span></div>
+                  <h4>eth_database_manager.py</h4>
+                </div>
+              </div>
+              <p class="dl-desc">SQLite database utility for fetching, ingesting, and resampling 5-minute candles into clean 1-hour bars.</p>
+              <div class="dl-card-footer">
+                <a href="eth_database_manager.py" download="eth_database_manager.py" class="dl-btn secondary">Download DB Manager Script ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="SCRIPTS" data-keywords="backtest final python standalone script">
+              <div class="dl-card-header">
+                <div class="dl-icon">🐍</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge" style="background:rgba(0,180,255,0.15); color:#00b4ff; border:1px solid rgba(0,180,255,0.3);">PYTHON</span><span class="size-badge">11.9 KB</span></div>
+                  <h4>backtest_final.py</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Standalone benchmark execution script evaluating final parameters and outputting consolidated trade CSVs.</p>
+              <div class="dl-card-footer">
+                <a href="backtest_final.py" download="backtest_final.py" class="dl-btn secondary">Download Backtest Final Script ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="SCRIPTS" data-keywords="backtest ema python baseline runner">
+              <div class="dl-card-header">
+                <div class="dl-icon">🐍</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge" style="background:rgba(0,180,255,0.15); color:#00b4ff; border:1px solid rgba(0,180,255,0.3);">PYTHON</span><span class="size-badge">13.4 KB</span></div>
+                  <h4>backtest_ema.py</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Core EMA crossover simulation script with zero lookahead intra-candle evaluation.</p>
+              <div class="dl-card-footer">
+                <a href="backtest_ema.py" download="backtest_ema.py" class="dl-btn secondary">Download Backtest EMA Script ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="SCRIPTS" data-keywords="pyramid backtest v1 python script">
+              <div class="dl-card-header">
+                <div class="dl-icon">🐍</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge" style="background:rgba(0,180,255,0.15); color:#00b4ff; border:1px solid rgba(0,180,255,0.3);">PYTHON</span><span class="size-badge">17.2 KB</span></div>
+                  <h4>pyramid_backtest.py</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Initial version of the pyramiding factor simulation script evaluating basic reinvestment sweeps.</p>
+              <div class="dl-card-footer">
+                <a href="pyramid_backtest.py" download="pyramid_backtest.py" class="dl-btn secondary">Download Pyramid v1 Script ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="SCRIPTS" data-keywords="pyramid analysis python script helper">
+              <div class="dl-card-header">
+                <div class="dl-icon">📊</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge" style="background:rgba(0,180,255,0.15); color:#00b4ff; border:1px solid rgba(0,180,255,0.3);">PYTHON</span><span class="size-badge">1.5 KB</span></div>
+                  <h4>results/pyramid_analysis.py</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Helper analysis script for aggregating factor performance and selecting best settings per pair.</p>
+              <div class="dl-card-footer">
+                <a href="results/pyramid_analysis.py" download="pyramid_analysis.py" class="dl-btn secondary">Download Pyramid Analysis Script ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="SCRIPTS" data-keywords="print summary python cli utility">
+              <div class="dl-card-header">
+                <div class="dl-icon">🖨️</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge" style="background:rgba(0,180,255,0.15); color:#00b4ff; border:1px solid rgba(0,180,255,0.3);">PYTHON</span><span class="size-badge">852 B</span></div>
+                  <h4>results/print_summary.py</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Command-line terminal utility for printing formatted backtest summary rankings to stdout.</p>
+              <div class="dl-card-footer">
+                <a href="results/print_summary.py" download="print_summary.py" class="dl-btn secondary">Download Print Summary Script ⬇</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DOWNLOAD CATEGORY 8: TEST SUITES & SYSTEM DOCUMENTATION -->
+        <div class="download-section" data-section="TESTS" style="margin-top: 28px;">
+          <div class="section-title-bar">
+            <span class="section-badge">TESTS &amp; DOCS</span>
+            <h3>8. Automated Test Suites &amp; Project Documentation</h3>
+            <span class="section-count">5 Files</span>
+          </div>
+          <div class="download-grid">
+            <div class="dl-card" data-cat="TESTS" data-keywords="test quant system python unit regression tests">
+              <div class="dl-card-header">
+                <div class="dl-icon">🧪</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge" style="background:rgba(0,255,136,0.15); color:#00ff88; border:1px solid rgba(0,255,136,0.3);">TEST</span><span class="size-badge">10.6 KB</span></div>
+                  <h4>tests/test_quant_system.py</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Automated unit and regression test suite verifying double fees, short PnL, cash guard, and Sortino calculations.</p>
+              <div class="dl-card-footer">
+                <a href="tests/test_quant_system.py" download="test_quant_system.py" class="dl-btn primary">Download Quant Test Suite ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TESTS" data-keywords="test frontend logic python verification suite">
+              <div class="dl-card-header">
+                <div class="dl-icon">🧪</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge" style="background:rgba(0,255,136,0.15); color:#00ff88; border:1px solid rgba(0,255,136,0.3);">TEST</span><span class="size-badge">6.5 KB</span></div>
+                  <h4>tests/test_frontend_logic.py</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Frontend logic test suite verifying X-pills, modal naming, sign prefixes, and debouncing.</p>
+              <div class="dl-card-footer">
+                <a href="tests/test_frontend_logic.py" download="test_frontend_logic.py" class="dl-btn primary">Download Frontend Test Suite ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TESTS" data-keywords="run all tests python test runner script">
+              <div class="dl-card-header">
+                <div class="dl-icon">🚀</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge" style="background:rgba(0,255,136,0.15); color:#00ff88; border:1px solid rgba(0,255,136,0.3);">TEST</span><span class="size-badge">967 B</span></div>
+                  <h4>run_all_tests.py</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Master test runner executing all backend and frontend validation suites with a single command.</p>
+              <div class="dl-card-footer">
+                <a href="run_all_tests.py" download="run_all_tests.py" class="dl-btn secondary">Download Test Runner Script ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TESTS" data-keywords="push to github python git sync script">
+              <div class="dl-card-header">
+                <div class="dl-icon">🐙</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge" style="background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.25);">GIT</span><span class="size-badge">1.3 KB</span></div>
+                  <h4>push_to_github.py</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Git synchronization script for committing and pushing repo updates to GitHub remote.</p>
+              <div class="dl-card-footer">
+                <a href="push_to_github.py" download="push_to_github.py" class="dl-btn secondary">Download Git Push Script ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TESTS" data-keywords="readme markdown documentation project overview">
+              <div class="dl-card-header">
+                <div class="dl-icon">📖</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge" style="background:rgba(255,184,0,0.15); color:#ffb800; border:1px solid rgba(255,184,0,0.3);">DOC</span><span class="size-badge">3.2 KB</span></div>
+                  <h4>README.md</h4>
+                </div>
+              </div>
+              <p class="dl-desc">The official terminal architecture documentation, quickstart guide, and backtest methodology specification.</p>
+              <div class="dl-card-footer">
+                <a href="README.md" download="README.md" class="dl-btn secondary">Download README Documentation ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TESTS" data-keywords="app js client side terminal application engine">
+              <div class="dl-card-header">
+                <div class="dl-icon">💻</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge" style="background:rgba(255,200,0,0.15); color:#ffd000; border:1px solid rgba(255,200,0,0.3);">JS</span><span class="size-badge">136 KB</span></div>
+                  <h4>app.js</h4>
+                </div>
+              </div>
+              <p class="dl-desc">The complete client-side frontend application controller, Canvas renderers, and state manager.</p>
+              <div class="dl-card-footer">
+                <a href="app.js" download="app.js" class="dl-btn secondary">Download app.js Script ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TESTS" data-keywords="index css glassmorphism stylesheet design system">
+              <div class="dl-card-header">
+                <div class="dl-icon">🎨</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge" style="background:rgba(0,240,255,0.15); color:#00f0ff; border:1px solid rgba(0,240,255,0.3);">CSS</span><span class="size-badge">37 KB</span></div>
+                  <h4>index.css</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Production glassmorphic dark theme design system and mobile responsive stylesheet.</p>
+              <div class="dl-card-footer">
+                <a href="index.css" download="index.css" class="dl-btn secondary">Download index.css Stylesheet ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TESTS" data-keywords="explorer html standalone hierarchy viewer tool">
+              <div class="dl-card-header">
+                <div class="dl-icon">🌐</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge" style="background:rgba(255,0,122,0.15); color:#ff007a; border:1px solid rgba(255,0,122,0.3);">HTML</span><span class="size-badge">5.0 KB</span></div>
+                  <h4>explorer.html</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Standalone lightweight strategy explorer tool for offline inspection.</p>
+              <div class="dl-card-footer">
+                <a href="explorer.html" download="explorer.html" class="dl-btn secondary">Download explorer.html Tool ⬇</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DYNAMIC EXPORTERS CARD -->
+        <div class="card" style="margin-top: 28px; background: rgba(0, 240, 255, 0.03); border: 1px solid rgba(0, 240, 255, 0.2);">
+          <div class="card-header">
+            <div>
+              <h3>⚡ Live Dynamic Memory Exporters</h3>
+              <p class="card-desc">Generate customized, filtered CSV exports based on your current terminal session state in real-time.</p>
+            </div>
+            <span class="badge" style="background: rgba(0,255,136,0.15); color: #00ff88; border-color: rgba(0,255,136,0.3);">Real-Time Memory Exporters</span>
+          </div>
+          <div class="dynamic-export-buttons-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 14px;">
+            <button class="dl-dynamic-btn" onclick="exportActiveTableCSV()">
+              <span class="btn-icon">📋</span>
+              <div class="btn-info">
+                <strong>Export Active Table View</strong>
+                <small>Respects active filters &amp; search</small>
+              </div>
+              <span class="arrow">&rarr;</span>
+            </button>
+            <button class="dl-dynamic-btn" onclick="downloadAllSummaryData()">
+              <span class="btn-icon">⚡</span>
+              <div class="btn-info">
+                <strong>Export Top 50 JSON Bundle</strong>
+                <small>Full metrics for top strategies</small>
+              </div>
+              <span class="arrow">&rarr;</span>
+            </button>
+            <button class="dl-dynamic-btn" onclick="downloadTerminalStateJSON()">
+              <span class="btn-icon">💾</span>
+              <div class="btn-info">
+                <strong>Export State Snapshot</strong>
+                <small>Download current session config</small>
+              </div>
+              <span class="arrow">&rarr;</span>
+            </button>
+          </div>
+        </div>
+      </div>
     </main>
   </div>
 
@@ -1242,6 +2766,9 @@
       </div>
     </div>
   </div>
+
+  <!-- Toast notification for export feedback -->
+  <div id="export-toast" class="export-toast"></div>
 
   <script src="data.js"></script>
   <script src="app.js"></script>
