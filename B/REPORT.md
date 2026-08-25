@@ -4,6 +4,7 @@
 **Asset:** ETH/USDT Perpetual Futures  
 **Benchmark Asset Return:** ETH Spot **-47.10%** (Severe Bear Regime)  
 **Initial Capital:** $10,000.00 | **Execution Friction:** 0.10% Round-Trip Taker Fee + 1-Bar Lag  
+**Interactive Web Dashboard:** [visual_report.html](visual_report.html)  
 
 ---
 
@@ -17,7 +18,26 @@ The Folder B quantitative research engine evaluates perpetual futures strategies
 
 ---
 
-## 2. Master Leaderboard: Top 10 Strategies Overall
+## 2. Visual Analytics & Equity Growth Tear-Sheets
+
+### 2.1 Top Equity Growth vs ETH Benchmark (-47.10%)
+![Top Equity Curves](charts/top_equity_curves.png)
+
+### 2.2 Multi-Timeframe Parameter Space (Return % vs Max Drawdown %)
+![Timeframe Parameter Space](charts/timeframe_risk_return.png)
+
+### 2.3 5-Minute Brute-Force Parameter Heatmap (5 to 200 EMA)
+![EMA Heatmap Grid](charts/ema_heatmap_grid.png)
+
+### 2.4 Monthly Return Heatmap Matrix (Jan - Jun 2026)
+![Monthly Performance Matrix](charts/monthly_performance_matrix.png)
+
+### 2.5 Underwater Drawdown Profiles (%)
+![Drawdown Underwater Curves](charts/drawdown_underwater_curves.png)
+
+---
+
+## 3. Master Leaderboard: Top 10 Strategies Overall
 
 | Strategy                 | Timeframe   | Method        |   Total_Return_Pct |   Max_Drawdown_Pct |   Sharpe_Ratio |   Sortino_Ratio |   Win_Rate_Pct |   Profit_Factor |   Total_Trades |   Composite_Score |
 |:-------------------------|:------------|:--------------|-------------------:|-------------------:|---------------:|----------------:|---------------:|----------------:|---------------:|------------------:|
@@ -34,9 +54,26 @@ The Folder B quantitative research engine evaluates perpetual futures strategies
 
 ---
 
-## 3. Performance by Timeframe Resolution
+## 4. Top 10 Strategies from Full Brute-Force Grid Sweep (2,340 Setups)
 
-### 3.1 1-Hour Timeframe (Macro Trend Following)
+| Strategy           | Timeframe   |   Fast_EMA |   Slow_EMA |   Total_Return_Pct |   Max_Drawdown_Pct |   Sharpe_Ratio |   Sortino_Ratio |   Composite_Score |   Win_Rate_Pct |   Profit_Factor |   Total_Trades |
+|:-------------------|:------------|-----------:|-----------:|-------------------:|-------------------:|---------------:|----------------:|------------------:|---------------:|----------------:|---------------:|
+| EMA_SAR_70_190_5m  | 5m          |         70 |        190 |              56.75 |              20.99 |           1.82 |            2.42 |              72.5 |           30.8 |            1.22 |            260 |
+| EMA_SAR_65_195_5m  | 5m          |         65 |        195 |              55.74 |              22.37 |           1.79 |            2.39 |              69.9 |           30.5 |            1.2  |            266 |
+| EMA_SAR_20_30_30m  | 30m         |         20 |         30 |              55.59 |              19.83 |           1.81 |            2.5  |              71.6 |           33.9 |            1.25 |            186 |
+| EMA_SAR_60_190_5m  | 5m          |         60 |        190 |              52.38 |              21.15 |           1.72 |            2.3  |              70.6 |           29.5 |            1.19 |            288 |
+| EMA_SAR_55_200_5m  | 5m          |         55 |        200 |              51.36 |              20.52 |           1.7  |            2.27 |              70.3 |           30   |            1.18 |            280 |
+| EMA_SAR_65_190_5m  | 5m          |         65 |        190 |              50.76 |              21.81 |           1.68 |            2.25 |              69.8 |           31.1 |            1.18 |            270 |
+| EMA_SAR_10_55_30m  | 30m         |         10 |         55 |              50.12 |              21.21 |           1.69 |            2.43 |              69.6 |           30.5 |            1.26 |            200 |
+| EMA_SAR_110_200_5m | 5m          |        110 |        200 |              49.97 |              21.63 |           1.67 |            2.2  |              68.5 |           33.7 |            1.22 |            178 |
+| EMA_SAR_70_185_5m  | 5m          |         70 |        185 |              49.5  |              21.66 |           1.65 |            2.21 |              69.5 |           31   |            1.19 |            258 |
+| EMA_SAR_55_195_5m  | 5m          |         55 |        195 |              48.48 |              20.64 |           1.63 |            2.18 |              67.4 |           28.6 |            1.17 |            294 |
+
+---
+
+## 5. Performance by Timeframe Resolution
+
+### 5.1 1-Hour Timeframe (Macro Trend Following)
 | Strategy                 | Timeframe   | Method        |   Total_Return_Pct |   Max_Drawdown_Pct |   Sharpe_Ratio |   Sortino_Ratio |   Win_Rate_Pct |   Profit_Factor |   Total_Trades |   Composite_Score |
 |:-------------------------|:------------|:--------------|-------------------:|-------------------:|---------------:|----------------:|---------------:|----------------:|---------------:|------------------:|
 | EMA_SAR_209_223_1h       | 1h          | Method 1: SAR |              50.01 |              22.26 |           1.95 |            2.7  |           50   |            3.3  |              8 |              90.9 |
@@ -47,7 +84,7 @@ The Folder B quantitative research engine evaluates perpetual futures strategies
 
 *Observation: 1-Hour resolution produces pristine macro signals with minimal trade friction (only 8-230 trades in 6 months) and max drawdowns contained under 23%.*
 
-### 3.2 30-Minute Timeframe (Swing Trading)
+### 5.2 30-Minute Timeframe (Swing Trading)
 | Strategy                  | Timeframe   | Method        |   Total_Return_Pct |   Max_Drawdown_Pct |   Sharpe_Ratio |   Sortino_Ratio |   Win_Rate_Pct |   Profit_Factor |   Total_Trades |   Composite_Score |
 |:--------------------------|:------------|:--------------|-------------------:|-------------------:|---------------:|----------------:|---------------:|----------------:|---------------:|------------------:|
 | EMA_SAR_12_26_30m         | 30m         | Method 1: SAR |              29.63 |              26.05 |           1.18 |            1.65 |           29   |            1.1  |            290 |              52.6 |
@@ -58,7 +95,7 @@ The Folder B quantitative research engine evaluates perpetual futures strategies
 
 *Observation: 30-Minute strategies like `EMA_SAR_12_26_30m` capture intermediate swings with +29.63% return and 290 trades.*
 
-### 3.3 5-Minute Timeframe (Intraday Momentum)
+### 5.3 5-Minute Timeframe (Intraday Momentum)
 | Strategy           | Timeframe   | Method        |   Total_Return_Pct |   Max_Drawdown_Pct |   Sharpe_Ratio |   Sortino_Ratio |   Win_Rate_Pct |   Profit_Factor |   Total_Trades |   Composite_Score |
 |:-------------------|:------------|:--------------|-------------------:|-------------------:|---------------:|----------------:|---------------:|----------------:|---------------:|------------------:|
 | EMA_SAR_100_200_5m | 5m          | Method 1: SAR |              34.25 |              25.55 |           1.29 |            1.71 |           32.5 |            1.15 |            194 |              60.7 |
@@ -71,7 +108,7 @@ The Folder B quantitative research engine evaluates perpetual futures strategies
 
 ---
 
-## 4. Methodology Breakdown
+## 6. Methodology Breakdown
 
 | Signal Generation Method | Best Timeframe | Top Return (%) | Avg Sharpe | Avg Win Rate (%) | Key Advantage |
 | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -81,7 +118,7 @@ The Folder B quantitative research engine evaluates perpetual futures strategies
 
 ---
 
-## 5. Monthly Return Distribution (Top Performer: `EMA_SAR_209_223_1h`)
+## 7. Monthly Return Distribution (Top Performer: `EMA_SAR_209_223_1h`)
 
 - **January 2026:** `12.69%`
 - **February 2026:** `13.82%`
@@ -93,7 +130,7 @@ The Folder B quantitative research engine evaluates perpetual futures strategies
 
 ---
 
-## 6. Execution & Risk Guidelines for Live Bot Implementation
+## 8. Execution & Risk Guidelines for Live Bot Implementation
 1. **Timeframe Selection**: Default to **1-Hour** or **30-Minute** bars for automated execution to minimize slippage, API latency sensitivity, and fee accumulation.
 2. **Fee Management**: Maintain VIP or maker tier where possible; taker fees at 0.10% RT represent up to 20-30% of gross profits on 5-Minute resolutions.
 3. **Risk Controls**: Implement maximum drawdown circuit breakers at 15% and enforce dynamic position sizing with volatility scaling.

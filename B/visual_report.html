@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ETH/USDT Quantitative Futures Strategy Report (Folder B) - H1 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0c10;
+            --bg-secondary: #12151c;
+            --bg-card: #161b22;
+            --border-color: #30363d;
+            --text-main: #f0f6fc;
+            --text-muted: #8b949e;
+            --accent-green: #38ef7d;
+            --accent-cyan: #00ffcc;
+            --accent-purple: #a371f7;
+            --accent-gold: #ffc107;
+            --accent-red: #ff4d4d;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 24px;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .badge {
+            background: rgba(0, 255, 204, 0.1);
+            color: var(--accent-cyan);
+            border: 1px solid rgba(0, 255, 204, 0.3);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        h1 { font-size: 2rem; font-weight: 800; background: linear-gradient(135deg, #fff, #8b949e); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .subtitle { color: var(--text-muted); font-size: 0.95rem; margin-top: 4px; }
+        .grid-kpi {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 35px;
+        }
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .card:hover { transform: translateY(-2px); border-color: rgba(0, 255, 204, 0.4); }
+        .card-label { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+        .card-val { font-size: 1.8rem; font-weight: 700; font-family: 'JetBrains Mono', monospace; margin: 8px 0; }
+        .card-sub { font-size: 0.8rem; color: var(--text-muted); }
+        .val-green { color: var(--accent-green); }
+        .val-cyan { color: var(--accent-cyan); }
+        .val-gold { color: var(--accent-gold); }
+        .val-red { color: var(--accent-red); }
+
+        .section-title { font-size: 1.4rem; font-weight: 700; margin: 40px 0 20px; color: var(--text-main); display: flex; align-items: center; gap: 10px; }
+        .section-title::before { content: ""; width: 4px; height: 20px; background: var(--accent-cyan); border-radius: 2px; }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(650px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+        .chart-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            overflow: hidden;
+        }
+        .chart-card h3 { font-size: 1.1rem; margin-bottom: 12px; color: var(--text-main); font-weight: 600; }
+        .chart-card img { width: 100%; height: auto; border-radius: 8px; display: block; border: 1px solid #21262d; }
+
+        .table-wrap {
+            overflow-x: auto;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin-bottom: 40px;
+        }
+        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; }
+        th { background: #12151c; padding: 14px 16px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.5px; border-bottom: 1px solid var(--border-color); }
+        td { padding: 14px 16px; border-bottom: 1px solid #21262d; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; }
+        tr:hover td { background: rgba(255, 255, 255, 0.02); }
+        
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div>
+                <span class="badge">Folder B Quantitative Suite</span>
+                <h1>ETH Perpetual Futures Strategy Report (H1 2026)</h1>
+                <p class="subtitle">Multi-Timeframe Evaluation (5m, 30m, 1h) | 2,340 Parameter Sweeps | 494,985 Trade Executions</p>
+            </div>
+            <div>
+                <a href="../A/index.html" class="badge" style="text-decoration:none; padding:8px 16px; border-color:var(--accent-purple); color:var(--accent-purple);">Switch to Terminal A &rarr;</a>
+            </div>
+        </header>
+
+        <!-- KPI Summary Cards -->
+        <div class="grid-kpi">
+            <div class="card">
+                <div class="card-label">Top Strategy Return</div>
+                <div class="card-val val-green">+56.75%</div>
+                <div class="card-sub">EMA_SAR_70_190_5m ($15,675.00)</div>
+            </div>
+            <div class="card">
+                <div class="card-label">Macro 1-Hour Alpha</div>
+                <div class="card-val val-cyan">+50.01%</div>
+                <div class="card-sub">EMA_SAR_209_223_1h (Sharpe 1.95)</div>
+            </div>
+            <div class="card">
+                <div class="card-label">Benchmark (ETH Spot)</div>
+                <div class="card-val val-red">-47.10%</div>
+                <div class="card-sub">Severe Bear Market Regime</div>
+            </div>
+            <div class="card">
+                <div class="card-label">Max Outperformance Alpha</div>
+                <div class="card-val val-gold">+103.85%</div>
+                <div class="card-sub">Relative to ETH Spot Buy & Hold</div>
+            </div>
+        </div>
+
+        <!-- Visual Analytics Tear-Sheets -->
+        <h2 class="section-title">Visual Research Charts & Tear-Sheets</h2>
+        <div class="charts-grid">
+            <div class="chart-card" style="grid-column: 1 / -1;">
+                <h3>1. Top Equity Growth vs ETH Spot Benchmark (-47.10%)</h3>
+                <img src="charts/top_equity_curves.png" alt="Top Equity Curves">
+            </div>
+            <div class="chart-card">
+                <h3>2. Multi-Timeframe Parameter Space (Return vs Max Drawdown)</h3>
+                <img src="charts/timeframe_risk_return.png" alt="Timeframe Risk Return">
+            </div>
+            <div class="chart-card">
+                <h3>3. 5-Minute Brute-Force Parameter Heatmap (5 to 200 EMA)</h3>
+                <img src="charts/ema_heatmap_grid.png" alt="EMA Heatmap Grid">
+            </div>
+            <div class="chart-card">
+                <h3>4. Monthly Return Heatmap Matrix (H1 2026)</h3>
+                <img src="charts/monthly_performance_matrix.png" alt="Monthly Return Matrix">
+            </div>
+            <div class="chart-card">
+                <h3>5. Underwater Drawdown Profiles (%)</h3>
+                <img src="charts/drawdown_underwater_curves.png" alt="Underwater Drawdown">
+            </div>
+        </div>
+
+        <!-- Strategy Leaderboard Table -->
+        <h2 class="section-title">Top 10 High-Alpha Futures Strategies</h2>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Strategy</th>
+                        <th>Timeframe</th>
+                        <th>Fast / Slow</th>
+                        <th>Net Return %</th>
+                        <th>Max DD %</th>
+                        <th>Sharpe Ratio</th>
+                        <th>Sortino</th>
+                        <th>Win Rate %</th>
+                        <th>Profit Factor</th>
+                        <th>Total Trades</th>
+                        <th>Institutional Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="color:var(--accent-cyan); font-weight:700;">EMA_SAR_70_190_5m</td>
+                        <td>5m</td>
+                        <td>70 / 190</td>
+                        <td class="val-green">+56.75%</td>
+                        <td>20.99%</td>
+                        <td>1.82</td>
+                        <td>2.42</td>
+                        <td>30.8%</td>
+                        <td>1.22</td>
+                        <td>260</td>
+                        <td class="val-gold">72.5 / 100</td>
+                    </tr>
+                    <tr>
+                        <td style="color:var(--accent-cyan); font-weight:700;">EMA_SAR_65_195_5m</td>
+                        <td>5m</td>
+                        <td>65 / 195</td>
+                        <td class="val-green">+55.74%</td>
+                        <td>22.37%</td>
+                        <td>1.79</td>
+                        <td>2.39</td>
+                        <td>30.5%</td>
+                        <td>1.20</td>
+                        <td>266</td>
+                        <td class="val-gold">69.9 / 100</td>
+                    </tr>
+                    <tr>
+                        <td style="color:var(--accent-cyan); font-weight:700;">EMA_SAR_20_30_30m</td>
+                        <td>30m</td>
+                        <td>20 / 30</td>
+                        <td class="val-green">+55.59%</td>
+                        <td>19.83%</td>
+                        <td>1.81</td>
+                        <td>2.50</td>
+                        <td>33.9%</td>
+                        <td>1.25</td>
+                        <td>186</td>
+                        <td class="val-gold">71.6 / 100</td>
+                    </tr>
+                    <tr>
+                        <td style="color:var(--accent-cyan); font-weight:700;">EMA_SAR_60_190_5m</td>
+                        <td>5m</td>
+                        <td>60 / 190</td>
+                        <td class="val-green">+52.38%</td>
+                        <td>21.15%</td>
+                        <td>1.72</td>
+                        <td>2.30</td>
+                        <td>29.5%</td>
+                        <td>1.19</td>
+                        <td>288</td>
+                        <td class="val-gold">70.6 / 100</td>
+                    </tr>
+                    <tr>
+                        <td style="color:var(--accent-cyan); font-weight:700;">EMA_SAR_55_200_5m</td>
+                        <td>5m</td>
+                        <td>55 / 200</td>
+                        <td class="val-green">+51.36%</td>
+                        <td>20.52%</td>
+                        <td>1.70</td>
+                        <td>2.27</td>
+                        <td>30.0%</td>
+                        <td>1.18</td>
+                        <td>280</td>
+                        <td class="val-gold">70.3 / 100</td>
+                    </tr>
+                    <tr>
+                        <td style="color:var(--accent-cyan); font-weight:700;">EMA_SAR_65_190_5m</td>
+                        <td>5m</td>
+                        <td>65 / 190</td>
+                        <td class="val-green">+50.76%</td>
+                        <td>21.81%</td>
+                        <td>1.68</td>
+                        <td>2.25</td>
+                        <td>31.1%</td>
+                        <td>1.18</td>
+                        <td>270</td>
+                        <td class="val-gold">69.8 / 100</td>
+                    </tr>
+                    <tr>
+                        <td style="color:var(--accent-cyan); font-weight:700;">EMA_SAR_10_55_30m</td>
+                        <td>30m</td>
+                        <td>10 / 55</td>
+                        <td class="val-green">+50.12%</td>
+                        <td>21.21%</td>
+                        <td>1.69</td>
+                        <td>2.43</td>
+                        <td>30.5%</td>
+                        <td>1.26</td>
+                        <td>200</td>
+                        <td class="val-gold">69.6 / 100</td>
+                    </tr>
+                    <tr>
+                        <td style="color:var(--accent-cyan); font-weight:700;">EMA_SAR_209_223_1h</td>
+                        <td>1h</td>
+                        <td>209 / 223</td>
+                        <td class="val-green">+50.01%</td>
+                        <td>22.26%</td>
+                        <td>1.95</td>
+                        <td>2.70</td>
+                        <td>50.0%</td>
+                        <td>3.30</td>
+                        <td>8</td>
+                        <td class="val-gold">90.9 / 100</td>
+                    </tr>
+                    <tr>
+                        <td style="color:var(--accent-cyan); font-weight:700;">EMA_SAR_110_200_5m</td>
+                        <td>5m</td>
+                        <td>110 / 200</td>
+                        <td class="val-green">+49.97%</td>
+                        <td>21.63%</td>
+                        <td>1.67</td>
+                        <td>2.20</td>
+                        <td>33.7%</td>
+                        <td>1.22</td>
+                        <td>178</td>
+                        <td class="val-gold">68.5 / 100</td>
+                    </tr>
+                    <tr>
+                        <td style="color:var(--accent-cyan); font-weight:700;">EMA_SAR_70_185_5m</td>
+                        <td>5m</td>
+                        <td>70 / 185</td>
+                        <td class="val-green">+49.50%</td>
+                        <td>21.66%</td>
+                        <td>1.65</td>
+                        <td>2.21</td>
+                        <td>31.0%</td>
+                        <td>1.19</td>
+                        <td>258</td>
+                        <td class="val-gold">69.5 / 100</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <footer>
+            ETH 2026 Quantitative Perpetual Futures Strategy Report | Generated automatically by Antigravity Quantitative System
+        </footer>
+    </div>
+</body>
+</html>
