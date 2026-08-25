@@ -12,5 +12,6 @@ scratch/
 *.sqlite
 *.db
 
-# Large raw archive files (>100MB exceeds GitHub hard limit)
-results/pyramid_series/all_series_adds.csv
+# Large files exceeding GitHub 100MB limit
+**/results/pyramid_series/all_series_adds.csv
+all_series_adds.csv

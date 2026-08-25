@@ -1,0 +1,2776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ETH 2026 Quant Terminal &bull; Systematic Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <div class="quant-layout">
+    <!-- MOBILE TOPBAR & DRAWER TOGGLE (Visible on screens <= 900px) -->
+    <header class="mobile-topbar" id="mobile-topbar">
+      <div class="mobile-brand">
+        <span class="mobile-brand-icon">⚡</span>
+        <div>
+          <span class="mobile-brand-title">ETH QUANT 2026</span>
+          <span class="mobile-brand-sub">68,202 Backtests &bull; 0.10% RT</span>
+        </div>
+      </div>
+      <div class="mobile-topbar-actions">
+        <button class="mobile-menu-btn" id="mobile-menu-toggle" aria-label="Toggle navigation">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </header>
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
+    <!-- LEFT SIDEBAR NAVIGATION -->
+    <aside class="sidebar" id="app-sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon">⚡</div>
+        <div class="brand-info">
+          <span class="brand-title">ETH QUANT 2026</span>
+          <span class="brand-sub">5,601 1H Bars &bull; Zero Bias</span>
+        </div>
+        <button class="mobile-sidebar-close" id="mobile-sidebar-close" aria-label="Close menu">&times;</button>
+      </div>
+
+      <!-- WORKFLOW FUNNEL STEPS -->
+      <div class="nav-section-title">DRILL-DOWN WORKFLOW</div>
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-view="step1-macro">
+          <span class="nav-num">1</span>
+          <div class="nav-text">
+            <span class="nav-title">Macro Universe</span>
+            <span class="nav-desc">Heatmaps &amp; Clusters</span>
+          </div>
+        </button>
+
+        <button class="nav-item" data-view="step2-studio">
+          <span class="nav-num">2A</span>
+          <div class="nav-text">
+            <span class="nav-title">4D Visual Studio</span>
+            <span class="nav-desc">Pareto &amp; Custom Axes</span>
+          </div>
+        </button>
+
+        <button class="nav-item" data-view="step2-feat-corr">
+          <span class="nav-num">2B</span>
+          <div class="nav-text">
+            <span class="nav-title">Feature-vs-Feature</span>
+            <span class="nav-desc">Cross-Correlation &amp; Dists</span>
+          </div>
+        </button>
+
+        <button class="nav-item highlight" data-view="step2-tree">
+          <span class="nav-num">2C</span>
+          <div class="nav-text">
+            <span class="nav-title">Hierarchy Explorer</span>
+            <span class="nav-desc">Year &rarr; Quarter &rarr; Month &rarr; Trades</span>
+          </div>
+        </button>
+
+        <button class="nav-item" data-view="step3-base">
+          <span class="nav-num">3A</span>
+          <div class="nav-text">
+            <span class="nav-title">Base EMA Filter</span>
+            <span class="nav-desc">Single-Entry Strategies</span>
+          </div>
+        </button>
+
+        <button class="nav-item" data-view="step3-pyramid">
+          <span class="nav-num">3B</span>
+          <div class="nav-text">
+            <span class="nav-title">Pyramid Reinvestment</span>
+            <span class="nav-desc">Series Adds &amp; Compounding</span>
+          </div>
+        </button>
+
+        <button class="nav-item" data-view="step3-risk">
+          <span class="nav-num">3C</span>
+          <div class="nav-text">
+            <span class="nav-title">Risk Management</span>
+            <span class="nav-desc">SL, TP, TSL &amp; Trailing TP</span>
+          </div>
+        </button>
+
+        <button class="nav-item" data-view="step4-overlay">
+          <span class="nav-num">4</span>
+          <div class="nav-text">
+            <span class="nav-title">Market % Capture Studio</span>
+            <span class="nav-desc">Actual Movement vs Gain %</span>
+          </div>
+        </button>
+
+        <button class="nav-item highlight" data-view="step5-synthesis">
+          <span class="nav-num">5</span>
+          <div class="nav-text">
+            <span class="nav-title">Final Synthesis Report</span>
+            <span class="nav-desc">Crown Champion &amp; Waterfall</span>
+          </div>
+        </button>
+
+        <button class="nav-item highlight" data-view="step6-downloads" id="nav-btn-downloads">
+          <span class="nav-num">6</span>
+          <div class="nav-text">
+            <span class="nav-title">Download &amp; Export Hub</span>
+            <span class="nav-desc">CSV Reports, Backtest Datasets &amp; Logs</span>
+          </div>
+        </button>
+      </nav>
+
+      <!-- SIDEBAR LIVE BENCHMARK CARD -->
+      <div class="sidebar-bottom-card">
+        <div class="sb-label">ETH Spot Benchmark (B&amp;H)</div>
+        <div class="sb-val neg">-18.68%</div>
+        <div class="sb-sub">$2,979 &rarr; $2,423 &bull; Max DD: 55%</div>
+        <div class="sb-fee-badge">0.10% Round-Trip Fees Deducted</div>
+      </div>
+    </aside>
+
+    <!-- MAIN APP CONTENT AREA -->
+    <main class="main-content">
+      <!-- MOBILE QUICK NAVIGATION TABS (Visible on mobile/tablets) -->
+      <nav class="mobile-quick-nav" aria-label="Mobile quick view switcher">
+        <div class="mobile-nav-scroll" id="mobile-nav-scroll">
+          <button class="mobile-nav-chip active" data-view="step1-macro">1. Macro</button>
+          <button class="mobile-nav-chip" data-view="step2-studio">2A. 4D Studio</button>
+          <button class="mobile-nav-chip" data-view="step2-feat-corr">2B. Corr</button>
+          <button class="mobile-nav-chip" data-view="step2-tree">2C. Tree</button>
+          <button class="mobile-nav-chip" data-view="step3-base">3A. Base</button>
+          <button class="mobile-nav-chip" data-view="step3-pyramid">3B. Pyramid</button>
+          <button class="mobile-nav-chip" data-view="step3-risk">3C. Risk</button>
+          <button class="mobile-nav-chip" data-view="step4-overlay">4. Capture</button>
+          <button class="mobile-nav-chip" data-view="step5-synthesis">5. Synthesis</button>
+          <button class="mobile-nav-chip highlight" data-view="step6-downloads">6. Downloads 📥</button>
+        </div>
+      </nav>
+
+      <!-- TOP STATUS BAR -->
+      <header class="topbar">
+        <div class="topbar-stats">
+          <div class="top-kpi">
+            <span class="top-kpi-label">TOTAL EVALUATED</span>
+            <span class="top-kpi-val" id="stat-total-strats">68,202</span>
+          </div>
+          <div class="top-kpi">
+            <span class="top-kpi-label">TOP BASE SAR</span>
+            <span class="top-kpi-val pos" id="stat-top-sar">+102.39%</span>
+          </div>
+          <div class="top-kpi">
+            <span class="top-kpi-label">TOP PYRAMID SETUP</span>
+            <span class="top-kpi-val pos" id="stat-top-pyr">+70.60%</span>
+          </div>
+          <div class="top-kpi">
+            <span class="top-kpi-label">MAX DD REDUCTION</span>
+            <span class="top-kpi-val pos">16.4% vs 55%</span>
+          </div>
+        </div>
+
+        <div class="topbar-actions">
+          <button class="action-btn" id="export-csv-btn">📥 Export Active (CSV)</button>
+        </div>
+      </header>
+
+      <!-- ======================================================== -->
+      <!-- STEP 1: MACRO UNIVERSE & HEATMAPS -->
+      <!-- ======================================================== -->
+      <div id="view-step1-macro" class="view-panel active">
+        <div class="panel-header">
+          <div>
+            <h2>Step 1: Macro Parameter Universe &amp; Profitability Heatmap</h2>
+            <p>Identify high-alpha parameter clusters. <strong>Click any heatmap cell or scatter bubble</strong> to drill directly into that strategy's trades.</p>
+          </div>
+        </div>
+
+        <div class="grid-2col">
+          <!-- 2D Heatmap Visualizer -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3>2D Parameter Profitability Heatmap</h3>
+                <p class="card-desc">Fast EMA (Y-Axis) vs Slow EMA (X-Axis) &bull; Click to Inspect</p>
+              </div>
+              <span class="badge">Clickable Heatmap</span>
+            </div>
+            <div class="canvas-wrapper">
+              <canvas id="heatmapCanvas" width="580" height="270"></canvas>
+              <div id="heatmap-tooltip" class="canvas-tooltip"></div>
+            </div>
+            <div class="canvas-legend">
+              <span class="legend-item"><span class="legend-box" style="background:#ff3366;"></span> Loss (&lt;0%)</span>
+              <span class="legend-item"><span class="legend-box" style="background:#3a4454;"></span> Flat (0-20%)</span>
+              <span class="legend-item"><span class="legend-box" style="background:#00f0ff;"></span> Strong (20-60%)</span>
+              <span class="legend-item"><span class="legend-box" style="background:#00ff88;"></span> Peak (&gt;60%)</span>
+            </div>
+          </div>
+
+          <!-- Risk-Reward Scatter Visualizer -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3>Macro Risk-Reward Scatter Profile</h3>
+                <p class="card-desc">X = Max Drawdown (%) &bull; Y = Total Return (%) &bull; Click to Inspect</p>
+              </div>
+              <span class="badge">Macro Scatter</span>
+            </div>
+            <div class="canvas-wrapper">
+              <canvas id="scatterCanvas" width="580" height="270"></canvas>
+              <div id="scatter-tooltip" class="canvas-tooltip"></div>
+            </div>
+            <div class="canvas-legend">
+              <span class="legend-item"><span class="legend-box" style="background:#00f0ff;"></span> Base EMA</span>
+              <span class="legend-item"><span class="legend-box" style="background:#00ff88;"></span> Pyramiding Adds</span>
+              <span class="legend-item"><span class="legend-box" style="background:#ff3366;"></span> Spot B&amp;H (-18.7%)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Factor Comparison Bar -->
+        <div class="card" style="margin-top: 16px;">
+          <div class="card-header">
+            <div>
+              <h3>Pyramiding Series Gap Factor Performance Comparison</h3>
+              <p class="card-desc">Average Net Return (%) vs Average Max Drawdown (%) across 7,000 permutations</p>
+            </div>
+            <span class="badge">Factor Benchmark</span>
+          </div>
+          <div class="canvas-wrapper">
+            <canvas id="factorBarCanvas" width="1200" height="180"></canvas>
+            <div id="factor-tooltip" class="canvas-tooltip"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======================================================== -->
+      <!-- STEP 2A: 4D MULTI-FEATURE VISUAL STUDIO -->
+      <!-- ======================================================== -->
+      <div id="view-step2-studio" class="view-panel">
+        <div class="panel-header">
+          <div>
+            <h2>Step 2A: 4D Multi-Feature Interactive Studio</h2>
+            <p>Customize quantitative dimensions and analyze non-dominated strategies on the <strong>Pareto Optimal Frontier</strong>.</p>
+          </div>
+        </div>
+
+        <!-- Studio Control Bar -->
+        <div class="filter-box">
+          <div class="filter-box-title">🎛️ Configure Custom 4D Visual Axes across All Features:</div>
+          <div class="filter-controls-grid">
+            <div class="form-group">
+              <label>X-Axis Dimension:</label>
+              <select id="studio-axis-x" class="select-input">
+                <option value="Max_DD_Pct" selected>Max Drawdown (%)</option>
+                <option value="Total_Ret_Pct">Total Net Return (%)</option>
+                <option value="Net_PnL_USD">Net Profit ($)</option>
+                <option value="Final_Equity">Final Equity ($)</option>
+                <option value="Sharpe">Sharpe Ratio</option>
+                <option value="Sortino">Sortino Ratio</option>
+                <option value="Calmar">Calmar Ratio</option>
+                <option value="Win_Rate_Pct">Win Rate (%)</option>
+                <option value="Profit_Factor">Profit Factor</option>
+                <option value="Expectancy_Pct">Expectancy (%)</option>
+                <option value="Total_Trades">Total Trades Count</option>
+                <option value="Avg_Hold_Hours">Avg Hold Time (h)</option>
+                <option value="Exposure_Pct">Market Exposure (%)</option>
+                <option value="Fees_Applied_Pct">Fee Drag (%)</option>
+                <option value="Composite_Score">Institutional Score (0-100)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Y-Axis Dimension:</label>
+              <select id="studio-axis-y" class="select-input">
+                <option value="Total_Ret_Pct" selected>Total Net Return (%)</option>
+                <option value="Net_PnL_USD">Net Profit ($)</option>
+                <option value="Final_Equity">Final Equity ($)</option>
+                <option value="Max_DD_Pct">Max Drawdown (%)</option>
+                <option value="Sharpe">Sharpe Ratio</option>
+                <option value="Sortino">Sortino Ratio</option>
+                <option value="Calmar">Calmar Ratio</option>
+                <option value="Profit_Factor">Profit Factor</option>
+                <option value="Expectancy_Pct">Expectancy (%)</option>
+                <option value="Win_Rate_Pct">Win Rate (%)</option>
+                <option value="Exposure_Pct">Market Exposure (%)</option>
+                <option value="Fees_Applied_Pct">Fee Drag (%)</option>
+                <option value="Composite_Score">Institutional Score (0-100)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Bubble Size (Z-Axis):</label>
+              <select id="studio-axis-size" class="select-input">
+                <option value="Sharpe" selected>Sharpe Ratio</option>
+                <option value="Sortino">Sortino Ratio</option>
+                <option value="Calmar">Calmar Ratio</option>
+                <option value="Win_Rate_Pct">Win Rate (%)</option>
+                <option value="Profit_Factor">Profit Factor</option>
+                <option value="Expectancy_Pct">Expectancy (%)</option>
+                <option value="Total_Trades">Total Trades</option>
+                <option value="Net_PnL_USD">Net Profit ($)</option>
+                <option value="Composite_Score">Institutional Score</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Color Gradient (W-Axis):</label>
+              <select id="studio-axis-color" class="select-input">
+                <option value="Logic" selected>By Model Archetype</option>
+                <option value="Profit_Factor">By Profit Factor (Gradient)</option>
+                <option value="Sharpe">By Sharpe Ratio (Gradient)</option>
+                <option value="Calmar">By Calmar Ratio (Gradient)</option>
+                <option value="Composite_Score">By Institutional Score (Gradient)</option>
+                <option value="Fees_Applied_Pct">By Fee Drag (Gradient)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Pareto Boundary:</label>
+              <button class="pill-btn active" id="btn-toggle-pareto">✓ Pareto Frontier ON</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4D Canvas Card -->
+        <div class="card" style="margin-top: 16px;">
+          <div class="card-header">
+            <div>
+              <h3 id="studio-plot-title">Custom 4D Plot: Max Drawdown (%) vs Total Net Return (%)</h3>
+              <p class="card-desc" id="studio-plot-desc">Hover over any bubble for 4-factor readout &bull; Click to launch complete strategy audit</p>
+            </div>
+            <span class="badge" id="studio-count-badge">400 Strategies Analyzed</span>
+          </div>
+          <div class="canvas-wrapper">
+            <canvas id="studioCanvas" width="1200" height="340"></canvas>
+            <div id="studio-tooltip" class="canvas-tooltip"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======================================================== -->
+      <!-- STEP 2B: FEATURE-VS-FEATURE COMPARATIVE STUDIO -->
+      <!-- ======================================================== -->
+      <div id="view-step2-feat-corr" class="view-panel">
+        <div class="panel-header">
+          <div>
+            <h2>Step 2B: Feature-vs-Feature Comparative Studio &amp; Cross-Correlations</h2>
+            <p>Empirical statistical relationships derived directly from 60,762 fee-adjusted backtests.</p>
+          </div>
+        </div>
+
+        <div class="grid-2col">
+          <!-- Correlation Heatmap Canvas -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3>Empirical Feature Correlation Matrix</h3>
+                <p class="card-desc">Hover to view mathematical Pearson correlation coefficient (r)</p>
+              </div>
+              <span class="badge">Correlation Matrix</span>
+            </div>
+            <div class="canvas-wrapper">
+              <canvas id="featureCorrCanvas" width="580" height="280"></canvas>
+              <div id="feat-corr-tooltip" class="canvas-tooltip"></div>
+            </div>
+          </div>
+
+          <!-- Feature Distribution / Density Canvas -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3 id="feat-dist-title">Comparative Feature Distribution Density</h3>
+                <p class="card-desc">Histogram bins &amp; statistical percentiles</p>
+              </div>
+              <span class="badge">Distribution Bins</span>
+            </div>
+            <div class="canvas-wrapper">
+              <canvas id="featureDistCanvas" width="580" height="280"></canvas>
+              <div id="feat-dist-tooltip" class="canvas-tooltip"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Empirical Feature Insights Strip -->
+        <div class="correlation-strip-grid" style="margin-top: 16px;">
+          <div class="strip-card">
+            <div class="strip-title">Win Rate &rarr; Drawdown Impact</div>
+            <div class="strip-val neg">r = -0.640</div>
+            <div class="strip-sub">Higher win rate strongly suppresses drawdown depth</div>
+          </div>
+          <div class="strip-card">
+            <div class="strip-title">Sharpe &rarr; Return Alignment</div>
+            <div class="strip-val pos">r = +0.962</div>
+            <div class="strip-sub">Net returns tightly mirror risk-adjusted Sharpe</div>
+          </div>
+          <div class="strip-card">
+            <div class="strip-title">Trade Count &rarr; Fee Erosion</div>
+            <div class="strip-val neg">r = +0.327</div>
+            <div class="strip-sub">Higher churn increases drawdown via 0.10% friction</div>
+          </div>
+          <div class="strip-card">
+            <div class="strip-title">Profit Factor &rarr; Return Power</div>
+            <div class="strip-val pos">r = +0.794</div>
+            <div class="strip-sub">Payoff ratio dominates total compounding growth</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======================================================== -->
+      <!-- STEP 2C: HIERARCHICAL MULTI-LEVEL DRILL-DOWN EXPLORER -->
+      <!-- ======================================================== -->
+      <div id="view-step2-tree" class="view-panel">
+        <div class="panel-header">
+          <div>
+            <h2>Step 2C: Hierarchical Multi-Level Data Drill-Down Explorer</h2>
+            <p>Drill through aggregated yearly portfolios &rarr; quarterly summaries &rarr; monthly performances &rarr; individual trade series &rarr; step-by-step tranche micro-events.</p>
+          </div>
+        </div>
+
+        <!-- Breadcrumb Navigation Bar -->
+        <div class="breadcrumb-trail" id="tree-breadcrumb">
+          <span class="breadcrumb-item active" data-level="root">2026 Overall Universe</span>
+        </div>
+
+        <!-- Multi-Tier Hierarchy Filter Box -->
+        <div class="filter-box">
+          <div class="filter-box-title">⚡ Multi-Tier Hierarchy Filters:</div>
+          <div class="filter-controls-grid">
+            <div class="form-group">
+              <label>Filter Portfolio Category:</label>
+              <select id="tree-filter-category" class="select-input">
+                <option value="ALL" selected>All Categories (Full Universe)</option>
+                <option value="Pyramiding Reinvestment">Pyramiding Reinvestment</option>
+                <option value="Base Single-Entry">Base Single-Entry</option>
+                <option value="Risk-Managed Systems">Risk-Managed Systems</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Filter Quarter / Horizon:</label>
+              <select id="tree-filter-quarter" class="select-input">
+                <option value="ALL" selected>Full Year 2026</option>
+                <option value="Q1 2026">Q1 2026 (Jan - Mar)</option>
+                <option value="Q2 2026">Q2 2026 (Apr - Jun)</option>
+                <option value="Q3 2026">Q3 2026 (Jul - Aug)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Trade Direction:</label>
+              <select id="tree-filter-direction" class="select-input">
+                <option value="ALL" selected>All Directions (Long &amp; Short)</option>
+                <option value="LONG">Longs Only</option>
+                <option value="SHORT">Shorts Only</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Period / Trade Outcome:</label>
+              <select id="tree-filter-outcome" class="select-input">
+                <option value="ALL" selected>All Outcomes</option>
+                <option value="WIN">Profitable Periods / Trades (&gt;0%)</option>
+                <option value="LOSS">Drawdown Periods / Trades (&le;0%)</option>
+              </select>
+            </div>
+
+            <div class="form-group full-col">
+              <div class="pill-group">
+                <button class="pill-btn" id="btn-tree-expand-all">[+] Expand All Levels</button>
+                <button class="pill-btn" id="btn-tree-collapse-all">[-] Collapse All</button>
+                <button class="preset-btn" id="btn-tree-reset-filters">↺ Reset Hierarchy Filters</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tree Nodes Container -->
+        <div class="tree-container" id="tree-root-container">
+          <!-- Populated dynamically by app.js -->
+        </div>
+      </div>
+
+      <!-- ======================================================== -->
+      <!-- STEP 3A: BASE EMA MULTI-FILTER MATRIX -->
+      <!-- ======================================================== -->
+      <div id="view-step3-base" class="view-panel">
+        <div class="panel-header">
+          <div>
+            <h2>Step 3A: Base EMA Strategy Filter Matrix (Without Reinvestment)</h2>
+            <p>Filter through single-entry strategies ($X=0, Y=0$) across periods, returns, Sharpe, drawdown, and win rates.</p>
+          </div>
+        </div>
+
+        <!-- Base Logic Tabs -->
+        <div class="subnav-tabs">
+          <button class="subtab-btn active" data-logic="EMA_CROSS_SAR">EMA Crossover (SAR Long/Short)</button>
+          <button class="subtab-btn" data-logic="EMA_CROSS_LONG_ONLY">EMA Crossover (Long/Cash Only)</button>
+          <button class="subtab-btn" data-logic="PRICE_EMA_SAR">Price vs Single EMA (SAR)</button>
+          <button class="subtab-btn" data-logic="PRICE_EMA_LONG_ONLY">Price vs Single EMA (Long Only)</button>
+        </div>
+
+        <!-- Visual Distribution Strip -->
+        <div class="grid-2col" style="margin-bottom: 16px;">
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3>Return &amp; Drawdown Spectrum (Active Filter)</h3>
+                <p class="card-desc">Top 15 filtered strategies &bull; Green = Net Return, Red = Max DD</p>
+              </div>
+              <span class="badge">Live Filter Chart</span>
+            </div>
+            <div class="canvas-wrapper">
+              <canvas id="baseReturnBarCanvas" width="580" height="190"></canvas>
+              <div id="base-return-tooltip" class="canvas-tooltip"></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3>Win Rate vs Profit Factor Efficiency</h3>
+                <p class="card-desc">X = Win Rate (%) &bull; Y = Profit Factor &bull; Bubble Size = Trades</p>
+              </div>
+              <span class="badge">Efficiency Plot</span>
+            </div>
+            <div class="canvas-wrapper">
+              <canvas id="baseWinPfCanvas" width="580" height="190"></canvas>
+              <div id="base-winpf-tooltip" class="canvas-tooltip"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Multi-Filter Grid for Base -->
+        <div class="filter-box">
+          <div class="filter-box-title">⚡ Multi-Dimension Parameter Filters:</div>
+          <div class="filter-controls-grid">
+            <div class="form-group">
+              <label>Search EMA (Text):</label>
+              <input type="text" id="base-filter-input" class="text-input" placeholder="e.g. 209, 223, 82...">
+            </div>
+
+            <div class="form-group">
+              <label>Fast EMA Range: <span id="val-fast-range" class="filter-badge">5 - 250</span></label>
+              <div class="range-dual">
+                <input type="range" id="range-fast-min" min="5" max="250" value="5">
+                <input type="range" id="range-fast-max" min="5" max="250" value="250">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Min Sharpe: <span id="val-min-sharpe" class="filter-badge">&ge; 0.0</span></label>
+              <input type="range" id="range-min-sharpe" min="0" max="2.5" step="0.1" value="0">
+            </div>
+
+            <div class="form-group">
+              <label>Max Drawdown Cap: <span id="val-max-dd" class="filter-badge">&le; 60%</span></label>
+              <input type="range" id="range-max-dd" min="10" max="60" step="1" value="60">
+            </div>
+
+            <div class="form-group">
+              <label>Min Win Rate: <span id="val-min-winrate" class="filter-badge">&ge; 0%</span></label>
+              <input type="range" id="range-min-winrate" min="0" max="70" step="5" value="0">
+            </div>
+
+            <div class="form-group full-col">
+              <label>Quick Presets:</label>
+              <div class="pill-group">
+                <button class="preset-btn" data-preset="inst">🏛️ Institutional (Fast &ge; 180)</button>
+                <button class="preset-btn" data-preset="scalp">⚡ Fast Scalp (Fast &le; 30)</button>
+                <button class="preset-btn" data-preset="lowdd">🛡️ Low DD (&le; 20%)</button>
+                <button class="preset-btn" data-preset="highsharpe">⭐ Sharpe &ge; 1.8</button>
+                <button class="preset-btn" id="btn-clear-base-filters" data-preset="reset">↺ Clear Filters</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Full-Feature Base Table Container -->
+        <div class="table-card">
+          <div class="table-responsive">
+            <table class="quant-table" id="base-table">
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Parameters</th>
+                  <th class="sortable" data-table="base" data-sort="Total_Ret_Pct">Total Return &#9662;</th>
+                  <th class="sortable" data-table="base" data-sort="Net_PnL_USD">Net Profit ($)</th>
+                  <th class="sortable" data-table="base" data-sort="Final_Equity">Final Equity</th>
+                  <th class="sortable" data-table="base" data-sort="Alpha_Pct">Alpha vs BH</th>
+                  <th class="sortable" data-table="base" data-sort="Max_DD_Pct">Max DD</th>
+                  <th class="sortable" data-table="base" data-sort="Sharpe">Sharpe</th>
+                  <th class="sortable" data-table="base" data-sort="Sortino">Sortino</th>
+                  <th class="sortable" data-table="base" data-sort="Calmar">Calmar</th>
+                  <th class="sortable" data-table="base" data-sort="Win_Rate_Pct">Win Rate</th>
+                  <th class="sortable" data-table="base" data-sort="Profit_Factor">Profit Factor</th>
+                  <th class="sortable" data-table="base" data-sort="Expectancy_Pct">Expectancy</th>
+                  <th class="sortable" data-table="base" data-sort="Total_Trades">Trades</th>
+                  <th class="sortable" data-table="base" data-sort="Avg_Hold_Hours">Avg Hold</th>
+                  <th class="sortable" data-table="base" data-sort="Exposure_Pct">Exposure</th>
+                  <th class="sortable" data-table="base" data-sort="Fees_Applied_Pct">Fee Drag</th>
+                  <th class="sortable" data-table="base" data-sort="Composite_Score">Score</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="base-tbody">
+                <!-- Populated by JS -->
+              </tbody>
+            </table>
+          </div>
+
+          <div class="pagination-bar">
+            <div class="page-info" id="base-page-info">Showing 1-25 of 500 strategies</div>
+            <div class="page-controls">
+              <button class="page-btn" id="base-prev-btn" disabled>&larr; Prev</button>
+              <span class="page-current" id="base-page-current">Page 1</span>
+              <button class="page-btn" id="base-next-btn">Next &rarr;</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======================================================== -->
+      <!-- STEP 3B: PYRAMIDING & REINVESTMENT MATRIX -->
+      <!-- ======================================================== -->
+      <div id="view-step3-pyramid" class="view-panel">
+        <div class="panel-header">
+          <div>
+            <h2>Step 3B: Pyramiding &amp; Series Reinvestment Engine ($X=n, Y=n$)</h2>
+            <p>Deploy continuous tranche additions during verified trends. Filter across factors, tranche sizes, and triggers.</p>
+          </div>
+        </div>
+
+        <!-- Pyramiding Visual Distribution Strip -->
+        <div class="grid-2col" style="margin-bottom: 16px;">
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3>Tranche Size (X%) vs Compounding Efficiency</h3>
+                <p class="card-desc">Average Net Return (%) across X% tranche sizes ($500 to $5,000 per add)</p>
+              </div>
+              <span class="badge">Tranche Curve</span>
+            </div>
+            <div class="canvas-wrapper">
+              <canvas id="pyrTrancheCanvas" width="580" height="190"></canvas>
+              <div id="pyr-tranche-tooltip" class="canvas-tooltip"></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3>Series Tranche Additions vs Risk Protection</h3>
+                <p class="card-desc">Number of Adds deployed vs Max Drawdown (%) for active pyramid filter</p>
+              </div>
+              <span class="badge">Risk Spectrum</span>
+            </div>
+            <div class="canvas-wrapper">
+              <canvas id="pyrAddsCanvas" width="580" height="190"></canvas>
+              <div id="pyr-adds-tooltip" class="canvas-tooltip"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Multi-Filter Panel for Pyramiding -->
+        <div class="filter-box">
+          <div class="filter-box-title">⚡ Multi-Factor Pyramiding Controls:</div>
+          <div class="filter-controls-grid">
+            <div class="form-group full-col">
+              <label>Filter by Trigger Factor (Y):</label>
+              <div class="pill-group" id="pyr-factor-pills">
+                <button class="pill-btn active" data-factor="ALL">All Factors</button>
+                <button class="pill-btn" data-factor="BARS_ELAPSED">Bars Elapsed</button>
+                <button class="pill-btn" data-factor="HOURS_ELAPSED">Hours Elapsed</button>
+                <button class="pill-btn" data-factor="PRICE_FROM_START_PCT">Price % from Start</button>
+                <button class="pill-btn" data-factor="PRICE_FROM_LAST_PCT">Price % from Last</button>
+                <button class="pill-btn" data-factor="PROFIT_FROM_START_PCT">Profit % from Start</button>
+                <button class="pill-btn" data-factor="PROFIT_FROM_LAST_PCT">Profit % from Last</button>
+              </div>
+            </div>
+
+            <div class="form-group full-col">
+              <label>Tranche Allocation Size (X% of $10k):</label>
+              <div class="pill-group" id="pyr-x-pills">
+                <button class="pill-btn-sm active" data-x="ALL">All X%</button>
+                <button class="pill-btn-sm" data-x="5">5% ($500)</button>
+                <button class="pill-btn-sm" data-x="10">10% ($1k)</button>
+                <button class="pill-btn-sm" data-x="15">15% ($1.5k)</button>
+                <button class="pill-btn-sm" data-x="20">20% ($2k)</button>
+                <button class="pill-btn-sm" data-x="25">25% ($2.5k)</button>
+                <button class="pill-btn-sm" data-x="30">30% ($3k)</button>
+                <button class="pill-btn-sm" data-x="50">50% ($5k)</button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Search Note / Strategy:</label>
+              <input type="text" id="pyr-filter-input" class="text-input" placeholder="e.g. HOURS_ELAPSED, 207, 10%...">
+            </div>
+
+            <div class="form-group">
+              <label>Min Net Return: <span id="val-pyr-min-ret" class="filter-badge">&ge; 0%</span></label>
+              <input type="range" id="range-pyr-min-ret" min="0" max="80" step="5" value="0">
+            </div>
+
+            <div class="form-group">
+              <label>Max Drawdown Cap: <span id="val-pyr-max-dd" class="filter-badge">&le; 40%</span></label>
+              <input type="range" id="range-pyr-max-dd" min="15" max="40" step="1" value="40">
+            </div>
+
+            <div class="form-group">
+              <label>Min Series Adds: <span id="val-pyr-min-adds" class="filter-badge">&ge; 0</span></label>
+              <input type="range" id="range-pyr-min-adds" min="0" max="150" step="10" value="0">
+            </div>
+
+            <div class="form-group full-col">
+              <button class="preset-btn" id="btn-clear-pyr-filters">↺ Clear Pyramid Filters</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Full-Feature Pyramid Strategy Table Container -->
+        <div class="table-card">
+          <div class="table-responsive">
+            <table class="quant-table" id="pyramid-table">
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Strategy Note</th>
+                  <th>Trigger Factor (Y)</th>
+                  <th>Threshold</th>
+                  <th>Tranche (X%)</th>
+                  <th>$/Add</th>
+                  <th class="sortable" data-table="pyramid" data-sort="Total_Return_Pct">Total Return &#9662;</th>
+                  <th class="sortable" data-table="pyramid" data-sort="Net_PnL_USD">Net Profit ($)</th>
+                  <th class="sortable" data-table="pyramid" data-sort="Final_Equity">Final Equity</th>
+                  <th class="sortable" data-table="pyramid" data-sort="Alpha_vs_Base_Pct">Alpha vs Base</th>
+                  <th class="sortable" data-table="pyramid" data-sort="Alpha_vs_BH_Pct">Alpha vs BH</th>
+                  <th class="sortable" data-table="pyramid" data-sort="Max_Drawdown_Pct">Max DD</th>
+                  <th class="sortable" data-table="pyramid" data-sort="Sharpe">Sharpe</th>
+                  <th class="sortable" data-table="pyramid" data-sort="Sortino">Sortino</th>
+                  <th class="sortable" data-table="pyramid" data-sort="Calmar">Calmar</th>
+                  <th class="sortable" data-table="pyramid" data-sort="Win_Rate_Pct">Win Rate</th>
+                  <th class="sortable" data-table="pyramid" data-sort="Profit_Factor">Profit Factor</th>
+                  <th class="sortable" data-table="pyramid" data-sort="Total_Series_Adds">Total Adds</th>
+                  <th class="sortable" data-table="pyramid" data-sort="Avg_Adds_Per_Trade">Avg Adds/Tr</th>
+                  <th class="sortable" data-table="pyramid" data-sort="Fees_Applied_Pct">Fee Drag</th>
+                  <th class="sortable" data-table="pyramid" data-sort="Composite_Score">Score</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="pyramid-tbody">
+                <!-- Populated by JS -->
+              </tbody>
+            </table>
+          </div>
+
+          <div class="pagination-bar">
+            <div class="page-info" id="pyr-page-info">Showing 1-25 of 500 strategies</div>
+            <div class="page-controls">
+              <button class="page-btn" id="pyr-prev-btn" disabled>&larr; Prev</button>
+              <span class="page-current" id="pyr-page-current">Page 1</span>
+              <button class="page-btn" id="pyr-next-btn">Next &rarr;</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======================================================== -->
+      <!-- STEP 3C: TP / SL & TRAILING RISK MANAGEMENT STUDIO -->
+      <!-- ======================================================== -->
+      <div id="view-step3-risk" class="view-panel">
+        <div class="panel-header">
+          <div>
+            <h2>Step 3C: Stop Loss, Take Profit &amp; Trailing Risk Management Studio</h2>
+            <p>Empirical evaluation of 440 Stop Loss, Take Profit, Trailing Stops, and Trailing TP combinations across Re-Entry Modes.</p>
+          </div>
+        </div>
+
+        <!-- Re-Entry Mode Switcher -->
+        <div class="subnav-tabs">
+          <button class="subtab-btn active" id="btn-reentry-wait" data-reentry="WAIT_NEXT_FLIP">Mode A: Wait for Next Signal Flip (Conservative)</button>
+          <button class="subtab-btn" id="btn-reentry-re" data-reentry="RE_ENTER_IMMEDIATE">Mode B: Immediate Trend Re-Entry (Compounding Scalp)</button>
+        </div>
+
+        <!-- Risk Visuals Grid -->
+        <div class="grid-2col" style="margin-bottom: 16px;">
+          <!-- Risk Scatter Canvas -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3>Risk-Reward Scatter: Return vs Max Drawdown</h3>
+                <p class="card-desc">Hover for full risk parameter breakdown &bull; Click to inspect trades</p>
+              </div>
+              <span class="badge">Risk Scatter</span>
+            </div>
+            <div class="canvas-wrapper">
+              <canvas id="riskScatterCanvas" width="580" height="200"></canvas>
+              <div id="risk-scatter-tooltip" class="canvas-tooltip"></div>
+            </div>
+          </div>
+
+          <!-- Risk Archetype Comparison Bar -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3>Average Return by Risk Archetype</h3>
+                <p class="card-desc">Fixed SL vs Fixed TP vs Trailing SL vs Trailing TP vs Baseline</p>
+              </div>
+              <span class="badge">Archetype Benchmark</span>
+            </div>
+            <div class="canvas-wrapper">
+              <canvas id="riskArchetypeBarCanvas" width="580" height="200"></canvas>
+              <div id="risk-bar-tooltip" class="canvas-tooltip"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Risk Filter Panel -->
+        <div class="filter-box">
+          <div class="filter-box-title">⚡ Risk Control Parameter Filters:</div>
+          <div class="filter-controls-grid">
+            <div class="form-group full-col">
+              <label>Filter by Risk Archetype:</label>
+              <div class="pill-group" id="risk-archetype-pills">
+                <button class="pill-btn active" data-archetype="ALL">All Archetypes (440)</button>
+                <button class="pill-btn" data-archetype="NO_SL_NO_TP">No SL / No TP Baseline</button>
+                <button class="pill-btn" data-archetype="FIXED_SL_ONLY">Fixed SL Only</button>
+                <button class="pill-btn" data-archetype="FIXED_TP_ONLY">Fixed TP Only</button>
+                <button class="pill-btn" data-archetype="FIXED_SL_AND_TP">Fixed SL + Fixed TP</button>
+                <button class="pill-btn" data-archetype="TRAILING_SL_ONLY">Trailing SL Only</button>
+                <button class="pill-btn" data-archetype="TRAILING_TP_ONLY">Trailing TP Only</button>
+                <button class="pill-btn" data-archetype="TRAILING_SL_AND_FIXED_TP">TSL + Fixed TP</button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Search Risk Setup:</label>
+              <input type="text" id="risk-filter-input" class="text-input" placeholder="e.g. Fixed SL 5%, Trailing TP...">
+            </div>
+
+            <div class="form-group">
+              <label>Min Net Return: <span id="val-risk-min-ret" class="filter-badge">&ge; -50%</span></label>
+              <input type="range" id="range-risk-min-ret" min="-50" max="200" step="10" value="-50">
+            </div>
+
+            <div class="form-group">
+              <label>Max Drawdown Cap: <span id="val-risk-max-dd" class="filter-badge">&le; 60%</span></label>
+              <input type="range" id="range-risk-max-dd" min="5" max="60" step="1" value="60">
+            </div>
+
+            <div class="form-group full-col">
+              <button class="preset-btn" id="btn-clear-risk-filters">↺ Clear Risk Filters</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Full-Feature Risk Table -->
+        <div class="table-card">
+          <div class="table-responsive">
+            <table class="quant-table" id="risk-table">
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Risk Configuration</th>
+                  <th>Archetype</th>
+                  <th class="sortable" data-table="risk" data-sort="Total_Return_Pct">Total Return &#9662;</th>
+                  <th class="sortable" data-table="risk" data-sort="Net_PnL_USD">Net Profit ($)</th>
+                  <th class="sortable" data-table="risk" data-sort="Final_Equity">Final Equity</th>
+                  <th class="sortable" data-table="risk" data-sort="Max_Drawdown_Pct">Max DD</th>
+                  <th class="sortable" data-table="risk" data-sort="Sharpe">Sharpe</th>
+                  <th class="sortable" data-table="risk" data-sort="Sortino">Sortino</th>
+                  <th class="sortable" data-table="risk" data-sort="Calmar">Calmar</th>
+                  <th class="sortable" data-table="risk" data-sort="Win_Rate_Pct">Win Rate</th>
+                  <th class="sortable" data-table="risk" data-sort="Profit_Factor">Profit Factor</th>
+                  <th class="sortable" data-table="risk" data-sort="Total_Trades">Trades</th>
+                  <th class="sortable" data-table="risk" data-sort="Avg_Hold_Hours">Avg Hold</th>
+                  <th class="sortable" data-table="risk" data-sort="Exposure_Pct">Exposure</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="risk-tbody">
+                <!-- Populated by JS -->
+              </tbody>
+            </table>
+          </div>
+
+          <div class="pagination-bar">
+            <div class="page-info" id="risk-page-info">Showing 1-25 of 220 setups</div>
+            <div class="page-controls">
+              <button class="page-btn" id="risk-prev-btn" disabled>&larr; Prev</button>
+              <span class="page-current" id="risk-page-current">Page 1</span>
+              <button class="page-btn" id="risk-next-btn">Next &rarr;</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======================================================== -->
+      <!-- STEP 4: MARKET % MOVEMENT CAPTURE & OVERLAY STUDIO -->
+      <!-- ======================================================== -->
+      <div id="view-step4-overlay" class="view-panel">
+        <div class="panel-header">
+          <div>
+            <h2>Step 4: Market % Movement vs Realized Gain % Capture Studio</h2>
+            <p>Direct mathematical comparison between <strong>Actual ETH Market Movement (%)</strong> and <strong>Strategy Realized Profit (%)</strong> over time.</p>
+          </div>
+        </div>
+
+        <!-- Institutional Movement Capture KPI Strip -->
+        <div class="correlation-strip-grid" style="margin-bottom: 16px;">
+          <div class="strip-card">
+            <div class="strip-title">Actual Market Movement</div>
+            <div class="strip-val neg">-18.68%</div>
+            <div class="strip-sub">Total underlying path ($2,979 &rarr; $2,423)</div>
+          </div>
+          <div class="strip-card">
+            <div class="strip-title">Base SAR Realized Profit</div>
+            <div class="strip-val pos">+102.39%</div>
+            <div class="strip-sub">Net profit generated from market path</div>
+          </div>
+          <div class="strip-card">
+            <div class="strip-title">Net Alpha Spread Gained</div>
+            <div class="strip-val pos" style="color:#00ff88;">+121.07%</div>
+            <div class="strip-sub">Excess return above underlying asset</div>
+          </div>
+          <div class="strip-card">
+            <div class="strip-title">Gross Trend Extraction</div>
+            <div class="strip-val pos" style="color:#00f0ff;">5.48x Multiplier</div>
+            <div class="strip-sub">Directional velocity converted to net alpha</div>
+          </div>
+        </div>
+
+        <!-- Normalized % Movement vs % Gain Over Time Canvas -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3>Cumulative Percent Change Over Time (% Movement vs % Gained)</h3>
+              <p class="card-desc">Normalized from 0.0% &bull; Hover across timeline to inspect exact % movement, % gain, and alpha spread</p>
+            </div>
+            <span class="badge">Movement Scrubber</span>
+          </div>
+          <div class="canvas-wrapper">
+            <canvas id="marketMovementCanvas" width="1200" height="280"></canvas>
+            <div id="market-movement-tooltip" class="canvas-tooltip"></div>
+          </div>
+          <div class="canvas-legend">
+            <span class="legend-item"><span class="legend-box" style="background:#00f0ff;"></span> Top Base SAR Gained (+102.4%)</span>
+            <span class="legend-item"><span class="legend-box" style="background:#00ff88;"></span> Top Pyramid SAR Gained (+70.6%)</span>
+            <span class="legend-item"><span class="legend-box" style="background:#ffb800;"></span> Base Long-Only Gained (+37.0%)</span>
+            <span class="legend-item"><span class="legend-box" style="background:#ff3366;"></span> ETH Market Movement (-18.68%)</span>
+            <span class="legend-item"><span class="legend-box" style="background:#ff007a;"></span> Alpha Spread Gap (Spread Curve)</span>
+          </div>
+        </div>
+
+        <!-- Seasonality Matrix Comparison Table -->
+        <div class="table-card" style="margin-top: 20px;">
+          <div class="table-header-bar">
+            <h3>2026 Monthly Seasonality Matrix (Model Benchmark)</h3>
+          </div>
+          <div class="table-responsive">
+            <table class="quant-table">
+              <thead>
+                <tr>
+                  <th>Strategy Archetype</th>
+                  <th>Jan 2026</th>
+                  <th>Feb 2026</th>
+                  <th>Mar 2026</th>
+                  <th>Apr 2026</th>
+                  <th>May 2026</th>
+                  <th>Jun 2026</th>
+                  <th>Jul 2026</th>
+                  <th>Aug 2026</th>
+                  <th>Total Return</th>
+                  <th>Max DD</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>ETH Spot Buy &amp; Hold</strong></td>
+                  <td class="neg">-17.71%</td>
+                  <td class="neg">-19.88%</td>
+                  <td class="pos">+7.17%</td>
+                  <td class="pos">+7.22%</td>
+                  <td class="neg">-11.10%</td>
+                  <td class="neg">-21.67%</td>
+                  <td class="pos">+18.49%</td>
+                  <td class="pos">+29.89%</td>
+                  <td class="neg" style="font-weight:700;">-18.68%</td>
+                  <td class="neg">55.0%</td>
+                </tr>
+                <tr>
+                  <td><span class="strat-pill">Base EMA (209, 223) SAR</span></td>
+                  <td class="pos">+18.84%</td>
+                  <td class="pos">+15.34%</td>
+                  <td class="neg">-6.02%</td>
+                  <td class="pos">+4.28%</td>
+                  <td class="pos">+1.12%</td>
+                  <td class="pos">+19.12%</td>
+                  <td class="neg">-0.55%</td>
+                  <td class="pos">+25.68%</td>
+                  <td class="pos" style="font-weight:700;">+102.39%</td>
+                  <td class="neg">23.8%</td>
+                </tr>
+                <tr>
+                  <td><span class="strat-pill" style="border-color:#00ff88; color:#00ff88;">Pyramid SAR (X=10%, Y=1h)</span></td>
+                  <td class="pos">+14.22%</td>
+                  <td class="pos">+11.85%</td>
+                  <td class="neg">-4.20%</td>
+                  <td class="pos">+3.10%</td>
+                  <td class="pos">+0.75%</td>
+                  <td class="pos">+14.90%</td>
+                  <td class="neg">-0.38%</td>
+                  <td class="pos">+18.95%</td>
+                  <td class="pos" style="font-weight:700;">+70.60%</td>
+                  <td class="pos" style="font-weight:700;">16.4%</td>
+                </tr>
+                <tr>
+                  <td><span class="strat-pill" style="border-color:#ffb800; color:#ffb800;">Base EMA (208, 224) Long Only</span></td>
+                  <td class="neg">-1.20%</td>
+                  <td class="neg">-0.80%</td>
+                  <td class="pos">+5.40%</td>
+                  <td class="pos">+6.10%</td>
+                  <td class="neg">-0.40%</td>
+                  <td class="neg">-0.90%</td>
+                  <td class="pos">+12.80%</td>
+                  <td class="pos">+14.20%</td>
+                  <td class="pos" style="font-weight:700;">+37.02%</td>
+                  <td class="neg">17.0%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======================================================== -->
+      <!-- STEP 5: FINAL QUANTITATIVE SYNTHESIS & WATERFALL -->
+      <!-- ======================================================== -->
+      <div id="view-step5-synthesis" class="view-panel">
+        <div class="panel-header">
+          <div>
+            <h2>Step 5: Master Quantitative Synthesis &amp; Executive Final Report</h2>
+            <p>Unified cross-feature multi-factor optimization synthesis across all 68,202 permutations.</p>
+          </div>
+        </div>
+
+        <!-- Crown Champion Card -->
+        <div class="champion-card">
+          <div class="champ-header">
+            <div class="champ-title-box">
+              <span class="champ-badge">🏆 CROWN OVERALL CHAMPION</span>
+              <h3 id="champ-title">Pyramiding SAR (EMA 207, 224 | Tranche X=10%, Interval Y=1h)</h3>
+            </div>
+            <div class="champ-score">
+              <span class="champ-score-val" id="champ-score">96.4</span>
+              <span class="champ-score-lbl">Composite Score (0-100)</span>
+            </div>
+          </div>
+          <div class="champ-kpi-row">
+            <div class="c-kpi"><span class="c-lbl">Net Return</span><span class="c-val pos" id="champ-return">+70.60%</span></div>
+            <div class="c-kpi"><span class="c-lbl">Alpha vs Spot</span><span class="c-val pos" id="champ-alpha">+89.28%</span></div>
+            <div class="c-kpi"><span class="c-lbl">Max Drawdown</span><span class="c-val pos" id="champ-mdd">16.4%</span></div>
+            <div class="c-kpi"><span class="c-lbl">Sharpe Ratio</span><span class="c-val" id="champ-sharpe">2.08</span></div>
+            <div class="c-kpi"><span class="c-lbl">Profit Factor</span><span class="c-val pos" id="champ-pf">4.64</span></div>
+            <div class="c-kpi"><span class="c-lbl">Fee Drag</span><span class="c-val" id="champ-fee" style="color:#ffb800;">1.5%</span></div>
+          </div>
+        </div>
+
+        <!-- Waterfall PnL & Rolling Alpha Grid -->
+        <div class="grid-2col" style="margin-top: 16px;">
+          <!-- Waterfall PnL Attribution -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3>PnL Attribution Waterfall Mechanics ($10,000 Base)</h3>
+                <p class="card-desc">Gains vs Losses vs Fee Drag decomposition</p>
+              </div>
+              <span class="badge">Attribution Waterfall</span>
+            </div>
+            <div class="canvas-wrapper">
+              <canvas id="waterfallCanvas" width="580" height="260"></canvas>
+              <div id="waterfall-tooltip" class="canvas-tooltip"></div>
+            </div>
+          </div>
+
+          <!-- 30-Day Rolling Alpha Stream -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3>30-Day Rolling Alpha Stream vs Spot Benchmark</h3>
+                <p class="card-desc">Time-series excess return above ETH Spot across 2026</p>
+              </div>
+              <span class="badge">Rolling Alpha</span>
+            </div>
+            <div class="canvas-wrapper">
+              <canvas id="rollingAlphaCanvas" width="580" height="260"></canvas>
+              <div id="rolling-tooltip" class="canvas-tooltip"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======================================================== -->
+      <!-- STEP 6: CENTRAL DOWNLOAD & QUANTITATIVE EXPORT HUB -->
+      <!-- ======================================================== -->
+      <div id="view-step6-downloads" class="view-panel">
+        <div class="panel-header">
+          <div>
+            <h2>Step 6: Central Download &amp; Quantitative Export Hub</h2>
+            <p>Directly download all 88+ quantitative backtest result matrices, strategy ranking CSVs, granular trade logs, SQLite market databases, visual charts, simulation engines, and test suites.</p>
+          </div>
+          <div class="header-actions">
+            <button class="action-btn highlight" id="btn-download-all-zip" onclick="downloadAllSummaryData()">⚡ Download Master JSON Bundle</button>
+          </div>
+        </div>
+
+        <!-- Download Hub KPI Summary Cards -->
+        <div class="kpi-row" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 20px;">
+          <div class="kpi-card">
+            <div class="kpi-title">Total Available Files</div>
+            <div class="kpi-val" style="color:#00f0ff;">88+ Files</div>
+            <div class="kpi-sub">CSV, JSON, PNG, SQLite, Python</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-title">Universe Permutations</div>
+            <div class="kpi-val" style="color:#00ff88;">68,202</div>
+            <div class="kpi-sub">Fee-Adjusted Systematic Models</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-title">OHLCV Candle Depth</div>
+            <div class="kpi-val" style="color:#ffb800;">67k (5M) / 5.6k (1H)</div>
+            <div class="kpi-sub">Jan 01 &rarr; Aug 22, 2026</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-title">Fee Friction Model</div>
+            <div class="kpi-val" style="color:#ff007a;">0.10% RT</div>
+            <div class="kpi-sub">Zero Lookahead Bias</div>
+          </div>
+        </div>
+
+        <!-- Filter & Search Bar for Downloads -->
+        <div class="filter-card" style="margin-bottom: 20px;">
+          <div class="filter-row">
+            <div class="filter-group" style="flex: 2;">
+              <label class="filter-label">Search Reports &amp; Files:</label>
+              <input type="text" id="dl-search-input" class="filter-input" placeholder="Search by name, metric, logic, format, or pair (e.g. '208', 'sar', 'pyramid', 'sqlite', 'trade', 'top50', 'tests')...">
+            </div>
+            <div class="filter-group" style="flex: 3;">
+              <label class="filter-label">Filter Category:</label>
+              <div class="pill-group" id="dl-category-pills">
+                <button class="pill-btn active" data-cat="ALL">All Files (88+)</button>
+                <button class="pill-btn" data-cat="MASTER">Master Sweeps</button>
+                <button class="pill-btn" data-cat="TOP">Top Strategy CSVs</button>
+                <button class="pill-btn" data-cat="PYRAMID">Pyramiding</button>
+                <button class="pill-btn" data-cat="TRADES">Individual Trade Logs</button>
+                <button class="pill-btn" data-cat="DATA">Market Data &amp; DB</button>
+                <button class="pill-btn" data-cat="CHARTS">Visual Charts</button>
+                <button class="pill-btn" data-cat="SCRIPTS">Python Scripts</button>
+                <button class="pill-btn" data-cat="TESTS">Tests &amp; Docs</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DOWNLOAD CATEGORY 1: MASTER MATRICES & COMPLETE DATASETS -->
+        <div class="download-section" data-section="MASTER">
+          <div class="section-title-bar">
+            <span class="section-badge">CORE MATRICES</span>
+            <h3>1. Master Backtest Matrices &amp; Datasets</h3>
+            <span class="section-count">8 Core Files</span>
+          </div>
+          <div class="download-grid">
+            <div class="dl-card" data-cat="MASTER" data-keywords="master fee adjusted 68202 csv all combinations">
+              <div class="dl-card-header">
+                <div class="dl-icon">📊</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">8.47 MB</span></div>
+                  <h4>results/master_fee_adjusted.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">The complete 68,202 parameter permutation dataset with 0.10% round-trip fees deducted. Contains all CAGR, Sharpe, Sortino, Calmar, MaxDD, monthly breakdowns, and win rates.</p>
+              <div class="dl-card-footer">
+                <a href="results/master_fee_adjusted.csv" download="master_fee_adjusted.csv" class="dl-btn primary"><span>Download Master Fee-Adjusted CSV</span> ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="MASTER" data-keywords="master all logics summary 10mb csv cross comparison">
+              <div class="dl-card-header">
+                <div class="dl-icon">🌐</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">9.58 MB</span></div>
+                  <h4>results/master_all_logics_summary.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Cross-logic consolidated master backtest file containing all 4 systematic architectures: EMA Cross SAR, EMA Cross Long-Only, Price EMA SAR, and Price EMA Long-Only.</p>
+              <div class="dl-card-footer">
+                <a href="results/master_all_logics_summary.csv" download="master_all_logics_summary.csv" class="dl-btn primary"><span>Download All Logics CSV</span> ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="MASTER" data-keywords="all ema comprehensive results csv raw grid matrix">
+              <div class="dl-card-header">
+                <div class="dl-icon">🗄️</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">6.78 MB</span></div>
+                  <h4>all_ema_comprehensive_results.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Comprehensive brute-force results matrix across all 60,000+ Fast EMA (5–250) vs Slow EMA (5–250) permutations.</p>
+              <div class="dl-card-footer">
+                <a href="all_ema_comprehensive_results.csv" download="all_ema_comprehensive_results.csv" class="dl-btn primary"><span>Download Comprehensive CSV</span> ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="MASTER" data-keywords="all ema combinations results csv fast slow grid">
+              <div class="dl-card-header">
+                <div class="dl-icon">🔢</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">2.24 MB</span></div>
+                  <h4>all_ema_combinations_results.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Standard parameter grid table of all evaluated Fast/Slow EMA combinations with core backtest returns.</p>
+              <div class="dl-card-footer">
+                <a href="all_ema_combinations_results.csv" download="all_ema_combinations_results.csv" class="dl-btn primary"><span>Download Combinations CSV</span> ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="MASTER" data-keywords="pyramid v2 master csv series reinvestment compounding">
+              <div class="dl-card-header">
+                <div class="dl-icon">🔺</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">1.67 MB</span></div>
+                  <h4>results/pyramid_v2_master.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Master pyramiding dataset across all 6 Y-Factors (Hours, Bars, Price %, Profit %) and 7 X% tranche allocations (5% to 50%) for top 20 candidate pairs.</p>
+              <div class="dl-card-footer">
+                <a href="results/pyramid_v2_master.csv" download="pyramid_v2_master.csv" class="dl-btn primary"><span>Download Pyramid Master CSV</span> ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="MASTER" data-keywords="pyramid master summary csv v1 overview">
+              <div class="dl-card-header">
+                <div class="dl-icon">📑</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">283 KB</span></div>
+                  <h4>results/pyramid_master_summary.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Summary table of initial pyramiding factor sweeps and baseline comparison performance.</p>
+              <div class="dl-card-footer">
+                <a href="results/pyramid_master_summary.csv" download="pyramid_master_summary.csv" class="dl-btn secondary"><span>Download Pyramid Summary CSV</span> ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="MASTER" data-keywords="risk management sweep results csv stop loss take profit tsl">
+              <div class="dl-card-header">
+                <div class="dl-icon">🛡️</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">90.1 KB</span></div>
+                  <h4>results/risk_management_sweep_results.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Complete risk parameter sweep evaluating Fixed SL, Fixed TP, Trailing SL, and Trailing TP under both Dual Re-Entry Modes.</p>
+              <div class="dl-card-footer">
+                <a href="results/risk_management_sweep_results.csv" download="risk_management_sweep_results.csv" class="dl-btn primary"><span>Download Risk Matrix CSV</span> ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="MASTER" data-keywords="risk management trades json sample simulated trades">
+              <div class="dl-card-header">
+                <div class="dl-icon">📦</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge json">JSON</span><span class="size-badge">2.71 MB</span></div>
+                  <h4>results/risk_management_trades.json</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Simulated trade histories for all evaluated risk management archetype parameter configurations.</p>
+              <div class="dl-card-footer">
+                <a href="results/risk_management_trades.json" download="risk_management_trades.json" class="dl-btn secondary"><span>Download Risk Trades JSON</span> ⬇</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DOWNLOAD CATEGORY 2: TOP STRATEGY RANKINGS & CURATED CSVs -->
+        <div class="download-section" data-section="TOP" style="margin-top: 28px;">
+          <div class="section-title-bar">
+            <span class="section-badge">LEADERBOARDS</span>
+            <h3>2. Top Strategy Rankings &amp; Monthly Performance CSVs</h3>
+            <span class="section-count">14 Curated Reports</span>
+          </div>
+          <div class="download-grid">
+            <div class="dl-card" data-cat="TOP" data-keywords="top 50 comprehensive return csv net gain alpha">
+              <div class="dl-card-header">
+                <div class="dl-icon">🥇</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">11.5 KB</span></div>
+                  <h4>top_50_comprehensive_by_return.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Top 50 single-entry strategies ranked by absolute Net Return % with full risk metrics, profit factors, win rates, and fee impacts.</p>
+              <div class="dl-card-footer">
+                <a href="top_50_comprehensive_by_return.csv" download="top_50_comprehensive_by_return.csv" class="dl-btn primary">Download Top 50 Return CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TOP" data-keywords="top 50 comprehensive sharpe ratio csv risk adjusted">
+              <div class="dl-card-header">
+                <div class="dl-icon">⚖️</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">11.5 KB</span></div>
+                  <h4>top_50_comprehensive_by_sharpe.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Top 50 strategies ranked by Risk-Adjusted Sharpe Ratio, emphasizing smooth equity curves and high Calmar ratios.</p>
+              <div class="dl-card-footer">
+                <a href="top_50_comprehensive_by_sharpe.csv" download="top_50_comprehensive_by_sharpe.csv" class="dl-btn primary">Download Top 50 Sharpe CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TOP" data-keywords="top 50 by return csv basic">
+              <div class="dl-card-header">
+                <div class="dl-icon">📈</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">4.0 KB</span></div>
+                  <h4>top_50_by_return.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Core Top 50 strategy parameter list ranked by return performance.</p>
+              <div class="dl-card-footer">
+                <a href="top_50_by_return.csv" download="top_50_by_return.csv" class="dl-btn primary">Download Top 50 Return List ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TOP" data-keywords="top 50 by sharpe csv basic">
+              <div class="dl-card-header">
+                <div class="dl-icon">🎯</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">4.0 KB</span></div>
+                  <h4>top_50_by_sharpe.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Core Top 50 strategy parameter list ranked by Sharpe ratio performance.</p>
+              <div class="dl-card-footer">
+                <a href="top_50_by_sharpe.csv" download="top_50_by_sharpe.csv" class="dl-btn primary">Download Top 50 Sharpe List ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TOP" data-keywords="top strategies monthly matrix csv jan aug 2026 consistency">
+              <div class="dl-card-header">
+                <div class="dl-icon">📅</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">3.5 KB</span></div>
+                  <h4>top_strategies_monthly_matrix.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Month-by-month return matrix (Jan–Aug 2026) for elite candidate models, enabling institutional consistency audits.</p>
+              <div class="dl-card-footer">
+                <a href="top_strategies_monthly_matrix.csv" download="top_strategies_monthly_matrix.csv" class="dl-btn primary">Download Monthly Matrix CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TOP" data-keywords="pyramid v2 top20 csv champions alpha vs base">
+              <div class="dl-card-header">
+                <div class="dl-icon">👑</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">5.1 KB</span></div>
+                  <h4>results/pyramid_v2_top20.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">The official top 20 pyramiding configurations ranked by compounding net return and Alpha generated over baseline.</p>
+              <div class="dl-card-footer">
+                <a href="results/pyramid_v2_top20.csv" download="pyramid_v2_top20.csv" class="dl-btn primary">Download Pyramid Top 20 CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TOP" data-keywords="pyramid top20 overall v1 csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">🏅</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">3.1 KB</span></div>
+                  <h4>results/pyramid_top20_overall.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Top 20 overall pyramiding configurations from initial optimization sweeps.</p>
+              <div class="dl-card-footer">
+                <a href="results/pyramid_top20_overall.csv" download="pyramid_top20_overall.csv" class="dl-btn secondary">Download Pyramid v1 Top 20 CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TOP" data-keywords="pyramid v2 best per pair csv optimal factor selection">
+              <div class="dl-card-header">
+                <div class="dl-icon">🎯</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">5.1 KB</span></div>
+                  <h4>results/pyramid_v2_best_per_pair.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">The optimal pyramiding reinvestment parameter setting for each of the top 20 candidate EMA pairs.</p>
+              <div class="dl-card-footer">
+                <a href="results/pyramid_v2_best_per_pair.csv" download="pyramid_v2_best_per_pair.csv" class="dl-btn primary">Download Best Per Pair CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TOP" data-keywords="top50 ema cross sar csv logic breakdown">
+              <div class="dl-card-header">
+                <div class="dl-icon">⚡</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">7.4 KB</span></div>
+                  <h4>results/top50_EMA_CROSS_SAR.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Top 50 strategies specifically for EMA Dual-Crossover Stop-and-Reverse (SAR) logic.</p>
+              <div class="dl-card-footer">
+                <a href="results/top50_EMA_CROSS_SAR.csv" download="top50_EMA_CROSS_SAR.csv" class="dl-btn primary">Download Top 50 SAR CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TOP" data-keywords="top50 ema cross long only csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">🟢</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">7.1 KB</span></div>
+                  <h4>results/top50_EMA_CROSS_LONG_ONLY.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Top 50 strategies specifically for EMA Dual-Crossover Long-Only logic.</p>
+              <div class="dl-card-footer">
+                <a href="results/top50_EMA_CROSS_LONG_ONLY.csv" download="top50_EMA_CROSS_LONG_ONLY.csv" class="dl-btn primary">Download Top 50 Long-Only CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TOP" data-keywords="top50 price ema sar csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">🎯</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">7.3 KB</span></div>
+                  <h4>results/top50_PRICE_EMA_SAR.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Top 50 strategies specifically for Single-EMA Price Cross Stop-and-Reverse logic.</p>
+              <div class="dl-card-footer">
+                <a href="results/top50_PRICE_EMA_SAR.csv" download="top50_PRICE_EMA_SAR.csv" class="dl-btn primary">Download Top 50 Price SAR CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TOP" data-keywords="top50 price ema long only csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">🔵</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">7.5 KB</span></div>
+                  <h4>results/top50_PRICE_EMA_LONG_ONLY.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Top 50 strategies specifically for Single-EMA Price Cross Long-Only logic.</p>
+              <div class="dl-card-footer">
+                <a href="results/top50_PRICE_EMA_LONG_ONLY.csv" download="top50_PRICE_EMA_LONG_ONLY.csv" class="dl-btn primary">Download Top 50 Price Long CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TOP" data-keywords="top 50 ema crossover sar long short csv alternative">
+              <div class="dl-card-header">
+                <div class="dl-icon">📊</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">8.7 KB</span></div>
+                  <h4>results/top_50_ema_crossover_sar_long_short.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Extended feature dataset for top 50 EMA Crossover SAR Long/Short strategies.</p>
+              <div class="dl-card-footer">
+                <a href="results/top_50_ema_crossover_sar_long_short.csv" download="top_50_ema_crossover_sar_long_short.csv" class="dl-btn secondary">Download Extended SAR CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TOP" data-keywords="top 50 ema crossover long only csv alternative">
+              <div class="dl-card-header">
+                <div class="dl-icon">🟢</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">8.0 KB</span></div>
+                  <h4>results/top_50_ema_crossover_long_only.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Extended feature dataset for top 50 EMA Crossover Long-Only strategies.</p>
+              <div class="dl-card-footer">
+                <a href="results/top_50_ema_crossover_long_only.csv" download="top_50_ema_crossover_long_only.csv" class="dl-btn secondary">Download Extended Long-Only CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TOP" data-keywords="top 50 price vs ema long only csv alternative">
+              <div class="dl-card-header">
+                <div class="dl-icon">🔵</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">8.3 KB</span></div>
+                  <h4>results/top_50_price_vs_ema_long_only.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Extended feature dataset for top 50 Price vs EMA Long-Only strategies.</p>
+              <div class="dl-card-footer">
+                <a href="results/top_50_price_vs_ema_long_only.csv" download="top_50_price_vs_ema_long_only.csv" class="dl-btn secondary">Download Extended Price Long CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TOP" data-keywords="top 50 price vs ema sar long short csv alternative">
+              <div class="dl-card-header">
+                <div class="dl-icon">🎯</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">8.7 KB</span></div>
+                  <h4>results/top_50_price_vs_ema_sar_long_short.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Extended feature dataset for top 50 Price vs EMA SAR Long/Short strategies.</p>
+              <div class="dl-card-footer">
+                <a href="results/top_50_price_vs_ema_sar_long_short.csv" download="top_50_price_vs_ema_sar_long_short.csv" class="dl-btn secondary">Download Extended Price SAR CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TOP" data-keywords="worst 20 combinations drawdown losses negative alpha csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">⚠️</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">1.8 KB</span></div>
+                  <h4>worst_20_combinations.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Negative alpha &amp; high whipsaw parameter regimes for anti-pattern risk avoidance.</p>
+              <div class="dl-card-footer">
+                <a href="worst_20_combinations.csv" download="worst_20_combinations.csv" class="dl-btn secondary">Download Worst 20 CSV ⬇</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DOWNLOAD CATEGORY 3: PYRAMIDING FACTOR SPECIFIC REPORTS -->
+        <div class="download-section" data-section="PYRAMID" style="margin-top: 28px;">
+          <div class="section-title-bar">
+            <span class="section-badge">REINVESTMENT</span>
+            <h3>3. Pyramiding Factor Leaderboards &amp; All-Series Logs</h3>
+            <span class="section-count">16 Pyramiding Files</span>
+          </div>
+          <div class="download-grid">
+            <div class="dl-card" data-cat="PYRAMID" data-keywords="pyramid v2 all series adds csv 88mb full history">
+              <div class="dl-card-header">
+                <div class="dl-icon">💾</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">88.11 MB</span></div>
+                  <h4>results/pyramid_series/pyramid_v2_all_series.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Massive 88 MB granular log recording every single tranche addition across all evaluated pyramiding series backtests.</p>
+              <div class="dl-card-footer">
+                <a href="results/pyramid_series/pyramid_v2_all_series.csv" download="pyramid_v2_all_series.csv" class="dl-btn primary">Download All Series Adds CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="PYRAMID" data-keywords="pyramid v1 all series adds csv 106mb massive log">
+              <div class="dl-card-header">
+                <div class="dl-icon">🗄️</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">106.5 MB</span></div>
+                  <h4>results/pyramid_series/all_series_adds.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Complete 106 MB log recording all tranche additions from the comprehensive initial pyramiding parameter sweep.</p>
+              <div class="dl-card-footer">
+                <a href="results/pyramid_series/all_series_adds.csv" download="all_series_adds.csv" class="dl-btn secondary">Download v1 All Adds CSV (106 MB) ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="PYRAMID" data-keywords="pyramid v2 all trades csv 27mb full closed series">
+              <div class="dl-card-header">
+                <div class="dl-icon">📚</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">27.20 MB</span></div>
+                  <h4>results/pyramid_trades/pyramid_v2_all_trades.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Complete 27 MB dataset of all closed multi-tranche series trades with series PnL, duration, and equity after close.</p>
+              <div class="dl-card-footer">
+                <a href="results/pyramid_trades/pyramid_v2_all_trades.csv" download="pyramid_v2_all_trades.csv" class="dl-btn primary">Download All Series Trades CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="PYRAMID" data-keywords="pyramid v1 all trades csv 33mb full closed series log">
+              <div class="dl-card-header">
+                <div class="dl-icon">🗃️</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">33.12 MB</span></div>
+                  <h4>results/pyramid_trades/all_pyramid_trades.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Complete 33 MB dataset recording all closed pyramiding series trades from initial sweep iterations.</p>
+              <div class="dl-card-footer">
+                <a href="results/pyramid_trades/all_pyramid_trades.csv" download="all_pyramid_trades.csv" class="dl-btn secondary">Download v1 All Trades CSV (33 MB) ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="PYRAMID" data-keywords="pyramid hours elapsed top10 v2 csv time based add">
+              <div class="dl-card-header">
+                <div class="dl-icon">⏱️</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">2.7 KB</span></div>
+                  <h4>results/pyramid_v2_top10_HOURS_ELAPSED.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Top 10 configurations using time-based hourly tranche deployment intervals (Crown Champion Factor: Y=1h, X=10%).</p>
+              <div class="dl-card-footer">
+                <a href="results/pyramid_v2_top10_HOURS_ELAPSED.csv" download="pyramid_v2_top10_HOURS_ELAPSED.csv" class="dl-btn primary">Download Hours Factor CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="PYRAMID" data-keywords="pyramid bars elapsed top10 v2 csv candle frequency">
+              <div class="dl-card-header">
+                <div class="dl-icon">📊</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">2.7 KB</span></div>
+                  <h4>results/pyramid_v2_top10_BARS_ELAPSED.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Top 10 configurations using bar-cadence tranche additions across active trend runs.</p>
+              <div class="dl-card-footer">
+                <a href="results/pyramid_v2_top10_BARS_ELAPSED.csv" download="pyramid_v2_top10_BARS_ELAPSED.csv" class="dl-btn primary">Download Bars Factor CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="PYRAMID" data-keywords="pyramid price from start pct top10 v2 csv entry distance">
+              <div class="dl-card-header">
+                <div class="dl-icon">🚀</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">2.9 KB</span></div>
+                  <h4>results/pyramid_v2_top10_PRICE_FROM_START_PCT.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Top 10 configurations triggering adds based on cumulative price extension % from series entry.</p>
+              <div class="dl-card-footer">
+                <a href="results/pyramid_v2_top10_PRICE_FROM_START_PCT.csv" download="pyramid_v2_top10_PRICE_FROM_START_PCT.csv" class="dl-btn primary">Download Price Start CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="PYRAMID" data-keywords="pyramid price from last pct top10 v2 csv incremental step">
+              <div class="dl-card-header">
+                <div class="dl-icon">🪜</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">2.9 KB</span></div>
+                  <h4>results/pyramid_v2_top10_PRICE_FROM_LAST_PCT.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Top 10 configurations adding tranches at fixed step-wise price percentage increments from prior add.</p>
+              <div class="dl-card-footer">
+                <a href="results/pyramid_v2_top10_PRICE_FROM_LAST_PCT.csv" download="pyramid_v2_top10_PRICE_FROM_LAST_PCT.csv" class="dl-btn primary">Download Price Last CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="PYRAMID" data-keywords="pyramid profit from start pct top10 v2 csv unrealized pnl threshold">
+              <div class="dl-card-header">
+                <div class="dl-icon">💰</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">2.9 KB</span></div>
+                  <h4>results/pyramid_v2_top10_PROFIT_FROM_START_PCT.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Top 10 configurations adding risk capital only when open position shows predefined cumulative unrealized profit.</p>
+              <div class="dl-card-footer">
+                <a href="results/pyramid_v2_top10_PROFIT_FROM_START_PCT.csv" download="pyramid_v2_top10_PROFIT_FROM_START_PCT.csv" class="dl-btn primary">Download Profit Start CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="PYRAMID" data-keywords="pyramid profit from last pct top10 v2 csv incremental gain">
+              <div class="dl-card-header">
+                <div class="dl-icon">📈</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">2.9 KB</span></div>
+                  <h4>results/pyramid_v2_top10_PROFIT_FROM_LAST_PCT.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Top 10 configurations deploying incremental tranches as open position profit expands by delta thresholds.</p>
+              <div class="dl-card-footer">
+                <a href="results/pyramid_v2_top10_PROFIT_FROM_LAST_PCT.csv" download="pyramid_v2_top10_PROFIT_FROM_LAST_PCT.csv" class="dl-btn primary">Download Profit Last CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="PYRAMID" data-keywords="pyramid top10 hours elapsed v1 csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">⏳</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">1.6 KB</span></div>
+                  <h4>results/pyramid_top10_HOURS_ELAPSED.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">V1 sweep results for Hours Elapsed pyramiding factor.</p>
+              <div class="dl-card-footer">
+                <a href="results/pyramid_top10_HOURS_ELAPSED.csv" download="pyramid_top10_HOURS_ELAPSED.csv" class="dl-btn secondary">Download v1 Hours CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="PYRAMID" data-keywords="pyramid top10 bars elapsed v1 csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">📊</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">1.6 KB</span></div>
+                  <h4>results/pyramid_top10_BARS_ELAPSED.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">V1 sweep results for Bars Elapsed pyramiding factor.</p>
+              <div class="dl-card-footer">
+                <a href="results/pyramid_top10_BARS_ELAPSED.csv" download="pyramid_top10_BARS_ELAPSED.csv" class="dl-btn secondary">Download v1 Bars CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="PYRAMID" data-keywords="pyramid top10 price start v1 csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">🚀</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">1.7 KB</span></div>
+                  <h4>results/pyramid_top10_PRICE_FROM_START_PCT.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">V1 sweep results for Price From Start % factor.</p>
+              <div class="dl-card-footer">
+                <a href="results/pyramid_top10_PRICE_FROM_START_PCT.csv" download="pyramid_top10_PRICE_FROM_START_PCT.csv" class="dl-btn secondary">Download v1 Price Start CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="PYRAMID" data-keywords="pyramid top10 price last v1 csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">🪜</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">1.7 KB</span></div>
+                  <h4>results/pyramid_top10_PRICE_FROM_LAST_PCT.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">V1 sweep results for Price From Last % factor.</p>
+              <div class="dl-card-footer">
+                <a href="results/pyramid_top10_PRICE_FROM_LAST_PCT.csv" download="pyramid_top10_PRICE_FROM_LAST_PCT.csv" class="dl-btn secondary">Download v1 Price Last CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="PYRAMID" data-keywords="pyramid top10 profit start v1 csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">💰</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">1.7 KB</span></div>
+                  <h4>results/pyramid_top10_PROFIT_FROM_START_PCT.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">V1 sweep results for Profit From Start % factor.</p>
+              <div class="dl-card-footer">
+                <a href="results/pyramid_top10_PROFIT_FROM_START_PCT.csv" download="pyramid_top10_PROFIT_FROM_START_PCT.csv" class="dl-btn secondary">Download v1 Profit Start CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="PYRAMID" data-keywords="pyramid top10 profit last v1 csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">📈</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">1.7 KB</span></div>
+                  <h4>results/pyramid_top10_PROFIT_FROM_LAST_PCT.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">V1 sweep results for Profit From Last % factor.</p>
+              <div class="dl-card-footer">
+                <a href="results/pyramid_top10_PROFIT_FROM_LAST_PCT.csv" download="pyramid_top10_PROFIT_FROM_LAST_PCT.csv" class="dl-btn secondary">Download v1 Profit Last CSV ⬇</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DOWNLOAD CATEGORY 4: INDIVIDUAL STRATEGY TRADE LOGS -->
+        <div class="download-section" data-section="TRADES" style="margin-top: 28px;">
+          <div class="section-title-bar">
+            <span class="section-badge">EXECUTION LOGS</span>
+            <h3>4. Strategy Trade-by-Trade Execution Logs</h3>
+            <span class="section-count">23 Trade Log CSVs</span>
+          </div>
+          <div class="download-grid">
+            <div class="dl-card" data-cat="TRADES" data-keywords="representative strategies trades detailed logs csv audit multi">
+              <div class="dl-card-header">
+                <div class="dl-icon">📜</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">704.4 KB</span></div>
+                  <h4>results/trades_detailed_logs/representative_strategies_trades.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Granular trade logs covering fast, medium, and slow EMA strategies across all 4 logic architectures.</p>
+              <div class="dl-card-footer">
+                <a href="results/trades_detailed_logs/representative_strategies_trades.csv" download="representative_strategies_trades.csv" class="dl-btn primary">Download Multi-Strategy Trades CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TRADES" data-keywords="ema cross sar 208 224 champion trade log csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">⚡</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">1.3 KB</span></div>
+                  <h4>results/trades/EMA_CROSS_SAR_208_224.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Trade execution logs for Champion Base SAR model (EMA 208, 224: +102.39% return).</p>
+              <div class="dl-card-footer">
+                <a href="results/trades/EMA_CROSS_SAR_208_224.csv" download="EMA_CROSS_SAR_208_224.csv" class="dl-btn primary">Download SAR 208/224 Trades CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TRADES" data-keywords="ema cross long only 208 224 trades log csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">🟢</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">690 B</span></div>
+                  <h4>results/trades/EMA_CROSS_LONG_ONLY_208_224.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Trade execution logs for Champion Long-Only Strategy (+54.12% return).</p>
+              <div class="dl-card-footer">
+                <a href="results/trades/EMA_CROSS_LONG_ONLY_208_224.csv" download="EMA_CROSS_LONG_ONLY_208_224.csv" class="dl-btn primary">Download Long-Only 208/224 CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TRADES" data-keywords="ema cross sar 12 26 classic macd trades log csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">📊</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">15.0 KB</span></div>
+                  <h4>results/trades/EMA_CROSS_SAR_12_26.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Trade logs for standard 12/26 MACD EMA parameter pair under SAR execution.</p>
+              <div class="dl-card-footer">
+                <a href="results/trades/EMA_CROSS_SAR_12_26.csv" download="EMA_CROSS_SAR_12_26.csv" class="dl-btn secondary">Download SAR 12/26 Trades CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TRADES" data-keywords="ema cross long only 12 26 trades log csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">🟢</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">7.5 KB</span></div>
+                  <h4>results/trades/EMA_CROSS_LONG_ONLY_12_26.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Trade logs for standard 12/26 MACD EMA parameter pair under Long-Only execution.</p>
+              <div class="dl-card-footer">
+                <a href="results/trades/EMA_CROSS_LONG_ONLY_12_26.csv" download="EMA_CROSS_LONG_ONLY_12_26.csv" class="dl-btn secondary">Download Long 12/26 Trades CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TRADES" data-keywords="ema cross sar 50 200 classic golden cross trades csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">🏆</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">3.4 KB</span></div>
+                  <h4>results/trades/EMA_CROSS_SAR_50_200.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Trade logs for the institutional 50/200 Golden Cross baseline model under SAR execution.</p>
+              <div class="dl-card-footer">
+                <a href="results/trades/EMA_CROSS_SAR_50_200.csv" download="EMA_CROSS_SAR_50_200.csv" class="dl-btn secondary">Download SAR 50/200 Trades CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TRADES" data-keywords="ema cross long only 50 200 trades csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">🟢</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">1.7 KB</span></div>
+                  <h4>results/trades/EMA_CROSS_LONG_ONLY_50_200.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Trade logs for the institutional 50/200 Golden Cross baseline model under Long-Only execution.</p>
+              <div class="dl-card-footer">
+                <a href="results/trades/EMA_CROSS_LONG_ONLY_50_200.csv" download="EMA_CROSS_LONG_ONLY_50_200.csv" class="dl-btn secondary">Download Long 50/200 Trades CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TRADES" data-keywords="ema cross sar 5 15 scalping fast trades csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">⚡</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">29.4 KB</span></div>
+                  <h4>results/trades/EMA_CROSS_SAR_5_15.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Trade logs for fast high-frequency 5/15 EMA crossover scalping model.</p>
+              <div class="dl-card-footer">
+                <a href="results/trades/EMA_CROSS_SAR_5_15.csv" download="EMA_CROSS_SAR_5_15.csv" class="dl-btn secondary">Download SAR 5/15 Trades CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TRADES" data-keywords="ema cross long only 5 15 trades csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">🟢</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">14.6 KB</span></div>
+                  <h4>results/trades/EMA_CROSS_LONG_ONLY_5_15.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Trade logs for 5/15 EMA crossover under Long-Only execution.</p>
+              <div class="dl-card-footer">
+                <a href="results/trades/EMA_CROSS_LONG_ONLY_5_15.csv" download="EMA_CROSS_LONG_ONLY_5_15.csv" class="dl-btn secondary">Download Long 5/15 Trades CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TRADES" data-keywords="ema cross sar 9 21 classic swing trades csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">⚡</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">19.2 KB</span></div>
+                  <h4>results/trades/EMA_CROSS_SAR_9_21.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Trade execution logs for classic 9/21 EMA crossover under SAR rules.</p>
+              <div class="dl-card-footer">
+                <a href="results/trades/EMA_CROSS_SAR_9_21.csv" download="EMA_CROSS_SAR_9_21.csv" class="dl-btn secondary">Download SAR 9/21 Trades CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TRADES" data-keywords="ema cross long only 9 21 trades csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">🟢</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">9.6 KB</span></div>
+                  <h4>results/trades/EMA_CROSS_LONG_ONLY_9_21.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Trade execution logs for classic 9/21 EMA crossover under Long-Only execution.</p>
+              <div class="dl-card-footer">
+                <a href="results/trades/EMA_CROSS_LONG_ONLY_9_21.csv" download="EMA_CROSS_LONG_ONLY_9_21.csv" class="dl-btn secondary">Download Long 9/21 Trades CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TRADES" data-keywords="price ema sar 10 none fast scalping trades csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">🎯</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">82.5 KB</span></div>
+                  <h4>results/trades/PRICE_EMA_SAR_10_None.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Trade execution logs for 10-period Single-EMA price cross under SAR rules.</p>
+              <div class="dl-card-footer">
+                <a href="results/trades/PRICE_EMA_SAR_10_None.csv" download="PRICE_EMA_SAR_10_None.csv" class="dl-btn secondary">Download Price SAR 10 CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TRADES" data-keywords="price ema long only 10 none trades csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">🔵</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">41.0 KB</span></div>
+                  <h4>results/trades/PRICE_EMA_LONG_ONLY_10_None.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Trade execution logs for 10-period Single-EMA price cross under Long-Only execution.</p>
+              <div class="dl-card-footer">
+                <a href="results/trades/PRICE_EMA_LONG_ONLY_10_None.csv" download="PRICE_EMA_LONG_ONLY_10_None.csv" class="dl-btn secondary">Download Price Long 10 CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TRADES" data-keywords="price ema long only 20 none trades csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">🔵</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">29.1 KB</span></div>
+                  <h4>results/trades/PRICE_EMA_LONG_ONLY_20_None.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Trade execution logs for 20-period Single-EMA price cross under Long-Only execution.</p>
+              <div class="dl-card-footer">
+                <a href="results/trades/PRICE_EMA_LONG_ONLY_20_None.csv" download="PRICE_EMA_LONG_ONLY_20_None.csv" class="dl-btn secondary">Download Price Long 20 CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TRADES" data-keywords="price ema long only 50 none trades csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">🔵</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">17.3 KB</span></div>
+                  <h4>results/trades/PRICE_EMA_LONG_ONLY_50_None.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Trade execution logs for 50-period Single-EMA price cross under Long-Only execution.</p>
+              <div class="dl-card-footer">
+                <a href="results/trades/PRICE_EMA_LONG_ONLY_50_None.csv" download="PRICE_EMA_LONG_ONLY_50_None.csv" class="dl-btn secondary">Download Price Long 50 CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TRADES" data-keywords="price ema long only 100 none trades csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">🔵</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">10.7 KB</span></div>
+                  <h4>results/trades/PRICE_EMA_LONG_ONLY_100_None.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Trade execution logs for 100-period Single-EMA price cross under Long-Only execution.</p>
+              <div class="dl-card-footer">
+                <a href="results/trades/PRICE_EMA_LONG_ONLY_100_None.csv" download="PRICE_EMA_LONG_ONLY_100_None.csv" class="dl-btn secondary">Download Price Long 100 CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TRADES" data-keywords="price ema long only 200 none trades csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">🔵</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">7.9 KB</span></div>
+                  <h4>results/trades/PRICE_EMA_LONG_ONLY_200_None.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Trade execution logs for 200-period Single-EMA price cross under Long-Only execution.</p>
+              <div class="dl-card-footer">
+                <a href="results/trades/PRICE_EMA_LONG_ONLY_200_None.csv" download="PRICE_EMA_LONG_ONLY_200_None.csv" class="dl-btn secondary">Download Price Long 200 CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TRADES" data-keywords="price ema sar 82 none trades log single ema">
+              <div class="dl-card-header">
+                <div class="dl-icon">🎯</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">23.2 KB</span></div>
+                  <h4>results/trades/PRICE_EMA_SAR_82_None.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Trade execution logs for Top Single-EMA Price SAR model (EMA 82: +95.6% return).</p>
+              <div class="dl-card-footer">
+                <a href="results/trades/PRICE_EMA_SAR_82_None.csv" download="PRICE_EMA_SAR_82_None.csv" class="dl-btn primary">Download Price SAR 82 Trades CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TRADES" data-keywords="price ema long only 82 none trades log single ema">
+              <div class="dl-card-header">
+                <div class="dl-icon">🔵</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">11.5 KB</span></div>
+                  <h4>results/trades/PRICE_EMA_LONG_ONLY_82_None.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Trade execution logs for Single-EMA Price Long-Only model (EMA 82).</p>
+              <div class="dl-card-footer">
+                <a href="results/trades/PRICE_EMA_LONG_ONLY_82_None.csv" download="PRICE_EMA_LONG_ONLY_82_None.csv" class="dl-btn primary">Download Price Long 82 Trades CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TRADES" data-keywords="price ema sar 10 20 50 100 200 none trades csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">📊</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">57.3 KB</span></div>
+                  <h4>results/trades/PRICE_EMA_SAR_20_None.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Trade execution logs for 20-period EMA price crossover under SAR rules.</p>
+              <div class="dl-card-footer">
+                <a href="results/trades/PRICE_EMA_SAR_20_None.csv" download="PRICE_EMA_SAR_20_None.csv" class="dl-btn secondary">Download Price SAR 20 CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TRADES" data-keywords="price ema sar 50 none trades csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">📊</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">33.9 KB</span></div>
+                  <h4>results/trades/PRICE_EMA_SAR_50_None.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Trade execution logs for 50-period EMA price crossover under SAR rules.</p>
+              <div class="dl-card-footer">
+                <a href="results/trades/PRICE_EMA_SAR_50_None.csv" download="PRICE_EMA_SAR_50_None.csv" class="dl-btn secondary">Download Price SAR 50 CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TRADES" data-keywords="price ema sar 100 none trades csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">📊</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">20.9 KB</span></div>
+                  <h4>results/trades/PRICE_EMA_SAR_100_None.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Trade execution logs for 100-period EMA price crossover under SAR rules.</p>
+              <div class="dl-card-footer">
+                <a href="results/trades/PRICE_EMA_SAR_100_None.csv" download="PRICE_EMA_SAR_100_None.csv" class="dl-btn secondary">Download Price SAR 100 CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TRADES" data-keywords="price ema sar 200 none trades csv">
+              <div class="dl-card-header">
+                <div class="dl-icon">📊</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">15.5 KB</span></div>
+                  <h4>results/trades/PRICE_EMA_SAR_200_None.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Trade execution logs for 200-period EMA price crossover under SAR rules.</p>
+              <div class="dl-card-footer">
+                <a href="results/trades/PRICE_EMA_SAR_200_None.csv" download="PRICE_EMA_SAR_200_None.csv" class="dl-btn secondary">Download Price SAR 200 CSV ⬇</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DOWNLOAD CATEGORY 5: RAW MARKET DATA & SQLITE DATABASE -->
+        <div class="download-section" data-section="DATA" style="margin-top: 28px;">
+          <div class="section-title-bar">
+            <span class="section-badge">MARKET DATA</span>
+            <h3>5. Historical Candle Data &amp; SQLite Databases</h3>
+            <span class="section-count">5 Market Data Files</span>
+          </div>
+          <div class="download-grid">
+            <div class="dl-card" data-cat="DATA" data-keywords="eth market data sqlite database raw 5m 1h candles 22mb master original">
+              <div class="dl-card-header">
+                <div class="dl-icon">🛢️</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge" style="background:rgba(150,0,255,0.15); color:#b84dff; border:1px solid rgba(150,0,255,0.3);">SQLITE</span><span class="size-badge">22.13 MB</span></div>
+                  <h4>eth_market_data.sqlite</h4>
+                </div>
+              </div>
+              <p class="dl-desc">The master original SQLite database containing raw 5-minute candle history (`candles_5m`: 67,212 bars), strategy metrics (`strategy_summary_metrics`: 60,762 rows), and trade logs.</p>
+              <div class="dl-card-footer">
+                <a href="eth_market_data.sqlite" download="eth_market_data.sqlite" class="dl-btn primary">Download SQLite Database (22 MB) ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="DATA" data-keywords="eth 2026 5m csv 5 minute raw candles ticks 67212 rows original source dataset">
+              <div class="dl-card-header">
+                <div class="dl-icon">⏱️</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">4.79 MB</span></div>
+                  <h4>eth_2026_5m.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">The complete original high-resolution dataset of 67,212 5-minute raw OHLCV crypto candles with UTC timestamps spanning Jan 01 &rarr; Aug 22, 2026.</p>
+              <div class="dl-card-footer">
+                <a href="eth_2026_5m.csv" download="eth_2026_5m.csv" class="dl-btn primary">Download Raw 5M OHLCV CSV (4.8 MB) ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="DATA" data-keywords="eth 2026 1h csv hourly candles ohlcv market dataset 5601 bars">
+              <div class="dl-card-header">
+                <div class="dl-icon">🕯️</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge csv">CSV</span><span class="size-badge">862.8 KB</span></div>
+                  <h4>eth_2026_1h.csv</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Complete 5,601 1-Hour OHLCV historical candle dataset with volume resampled directly from the 5-minute seed data for simulation engines.</p>
+              <div class="dl-card-footer">
+                <a href="eth_2026_1h.csv" download="eth_2026_1h.csv" class="dl-btn primary">Download 1H OHLCV CSV ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="DATA" data-keywords="web data json package terminal full memory database">
+              <div class="dl-card-header">
+                <div class="dl-icon">📦</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge json">JSON</span><span class="size-badge">11.87 MB</span></div>
+                  <h4>web_data.json</h4>
+                </div>
+              </div>
+              <p class="dl-desc">The complete terminal JSON dataset with full multi-dimensional strategy mappings, monthly grids, and equity curves.</p>
+              <div class="dl-card-footer">
+                <a href="web_data.json" download="web_data.json" class="dl-btn secondary">Download web_data.json (12 MB) ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="DATA" data-keywords="data js bundled javascript database">
+              <div class="dl-card-header">
+                <div class="dl-icon">📜</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge" style="background:rgba(255,200,0,0.15); color:#ffd000; border:1px solid rgba(255,200,0,0.3);">JS</span><span class="size-badge">11.87 MB</span></div>
+                  <h4>data.js</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Pre-compiled standalone JavaScript data bundle for zero-server offline file:/// opening support.</p>
+              <div class="dl-card-footer">
+                <a href="data.js" download="data.js" class="dl-btn secondary">Download data.js (12 MB) ⬇</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DOWNLOAD CATEGORY 6: HIGH-RESOLUTION VISUAL CHARTS & PLOTS -->
+        <div class="download-section" data-section="CHARTS" style="margin-top: 28px;">
+          <div class="section-title-bar">
+            <span class="section-badge">ANALYTICAL GRAPHICS</span>
+            <h3>6. High-Resolution Visual Analytics &amp; Charts</h3>
+            <span class="section-count">4 Image Assets</span>
+          </div>
+          <div class="download-grid">
+            <div class="dl-card" data-cat="CHARTS" data-keywords="top equity curves png high res multi strategy">
+              <div class="dl-card-header">
+                <div class="dl-icon">📈</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge png">PNG</span><span class="size-badge">488.1 KB</span></div>
+                  <h4>charts/top_equity_curves.png</h4>
+                </div>
+              </div>
+              <p class="dl-desc">High-resolution equity curve chart comparing top strategy trajectories vs ETH Buy &amp; Hold benchmark.</p>
+              <div class="dl-card-footer">
+                <a href="charts/top_equity_curves.png" download="top_equity_curves.png" class="dl-btn primary">Download Equity Chart PNG ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="CHARTS" data-keywords="monthly returns heatmap png visual seasonality">
+              <div class="dl-card-header">
+                <div class="dl-icon">🗺️</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge png">PNG</span><span class="size-badge">492.2 KB</span></div>
+                  <h4>charts/monthly_returns_heatmap.png</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Visual month-by-month return heatmap showing profitability distribution across 2026 market cycles.</p>
+              <div class="dl-card-footer">
+                <a href="charts/monthly_returns_heatmap.png" download="monthly_returns_heatmap.png" class="dl-btn primary">Download Heatmap PNG ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="CHARTS" data-keywords="ema heatmap returns png parameter topology 2d">
+              <div class="dl-card-header">
+                <div class="dl-icon">🎨</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge png">PNG</span><span class="size-badge">254.9 KB</span></div>
+                  <h4>charts/ema_heatmap_returns.png</h4>
+                </div>
+              </div>
+              <p class="dl-desc">2D Parameter topology heatmap mapping Fast EMA (5–250) vs Slow EMA (5–250) total net return distribution.</p>
+              <div class="dl-card-footer">
+                <a href="charts/ema_heatmap_returns.png" download="ema_heatmap_returns.png" class="dl-btn primary">Download Returns Topology PNG ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="CHARTS" data-keywords="ema heatmap sharpe png parameter sharpe topology">
+              <div class="dl-card-header">
+                <div class="dl-icon">✨</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge png">PNG</span><span class="size-badge">269.6 KB</span></div>
+                  <h4>charts/ema_heatmap_sharpe.png</h4>
+                </div>
+              </div>
+              <p class="dl-desc">2D Parameter topology heatmap mapping Sharpe ratio resilience across the entire brute-force grid.</p>
+              <div class="dl-card-footer">
+                <a href="charts/ema_heatmap_sharpe.png" download="ema_heatmap_sharpe.png" class="dl-btn primary">Download Sharpe Topology PNG ⬇</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DOWNLOAD CATEGORY 7: PYTHON QUANT BACKTEST ENGINES -->
+        <div class="download-section" data-section="SCRIPTS" style="margin-top: 28px;">
+          <div class="section-title-bar">
+            <span class="section-badge">QUANT CODE</span>
+            <h3>7. Python Backtest Engines &amp; Simulation Scripts</h3>
+            <span class="section-count">7 Source Scripts</span>
+          </div>
+          <div class="download-grid">
+            <div class="dl-card" data-cat="SCRIPTS" data-keywords="unified trade engine python script core simulator">
+              <div class="dl-card-header">
+                <div class="dl-icon">⚙️</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge" style="background:rgba(0,180,255,0.15); color:#00b4ff; border:1px solid rgba(0,180,255,0.3);">PYTHON</span><span class="size-badge">21.9 KB</span></div>
+                  <h4>unified_trade_engine.py</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Production-grade core execution engine supporting baseline single-entry, series reinvestment, Sortino, Calmar, and scipy vectorization.</p>
+              <div class="dl-card-footer">
+                <a href="unified_trade_engine.py" download="unified_trade_engine.py" class="dl-btn primary">Download Trade Engine Script ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="SCRIPTS" data-keywords="pyramid backtest v2 python script reinvestment">
+              <div class="dl-card-header">
+                <div class="dl-icon">📐</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge" style="background:rgba(0,180,255,0.15); color:#00b4ff; border:1px solid rgba(0,180,255,0.3);">PYTHON</span><span class="size-badge">22.1 KB</span></div>
+                  <h4>pyramid_backtest_v2.py</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Comprehensive brute-force script for testing 6 pyramiding factors across all X% allocations on top EMA candidate models.</p>
+              <div class="dl-card-footer">
+                <a href="pyramid_backtest_v2.py" download="pyramid_backtest_v2.py" class="dl-btn primary">Download Pyramid Script ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="SCRIPTS" data-keywords="risk management backtester python script sl tp tsl">
+              <div class="dl-card-header">
+                <div class="dl-icon">🛡️</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge" style="background:rgba(0,180,255,0.15); color:#00b4ff; border:1px solid rgba(0,180,255,0.3);">PYTHON</span><span class="size-badge">20.9 KB</span></div>
+                  <h4>risk_management_backtester.py</h4>
+                </div>
+              </div>
+              <p class="dl-desc">High-throughput risk simulator evaluating dual re-entry modes, trailing stop losses, take profits, and callback triggers.</p>
+              <div class="dl-card-footer">
+                <a href="risk_management_backtester.py" download="risk_management_backtester.py" class="dl-btn primary">Download Risk Backtester Script ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="SCRIPTS" data-keywords="export web data python exporter feature builder">
+              <div class="dl-card-header">
+                <div class="dl-icon">📦</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge" style="background:rgba(0,180,255,0.15); color:#00b4ff; border:1px solid rgba(0,180,255,0.3);">PYTHON</span><span class="size-badge">31.7 KB</span></div>
+                  <h4>export_web_data.py</h4>
+                </div>
+              </div>
+              <p class="dl-desc">The master 24-feature data compilation pipeline generating `web_data.json` and `data.js`.</p>
+              <div class="dl-card-footer">
+                <a href="export_web_data.py" download="export_web_data.py" class="dl-btn secondary">Download Exporter Script ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="SCRIPTS" data-keywords="unified multilogic backtester python script">
+              <div class="dl-card-header">
+                <div class="dl-icon">🔄</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge" style="background:rgba(0,180,255,0.15); color:#00b4ff; border:1px solid rgba(0,180,255,0.3);">PYTHON</span><span class="size-badge">13.0 KB</span></div>
+                  <h4>unified_multilogic_backtester.py</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Multi-architecture batch backtester evaluating SAR and Long-Only execution in parallel.</p>
+              <div class="dl-card-footer">
+                <a href="unified_multilogic_backtester.py" download="unified_multilogic_backtester.py" class="dl-btn secondary">Download Multi-Logic Script ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="SCRIPTS" data-keywords="advanced backtest ema python script">
+              <div class="dl-card-header">
+                <div class="dl-icon">⚡</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge" style="background:rgba(0,180,255,0.15); color:#00b4ff; border:1px solid rgba(0,180,255,0.3);">PYTHON</span><span class="size-badge">15.1 KB</span></div>
+                  <h4>advanced_backtest_ema.py</h4>
+                </div>
+              </div>
+              <p class="dl-desc">High-performance EMA brute-force calculation script with multiprocessing grid evaluation.</p>
+              <div class="dl-card-footer">
+                <a href="advanced_backtest_ema.py" download="advanced_backtest_ema.py" class="dl-btn secondary">Download Advanced Backtest Script ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="SCRIPTS" data-keywords="eth database manager python sqlite builder">
+              <div class="dl-card-header">
+                <div class="dl-icon">🗃️</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge" style="background:rgba(0,180,255,0.15); color:#00b4ff; border:1px solid rgba(0,180,255,0.3);">PYTHON</span><span class="size-badge">4.8 KB</span></div>
+                  <h4>eth_database_manager.py</h4>
+                </div>
+              </div>
+              <p class="dl-desc">SQLite database utility for fetching, ingesting, and resampling 5-minute candles into clean 1-hour bars.</p>
+              <div class="dl-card-footer">
+                <a href="eth_database_manager.py" download="eth_database_manager.py" class="dl-btn secondary">Download DB Manager Script ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="SCRIPTS" data-keywords="backtest final python standalone script">
+              <div class="dl-card-header">
+                <div class="dl-icon">🐍</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge" style="background:rgba(0,180,255,0.15); color:#00b4ff; border:1px solid rgba(0,180,255,0.3);">PYTHON</span><span class="size-badge">11.9 KB</span></div>
+                  <h4>backtest_final.py</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Standalone benchmark execution script evaluating final parameters and outputting consolidated trade CSVs.</p>
+              <div class="dl-card-footer">
+                <a href="backtest_final.py" download="backtest_final.py" class="dl-btn secondary">Download Backtest Final Script ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="SCRIPTS" data-keywords="backtest ema python baseline runner">
+              <div class="dl-card-header">
+                <div class="dl-icon">🐍</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge" style="background:rgba(0,180,255,0.15); color:#00b4ff; border:1px solid rgba(0,180,255,0.3);">PYTHON</span><span class="size-badge">13.4 KB</span></div>
+                  <h4>backtest_ema.py</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Core EMA crossover simulation script with zero lookahead intra-candle evaluation.</p>
+              <div class="dl-card-footer">
+                <a href="backtest_ema.py" download="backtest_ema.py" class="dl-btn secondary">Download Backtest EMA Script ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="SCRIPTS" data-keywords="pyramid backtest v1 python script">
+              <div class="dl-card-header">
+                <div class="dl-icon">🐍</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge" style="background:rgba(0,180,255,0.15); color:#00b4ff; border:1px solid rgba(0,180,255,0.3);">PYTHON</span><span class="size-badge">17.2 KB</span></div>
+                  <h4>pyramid_backtest.py</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Initial version of the pyramiding factor simulation script evaluating basic reinvestment sweeps.</p>
+              <div class="dl-card-footer">
+                <a href="pyramid_backtest.py" download="pyramid_backtest.py" class="dl-btn secondary">Download Pyramid v1 Script ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="SCRIPTS" data-keywords="pyramid analysis python script helper">
+              <div class="dl-card-header">
+                <div class="dl-icon">📊</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge" style="background:rgba(0,180,255,0.15); color:#00b4ff; border:1px solid rgba(0,180,255,0.3);">PYTHON</span><span class="size-badge">1.5 KB</span></div>
+                  <h4>results/pyramid_analysis.py</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Helper analysis script for aggregating factor performance and selecting best settings per pair.</p>
+              <div class="dl-card-footer">
+                <a href="results/pyramid_analysis.py" download="pyramid_analysis.py" class="dl-btn secondary">Download Pyramid Analysis Script ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="SCRIPTS" data-keywords="print summary python cli utility">
+              <div class="dl-card-header">
+                <div class="dl-icon">🖨️</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge" style="background:rgba(0,180,255,0.15); color:#00b4ff; border:1px solid rgba(0,180,255,0.3);">PYTHON</span><span class="size-badge">852 B</span></div>
+                  <h4>results/print_summary.py</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Command-line terminal utility for printing formatted backtest summary rankings to stdout.</p>
+              <div class="dl-card-footer">
+                <a href="results/print_summary.py" download="print_summary.py" class="dl-btn secondary">Download Print Summary Script ⬇</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DOWNLOAD CATEGORY 8: TEST SUITES & SYSTEM DOCUMENTATION -->
+        <div class="download-section" data-section="TESTS" style="margin-top: 28px;">
+          <div class="section-title-bar">
+            <span class="section-badge">TESTS &amp; DOCS</span>
+            <h3>8. Automated Test Suites &amp; Project Documentation</h3>
+            <span class="section-count">5 Files</span>
+          </div>
+          <div class="download-grid">
+            <div class="dl-card" data-cat="TESTS" data-keywords="test quant system python unit regression tests">
+              <div class="dl-card-header">
+                <div class="dl-icon">🧪</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge" style="background:rgba(0,255,136,0.15); color:#00ff88; border:1px solid rgba(0,255,136,0.3);">TEST</span><span class="size-badge">10.6 KB</span></div>
+                  <h4>tests/test_quant_system.py</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Automated unit and regression test suite verifying double fees, short PnL, cash guard, and Sortino calculations.</p>
+              <div class="dl-card-footer">
+                <a href="tests/test_quant_system.py" download="test_quant_system.py" class="dl-btn primary">Download Quant Test Suite ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TESTS" data-keywords="test frontend logic python verification suite">
+              <div class="dl-card-header">
+                <div class="dl-icon">🧪</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge" style="background:rgba(0,255,136,0.15); color:#00ff88; border:1px solid rgba(0,255,136,0.3);">TEST</span><span class="size-badge">6.5 KB</span></div>
+                  <h4>tests/test_frontend_logic.py</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Frontend logic test suite verifying X-pills, modal naming, sign prefixes, and debouncing.</p>
+              <div class="dl-card-footer">
+                <a href="tests/test_frontend_logic.py" download="test_frontend_logic.py" class="dl-btn primary">Download Frontend Test Suite ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TESTS" data-keywords="run all tests python test runner script">
+              <div class="dl-card-header">
+                <div class="dl-icon">🚀</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge" style="background:rgba(0,255,136,0.15); color:#00ff88; border:1px solid rgba(0,255,136,0.3);">TEST</span><span class="size-badge">967 B</span></div>
+                  <h4>run_all_tests.py</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Master test runner executing all backend and frontend validation suites with a single command.</p>
+              <div class="dl-card-footer">
+                <a href="run_all_tests.py" download="run_all_tests.py" class="dl-btn secondary">Download Test Runner Script ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TESTS" data-keywords="push to github python git sync script">
+              <div class="dl-card-header">
+                <div class="dl-icon">🐙</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge" style="background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.25);">GIT</span><span class="size-badge">1.3 KB</span></div>
+                  <h4>push_to_github.py</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Git synchronization script for committing and pushing repo updates to GitHub remote.</p>
+              <div class="dl-card-footer">
+                <a href="push_to_github.py" download="push_to_github.py" class="dl-btn secondary">Download Git Push Script ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TESTS" data-keywords="readme markdown documentation project overview">
+              <div class="dl-card-header">
+                <div class="dl-icon">📖</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge" style="background:rgba(255,184,0,0.15); color:#ffb800; border:1px solid rgba(255,184,0,0.3);">DOC</span><span class="size-badge">3.2 KB</span></div>
+                  <h4>README.md</h4>
+                </div>
+              </div>
+              <p class="dl-desc">The official terminal architecture documentation, quickstart guide, and backtest methodology specification.</p>
+              <div class="dl-card-footer">
+                <a href="README.md" download="README.md" class="dl-btn secondary">Download README Documentation ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TESTS" data-keywords="app js client side terminal application engine">
+              <div class="dl-card-header">
+                <div class="dl-icon">💻</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge" style="background:rgba(255,200,0,0.15); color:#ffd000; border:1px solid rgba(255,200,0,0.3);">JS</span><span class="size-badge">136 KB</span></div>
+                  <h4>app.js</h4>
+                </div>
+              </div>
+              <p class="dl-desc">The complete client-side frontend application controller, Canvas renderers, and state manager.</p>
+              <div class="dl-card-footer">
+                <a href="app.js" download="app.js" class="dl-btn secondary">Download app.js Script ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TESTS" data-keywords="index css glassmorphism stylesheet design system">
+              <div class="dl-card-header">
+                <div class="dl-icon">🎨</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge" style="background:rgba(0,240,255,0.15); color:#00f0ff; border:1px solid rgba(0,240,255,0.3);">CSS</span><span class="size-badge">37 KB</span></div>
+                  <h4>index.css</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Production glassmorphic dark theme design system and mobile responsive stylesheet.</p>
+              <div class="dl-card-footer">
+                <a href="index.css" download="index.css" class="dl-btn secondary">Download index.css Stylesheet ⬇</a>
+              </div>
+            </div>
+
+            <div class="dl-card" data-cat="TESTS" data-keywords="explorer html standalone hierarchy viewer tool">
+              <div class="dl-card-header">
+                <div class="dl-icon">🌐</div>
+                <div class="dl-meta">
+                  <div class="dl-badges"><span class="format-badge" style="background:rgba(255,0,122,0.15); color:#ff007a; border:1px solid rgba(255,0,122,0.3);">HTML</span><span class="size-badge">5.0 KB</span></div>
+                  <h4>explorer.html</h4>
+                </div>
+              </div>
+              <p class="dl-desc">Standalone lightweight strategy explorer tool for offline inspection.</p>
+              <div class="dl-card-footer">
+                <a href="explorer.html" download="explorer.html" class="dl-btn secondary">Download explorer.html Tool ⬇</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DYNAMIC EXPORTERS CARD -->
+        <div class="card" style="margin-top: 28px; background: rgba(0, 240, 255, 0.03); border: 1px solid rgba(0, 240, 255, 0.2);">
+          <div class="card-header">
+            <div>
+              <h3>⚡ Live Dynamic Memory Exporters</h3>
+              <p class="card-desc">Generate customized, filtered CSV exports based on your current terminal session state in real-time.</p>
+            </div>
+            <span class="badge" style="background: rgba(0,255,136,0.15); color: #00ff88; border-color: rgba(0,255,136,0.3);">Real-Time Memory Exporters</span>
+          </div>
+          <div class="dynamic-export-buttons-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 14px;">
+            <button class="dl-dynamic-btn" onclick="exportActiveTableCSV()">
+              <span class="btn-icon">📋</span>
+              <div class="btn-info">
+                <strong>Export Active Table View</strong>
+                <small>Respects active filters &amp; search</small>
+              </div>
+              <span class="arrow">&rarr;</span>
+            </button>
+            <button class="dl-dynamic-btn" onclick="downloadAllSummaryData()">
+              <span class="btn-icon">⚡</span>
+              <div class="btn-info">
+                <strong>Export Top 50 JSON Bundle</strong>
+                <small>Full metrics for top strategies</small>
+              </div>
+              <span class="arrow">&rarr;</span>
+            </button>
+            <button class="dl-dynamic-btn" onclick="downloadTerminalStateJSON()">
+              <span class="btn-icon">💾</span>
+              <div class="btn-info">
+                <strong>Export State Snapshot</strong>
+                <small>Download current session config</small>
+              </div>
+              <span class="arrow">&rarr;</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MICRO AUDIT DEEP-DIVE MODAL WITH 10 FULL DATA FEATURES -->
+  <!-- ======================================================== -->
+  <div class="modal-overlay" id="drilldown-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <div class="modal-badge" id="modal-logic-badge">EMA_CROSS_SAR</div>
+          <h2 id="modal-strategy-title">Strategy Deep-Dive Analytics</h2>
+        </div>
+        <div class="modal-header-actions">
+          <button class="action-btn" id="modal-export-trades-btn">📥 Export Trades (CSV)</button>
+          <button class="close-btn" id="close-modal-btn">&times;</button>
+        </div>
+      </div>
+
+      <div class="modal-body">
+        <!-- 10 Full Data Feature KPI Grid -->
+        <div class="modal-kpi-grid" style="grid-template-columns: repeat(5, 1fr); gap: 10px;">
+          <div class="kpi-box">
+            <div class="kpi-label">Total Net Return (%)</div>
+            <div class="kpi-val pos" id="modal-ret">+102.39%</div>
+            <div class="kpi-sub" id="modal-cagr">CAGR: +172.4%</div>
+          </div>
+          <div class="kpi-box">
+            <div class="kpi-label">Net Profit ($) &amp; Final Equity</div>
+            <div class="kpi-val pos" id="modal-pnl-usd">+$10,239.00</div>
+            <div class="kpi-sub" id="modal-final-eq">Final: $20,239.00</div>
+          </div>
+          <div class="kpi-box">
+            <div class="kpi-label">Max Drawdown (%)</div>
+            <div class="kpi-val neg" id="modal-mdd">23.80%</div>
+            <div class="kpi-sub" id="modal-calmar">Calmar: 4.30</div>
+          </div>
+          <div class="kpi-box">
+            <div class="kpi-label">Sharpe &amp; Sortino</div>
+            <div class="kpi-val" id="modal-sharpe">2.17 / 2.34</div>
+            <div class="kpi-sub">Annualized</div>
+          </div>
+          <div class="kpi-box">
+            <div class="kpi-label">Profit Factor &amp; Expectancy</div>
+            <div class="kpi-val pos" id="modal-pf">7.15</div>
+            <div class="kpi-sub" id="modal-expectancy">Exp: +4.2% / trade</div>
+          </div>
+
+          <div class="kpi-box">
+            <div class="kpi-label">Win Rate (%)</div>
+            <div class="kpi-val" id="modal-winrate-val">43.8%</div>
+            <div class="kpi-sub" id="modal-winloss-sub">7 Wins / 9 Losses</div>
+          </div>
+          <div class="kpi-box">
+            <div class="kpi-label">Trades &amp; Adds Count</div>
+            <div class="kpi-val" id="modal-trades">16</div>
+            <div class="kpi-sub" id="modal-adds-sub">0 Tranche Adds</div>
+          </div>
+          <div class="kpi-box">
+            <div class="kpi-label">Avg Holding &amp; Exposure</div>
+            <div class="kpi-val" id="modal-hold">180.5h</div>
+            <div class="kpi-sub" id="modal-exposure">Exposure: 98.4%</div>
+          </div>
+          <div class="kpi-box">
+            <div class="kpi-label">Fee Drag &amp; Friction</div>
+            <div class="kpi-val" style="color:#ffb800;" id="modal-fees">1.6%</div>
+            <div class="kpi-sub" id="modal-fees-usd">-$160.00 friction</div>
+          </div>
+          <div class="kpi-box">
+            <div class="kpi-label">Institutional Score</div>
+            <div class="kpi-val pos" id="modal-composite-score">94.5 / 100</div>
+            <div class="kpi-sub" id="modal-pos-months">8/8 Pos Months</div>
+          </div>
+        </div>
+
+        <!-- Multi-Visual Drill Down Charts -->
+        <div class="modal-charts-grid" style="margin-top: 14px;">
+          <div class="card">
+            <div class="card-header">
+              <span class="section-title-sm">Cumulative Equity ($10,000 Base) &amp; Underwater Drawdown</span>
+            </div>
+            <div class="canvas-wrapper">
+              <canvas id="equityCanvas" width="620" height="230"></canvas>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <span class="section-title-sm">6-Axis Strategy Health Radar</span>
+            </div>
+            <div class="canvas-wrapper flex-center">
+              <canvas id="radarCanvas" width="280" height="230"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Month by Month Section -->
+        <div class="section-title-sm" style="margin-top: 20px;">2026 Month-by-Month Returns Breakdown</div>
+        <div class="monthly-cards-grid" id="modal-monthly-grid">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- Dynamic Logs: Base Trades or Series Adds -->
+        <div class="section-header-row" style="margin-top: 20px;">
+          <span id="modal-logs-title" class="section-title-sm">Individual Executed Trade History</span>
+          <span class="trade-count-badge" id="modal-trade-count-badge">16 Trades Logged</span>
+        </div>
+
+        <!-- Trade Filter Bar Inside Modal -->
+        <div class="modal-trade-filters">
+          <div class="pill-group" id="modal-trade-dir-pills">
+            <button class="pill-btn-sm active" data-dir="ALL">All Directions</button>
+            <button class="pill-btn-sm" data-dir="LONG">Longs Only</button>
+            <button class="pill-btn-sm" data-dir="SHORT">Shorts Only</button>
+          </div>
+          <div class="pill-group" id="modal-trade-outcome-pills">
+            <button class="pill-btn-sm active" data-outcome="ALL">All Outcomes</button>
+            <button class="pill-btn-sm" data-outcome="WIN">Winners (&gt;0%)</button>
+            <button class="pill-btn-sm" data-outcome="LOSS">Losers (&le;0%)</button>
+          </div>
+        </div>
+
+        <!-- Series Adds Subtable (for Pyramiding) -->
+        <div id="modal-series-section" style="display:none; margin-bottom: 20px;">
+          <h4 style="font-size: 13px; color: #00ff88; margin-bottom: 8px;">Step-by-Step Series Tranche Additions:</h4>
+          <div class="trades-table-container">
+            <table class="trades-table">
+              <thead>
+                <tr>
+                  <th>Add #</th>
+                  <th>Timestamp (UTC)</th>
+                  <th>Direction</th>
+                  <th>Execution Price</th>
+                  <th>Tranche Added</th>
+                  <th>Cumulative Cost Basis</th>
+                  <th>Updated Avg Entry</th>
+                  <th>Unrealized %</th>
+                  <th>Cash Left</th>
+                </tr>
+              </thead>
+              <tbody id="modal-series-tbody">
+                <!-- Populated by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Closed Trades Subtable -->
+        <div class="trades-table-container">
+          <table class="trades-table">
+            <thead>
+              <tr id="modal-trades-thead">
+                <th>Trade #</th>
+                <th>Direction</th>
+                <th>Entry Time (UTC)</th>
+                <th>Entry / Avg Price</th>
+                <th>Exit Time (UTC)</th>
+                <th>Exit Price</th>
+                <th>Duration / Adds</th>
+                <th>Realized PnL</th>
+                <th>Portfolio Equity</th>
+                <th>Exit Reason</th>
+              </tr>
+            </thead>
+            <tbody id="modal-trades-tbody">
+              <!-- Populated by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast notification for export feedback -->
+  <div id="export-toast" class="export-toast"></div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

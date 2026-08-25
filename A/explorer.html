@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ETH 2026 Hierarchical Data Explorer &bull; Yearly to Micro-Tranche</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="index.css">
+  <style>
+    .explorer-page-body {
+      padding: 24px 36px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .explorer-nav-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 20px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent-cyan);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      background: rgba(0, 240, 255, 0.1);
+      border: 1px solid rgba(0, 240, 255, 0.3);
+      padding: 6px 14px;
+      border-radius: 6px;
+      transition: all 0.15s ease;
+    }
+    .back-btn:hover {
+      background: var(--accent-cyan);
+      color: #000;
+    }
+  </style>
+</head>
+<body style="overflow-x:hidden;">
+  <div class="explorer-page-body">
+    <header class="explorer-nav-header">
+      <div style="display:flex; align-items:center; gap:14px;">
+        <a href="index.html" class="back-btn">&larr; Back to Main Terminal</a>
+        <div>
+          <h1 style="font-size:20px; font-weight:800; color:#fff;">Hierarchical Master Data Explorer</h1>
+          <p style="font-size:12px; color:var(--text-muted);">Macro 2026 Portfolio &rarr; Quarterly Cycles &rarr; Monthly Returns &rarr; Trade Series &rarr; Micro Tranche Adds</p>
+        </div>
+      </div>
+      <div>
+        <span class="badge" style="font-size:11px; padding:4px 10px; color:var(--accent-green); border-color:rgba(0,255,136,0.3);">
+          68,202 Backtests &bull; 100% Unconstrained Data Tree
+        </span>
+      </div>
+    </header>
+
+    <!-- Breadcrumb Navigation Bar -->
+    <div class="breadcrumb-trail" id="tree-breadcrumb">
+      <span class="breadcrumb-item active" data-level="root">2026 Overall Universe</span>
+    </div>
+
+    <!-- Multi-Tier Hierarchy Filter Box -->
+    <div class="filter-box">
+      <div class="filter-box-title">⚡ Multi-Tier Hierarchy Filters:</div>
+      <div class="filter-controls-grid">
+        <div class="form-group">
+          <label>Filter Portfolio Category:</label>
+          <select id="tree-filter-category" class="select-input">
+            <option value="ALL" selected>All Categories (Full Universe)</option>
+            <option value="Pyramiding Reinvestment">Pyramiding Reinvestment</option>
+            <option value="Base Single-Entry">Base Single-Entry</option>
+            <option value="Risk-Managed Systems">Risk-Managed Systems</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Filter Quarter / Horizon:</label>
+          <select id="tree-filter-quarter" class="select-input">
+            <option value="ALL" selected>Full Year 2026</option>
+            <option value="Q1 2026">Q1 2026 (Jan - Mar)</option>
+            <option value="Q2 2026">Q2 2026 (Apr - Jun)</option>
+            <option value="Q3 2026">Q3 2026 (Jul - Aug)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Trade Direction:</label>
+          <select id="tree-filter-direction" class="select-input">
+            <option value="ALL" selected>All Directions (Long &amp; Short)</option>
+            <option value="LONG">Longs Only</option>
+            <option value="SHORT">Shorts Only</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Period / Trade Outcome:</label>
+          <select id="tree-filter-outcome" class="select-input">
+            <option value="ALL" selected>All Outcomes</option>
+            <option value="WIN">Profitable Periods / Trades (&gt;0%)</option>
+            <option value="LOSS">Drawdown Periods / Trades (&le;0%)</option>
+          </select>
+        </div>
+
+        <div class="form-group full-col">
+          <div class="pill-group">
+            <button class="pill-btn" id="btn-tree-expand-all">[+] Expand All Levels</button>
+            <button class="pill-btn" id="btn-tree-collapse-all">[-] Collapse All</button>
+            <button class="preset-btn" id="btn-tree-reset-filters">↺ Reset Hierarchy Filters</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hierarchical Tree Container -->
+    <div class="tree-container" id="tree-root-container">
+      <!-- Populated dynamically by app.js -->
+    </div>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
