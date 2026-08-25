@@ -108,14 +108,14 @@ def run_multi_timeframe_backtest():
             all_summaries.append(summary)
 
     # Output Combined Multi-Timeframe Leaderboard
-    df_results = pd.DataFrame(all_summaries).sort_values(by="total_return_pct", ascending=False)
+    df_results = pd.DataFrame(all_summaries).sort_values(by="Total_Return_Pct", ascending=False)
     leaderboard_csv = os.path.join(RESULTS_DIR, "multi_timeframe_ema_leaderboard.csv")
     df_results.to_csv(leaderboard_csv, index=False)
 
     print("\n" + "=" * 90)
     print("TOP 15 MULTI-TIMEFRAME EMA FUTURES STRATEGIES (5M vs 30M vs 1H)")
     print("=" * 90)
-    cols = ["strategy", "timeframe", "method", "total_return_pct", "max_drawdown_pct", "sharpe", "sortino", "win_rate_pct", "profit_factor", "total_trades"]
+    cols = ["Strategy", "Timeframe", "Method", "Total_Return_Pct", "Max_Drawdown_Pct", "Sharpe_Ratio", "Sortino_Ratio", "Win_Rate_Pct", "Profit_Factor", "Total_Trades"]
     print(df_results[cols].head(15).to_string(index=False))
     print("=" * 90)
     print(f"Full Multi-Timeframe Leaderboard saved to: {leaderboard_csv}")
